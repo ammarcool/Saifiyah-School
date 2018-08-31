@@ -25,7 +25,7 @@
         <activity android:name=".Fees" />
         <activity android:name=".StudentProgress" />
         <activity android:name=".Results" />
-        <activity android:name=".ip"></activity>
+        <activity android:name=".ipaddress"></activity>
     </application>
 
 </manifest>
