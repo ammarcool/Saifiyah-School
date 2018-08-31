@@ -112,7 +112,6 @@ public class Dashboard extends AppCompatActivity {
             }
         });
 
-
 //        tv = findViewById(R.id.dashboard_error);
 //        profile = findViewById(R.id.profile);
 
