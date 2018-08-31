@@ -5,4 +5,8 @@
     <item name="relativeLayoutC" type="id" />
     <item name="relativeLayoutD" type="id" />
     <item name="tableLayoutB" type="id" />
+
+    <item name="tag_type_view" type="id"/>
+    <item name="tag_row" type="id"/>
+    <item name="tag_column" type="id"/>
 </resources>
