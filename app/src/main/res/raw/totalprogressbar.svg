@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 391 228">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: rgba(147,186,181,0.8);
+      }
+
+      .cls-2 {
+        fill: #78849e;
+        font-size: 14px;
+        font-family: Gibson-Regular, Gibson;
+      }
+
+      .cls-3 {
+        fill: #6bd263;
+      }
+
+      .cls-4 {
+        fill: #ff8373;
+      }
+
+      .cls-5 {
+        fill: #f4f4f6;
+      }
+
+      .cls-6 {
+        filter: url(#bg);
+      }
+    </style>
+    <filter id="bg" x="0" y="0" width="391" height="228" filterUnits="userSpaceOnUse">
+      <feOffset dy="20" input="SourceAlpha"/>
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feFlood flood-color="#455b63" flood-opacity="0.102"/>
+      <feComposite operator="in" in2="blur"/>
+      <feComposite in="SourceGraphic"/>
+    </filter>
+  </defs>
+  <g id="card" transform="translate(12 -293)">
+    <g class="cls-6" transform="matrix(1, 0, 0, 1, -12, 293)">
+      <rect id="bg-2" data-name="bg" class="cls-1" width="343" height="180" rx="12" transform="translate(24 4)"/>
+    </g>
+    <g id="row" transform="translate(-4 -258)">
+      <text id="Achievements" class="cls-2" transform="translate(78 716)"><tspan x="0" y="0">Achievements</tspan></text>
+      <text id="Total_Scores" data-name="Total Scores" class="cls-2" transform="translate(148 571)"><tspan x="0" y="0">Total Scores</tspan></text>
+      <text id="Complain" class="cls-2" transform="translate(258 716)"><tspan x="0" y="0">Complain</tspan></text>
+      <rect id="dot" class="cls-3" width="10" height="10" rx="3" transform="translate(60 707)"/>
+      <rect id="dot-2" data-name="dot" class="cls-4" width="10" height="10" rx="3" transform="translate(239 707)"/>
+      <rect id="divider" class="cls-5" width="295" height="1" rx="0.5" transform="translate(40 688)"/>
+    </g>
+  </g>
+</svg>

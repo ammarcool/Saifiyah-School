@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 32">
+  <defs>
+    <style>
+      .cls-1 {
+        opacity: 0.72;
+      }
+
+      .cls-2 {
+        fill: #f8fff3;
+        opacity: 0.5;
+      }
+
+      .cls-3 {
+        fill: #707070;
+        font-size: 14px;
+        font-family: BookmanOldStyle-Bold, Bookman Old Style;
+        font-weight: 700;
+      }
+    </style>
+  </defs>
+  <g id="B" class="cls-1" transform="translate(0 -231)">
+    <path id="Path_390" data-name="Path 390" class="cls-2" d="M0,0H360V32H0Z" transform="translate(0 231)"/>
+    <text id="Your_Complain_and_Achievement_Card" data-name="Your Complain and Achievement Card" class="cls-3" transform="translate(17.19 252)"><tspan x="0" y="0">Your Complain and Achievement Card</tspan></text>
+  </g>
+</svg>
