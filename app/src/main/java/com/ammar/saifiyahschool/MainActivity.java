@@ -29,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     EditText username,password ,tv;
     Button submit;
-    String url = "http://192.168.1.11/school_cms/logins/loginApi.json";
+    String url = "http://192.168.43.52/school_cms/logins/loginApi.json";
 
     RequestQueue requestQueue;
 
