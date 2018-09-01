@@ -101,8 +101,6 @@ public class MainActivity extends AppCompatActivity {
                                         try {
                                             JSONObject jsonObject = new JSONObject(response.toString());
                                             String success = jsonObject.getString("success");
-                                            String msg = jsonObject.getString("message");
-                                            Log.e("error",success);
                                             if (success.equals("true")) {
                                                 JSONObject user = jsonObject.getJSONObject("response");
                                                 String t = user.getString("type");
@@ -126,6 +124,7 @@ public class MainActivity extends AppCompatActivity {
                                                 startActivity(intent);
                                                 finish();
                                             } else {
+                                                String msg = jsonObject.getString("message");
                                                 tv.setText(msg);
                                             }
                                         } catch (JSONException e) {
