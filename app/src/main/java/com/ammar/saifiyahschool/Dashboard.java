@@ -165,7 +165,7 @@ public class Dashboard extends AppCompatActivity {
                                         SharedPreferences.Editor edit = sharedPreferences.edit();
                                         edit.putString("student_class_id",res.getString("student_class_id"));
 
-                                        name.setText(res.getString("name")+"\nClass: "+student_class.getString("name"));
+                                        name.setText(res.getString("name").toUpperCase()+"\nClass: "+student_class.getString("name"));
                                         user_id.setText("ID: "+res.getString("id"));
                                         String path = "http://"+ip+"/school_cms/"+res.getString("image");
                                         Picasso.with(Dashboard.this).load(path).into(profile);
