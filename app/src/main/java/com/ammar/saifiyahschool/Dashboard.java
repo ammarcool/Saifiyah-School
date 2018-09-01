@@ -1,5 +1,6 @@
 package com.ammar.saifiyahschool;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,6 +31,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.squareup.picasso.Picasso;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -37,8 +40,8 @@ import java.util.Map;
 
 public class Dashboard extends AppCompatActivity {
 
-    private String type,id,URL;
-    private TextView tv;
+    private String type,id,ip,URL;
+    private TextView tv, name, user_id,house;
     private ImageView profile;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -76,7 +79,7 @@ public class Dashboard extends AppCompatActivity {
                     case R.id.notes:
                         item.setChecked(true);
                         Toast.makeText(getApplicationContext(),"this is notes bro...",Toast.LENGTH_LONG).show();
-//                        displaymessage("this is gallery bro...");
+                        //displaymessage("this is gallery bro...");
                         drawerLayout.closeDrawers();
                         return true;
 
@@ -116,73 +119,85 @@ public class Dashboard extends AppCompatActivity {
             }
         });
 
-//        tv = findViewById(R.id.dashboard_error);
-//        profile = findViewById(R.id.profile);
+        sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
 
-//        Bundle it = getIntent().getExtras();
-//
-//        type = it.getString("type");
-//        id = it.getString("id");
-//
-//
-//        if(id.equals("0"))
-//            tv.setText("Hello Admin");
-//        else {
-//            if (type.equals("student"))
-//                URL = "http://192.168.1.11/school_cms/Students/viewApi";
-//            else
-//                URL = "http://192.168.1.11/school_cms/staffs/viewApi";
+        type = sharedPreferences.getString("type",null);
+        id = sharedPreferences.getString("id",null);
+        ip = sharedPreferences.getString("ip",null);
 
-        //        Log.e("API Response",type);
-        //        Log.e("API Response",id);
-        //        Log.e("API Response",URL);
+        //tv = findViewById(R.id.dashboard_error);
+        name = findViewById(R.id.name);
+        user_id = findViewById(R.id.userID);
+        profile = findViewById(R.id.imageView);
 
-//            Map<String, String> params = new HashMap();
-//            params.put("id", id);
-//            JSONObject parameters = new JSONObject(params);
-//
-//            RequestQueue requestQueue = Volley.newRequestQueue(Dashboard.this);
-//
-//            JsonObjectRequest objectRequest = new JsonObjectRequest(
-//                    Request.Method.POST,
-//                    URL,
-//                    parameters,
-//                    new Response.Listener<JSONObject>() {
-//                        @Override
-//                        public void onResponse(JSONObject response) {
-//                            try {
-//                                JSONObject jsonObject = new JSONObject(response.toString());
-//                                String msg = jsonObject.getString("message");
-//                                if (msg.equals("success")) {
-//                                    JSONObject res = jsonObject.getJSONObject("response");
-//                                    tv.setText("Hello " + res.getString("name"));
-//                                    String path = "http://192.168.1.11/school_cms/"+res.getString("image");
-//                                    Picasso.with(Dashboard.this).load(path).into(profile);
-//                                    Log.e("API Response",path);
-//                                } else {
-//                                    tv.setText(msg);
-//                                }
-//                            } catch (JSONException e) {
-//                                e.printStackTrace();
-//                            }
-//                        }
-//                    },
-//                    new Response.ErrorListener() {
-//                        @Override
-//                        public void onErrorResponse(VolleyError error) {
-//                            Log.e("API Response", error.toString());
-//                        }
-//                    }
-//            );
-//            requestQueue.add(objectRequest);
-            syllabus.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Intent intent = new Intent(Dashboard.this,Syllabus.class);
-                    intent.putExtra("syllabus","subjects");
-                    startActivity(intent);
-                }
-            });
+        if(!TextUtils.isEmpty(type) && !TextUtils.isEmpty(id) && !TextUtils.isEmpty(ip))
+        {
+            if(id.equals("0"))
+                tv.setText("Hello Admin");
+            else {
+                if (type.equals("student"))
+                    URL = "http://" + ip + "/school_cms/Students/viewApi.json";
+                else
+                    URL = "http://" + ip + "/school_cms/staffs/viewApi.json";
+
+                Map<String, String> params = new HashMap();
+                params.put("id", id);
+                JSONObject parameters = new JSONObject(params);
+
+                RequestQueue requestQueue = Volley.newRequestQueue(Dashboard.this);
+
+                JsonObjectRequest objectRequest = new JsonObjectRequest(
+                        Request.Method.POST,
+                        URL,
+                        parameters,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                JSONArray jsonArray = null;
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response.toString());
+                                    String success = jsonObject.getString("success");
+                                    if (success.equals("true")) {
+                                        jsonArray = response.getJSONArray("response");
+                                        JSONObject res = (JSONObject) jsonArray.get(0);
+                                        JSONObject student_class = res.getJSONObject("student_class");
+
+                                        SharedPreferences.Editor edit = sharedPreferences.edit();
+                                        edit.putString("student_class_id",res.getString("student_class_id"));
+
+                                        name.setText(res.getString("name")+"\nClass: "+student_class.getString("name"));
+                                        user_id.setText("ID: "+res.getString("id"));
+                                        String path = "http://"+ip+"/school_cms/"+res.getString("image");
+                                        Picasso.with(Dashboard.this).load(path).into(profile);
+                                    } else {
+                                        String msg = jsonObject.getString("message");
+                                        tv.setText(msg);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.e("API Response", error.toString());
+                            }
+                        }
+                );
+                requestQueue.add(objectRequest);
+            }
+        }
+        else
+            tv.setText("Uh-oh Something Went Wrong");
+        syllabus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(Dashboard.this,Syllabus.class);
+                intent.putExtra("syllabus","subjects");
+                startActivity(intent);
+            }
+        });
 
         classTest.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -208,13 +223,6 @@ public class Dashboard extends AppCompatActivity {
         Toast.makeText(this,message,Toast.LENGTH_LONG).show();
         Log.d("message====>",message);
     }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//
-//        getMenuInflater().inflate(R.menu.drawer_menu,menu);
-//        return true;
-//    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -249,8 +257,9 @@ public class Dashboard extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
-        if (backPressedTime + 2000 > System.currentTimeMillis())
+        if(true)
+            drawerLayout.closeDrawers();
+        else if (backPressedTime + 2000 > System.currentTimeMillis())
         {
             super.onBackPressed();
             return;

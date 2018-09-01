@@ -59,7 +59,6 @@
                 android:layout_alignStart="@+id/userID"
                 android:layout_marginTop="15dp"
                 android:fontFamily="monospace"
-                android:text="Ammar Miyaji"
                 android:textSize="18sp"
                 android:textStyle="bold" />
 
@@ -71,15 +70,6 @@
                 android:layout_centerHorizontal="true"
                 android:layout_marginTop="49dp"
                 android:text="ID:123456" />
-
-            <TextView
-                android:id="@+id/className"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentBottom="true"
-                android:layout_centerHorizontal="true"
-                android:layout_marginBottom="45dp"
-                android:text="Class : 5th" />
 
             <TextView
                 android:id="@+id/houseColor"
@@ -115,7 +105,6 @@
             android:id="@+id/notificationButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="notificationButton"
             android:tag="1"
             android:text="Notify Me"
             android:textSize="20sp"
@@ -129,7 +118,6 @@
             android:id="@+id/syllabusButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="syllabusButton"
             android:tag="2"
             android:text="syllabus"
             android:textSize="20sp"
@@ -143,7 +131,6 @@
             android:id="@+id/classTestButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="notificationButton"
             android:tag="3"
             android:text="Class Test"
             android:textSize="20sp"
@@ -157,7 +144,6 @@
             android:id="@+id/feeButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:onClick="notificationButton"
             android:tag="4"
             android:text="your fee's"
             android:textSize="20sp"
