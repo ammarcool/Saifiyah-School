@@ -130,7 +130,7 @@ public class classTest extends AppCompatActivity {
 
                                     for(int i = 0; i < jsonArray.length(); i++)
                                     {
-                                        JSONObject res = (JSONObject) jsonArray.get(0);
+                                        JSONObject res = (JSONObject) jsonArray.get(i);
 
                                         classTestData classTestData = new classTestData(res.getString("subject"), res.getString("month"), Integer.parseInt(res.getString("day")), res.getString("by"), Integer.parseInt(res.getString("marks")), Integer.parseInt(res.getString("total")));
                                         classTestDataList.add(classTestData);
