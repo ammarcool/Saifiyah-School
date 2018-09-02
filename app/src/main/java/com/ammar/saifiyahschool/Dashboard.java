@@ -23,9 +23,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -164,6 +172,7 @@ public class Dashboard extends AppCompatActivity {
 
                                         SharedPreferences.Editor edit = sharedPreferences.edit();
                                         edit.putString("student_class_id",res.getString("student_class_id"));
+                                        edit.apply();
 
                                         name.setText(res.getString("name").toUpperCase()+"\nClass: "+student_class.getString("name"));
                                         user_id.setText("ID: "+res.getString("id"));
@@ -181,15 +190,29 @@ public class Dashboard extends AppCompatActivity {
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Log.e("API Response", error.toString());
+                                if (error instanceof NetworkError) {
+                                } else if (error instanceof ServerError) {
+                                } else if (error instanceof AuthFailureError) {
+                                } else if (error instanceof ParseError) {
+                                } else if (error instanceof NoConnectionError) {
+                                } else if (error instanceof TimeoutError) {
+                                    Toast.makeText(Dashboard.this, "Oops. Timeout error!", Toast.LENGTH_SHORT).show();
+                                }
+
                             }
                         }
                 );
+                objectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                        10000,
+                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
                 requestQueue.add(objectRequest);
             }
         }
         else
             tv.setText("Uh-oh Something Went Wrong");
+
+
         syllabus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -257,15 +280,16 @@ public class Dashboard extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(true)
+        if(drawerLayout.isDrawerOpen(GravityCompat.START))
             drawerLayout.closeDrawers();
-        else if (backPressedTime + 2000 > System.currentTimeMillis())
-        {
-            super.onBackPressed();
-            return;
+        else {
+            if (backPressedTime + 2000 > System.currentTimeMillis()) {
+                super.onBackPressed();
+                return;
+            } else
+                Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show();
+
+            backPressedTime = System.currentTimeMillis();
         }
-        else
-            Toast.makeText(this, "Press back again to exit", Toast.LENGTH_SHORT).show();
-        backPressedTime = System.currentTimeMillis();
     }
 }
