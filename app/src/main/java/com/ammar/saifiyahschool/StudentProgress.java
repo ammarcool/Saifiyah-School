@@ -129,7 +129,6 @@ public class StudentProgress extends AppCompatActivity {
         };
         thread.start();
 
-
     }
 
     private void addStudentProgressData() {
@@ -174,11 +173,17 @@ public class StudentProgress extends AppCompatActivity {
                                     {
                                         JSONObject res = (JSONObject) jsonArray.get(i);
 
-                                        if(res.getString("is_reward").equals("true"))
-                                            card = redCard;
-                                        else
+                                        if(res.getString("is_reward").equals("true")){
                                             card = greenCard;
+                                            greenCard =5;
+                                            GreenProgressNumber +=greenCard;
+                                        }
+                                        else {
+                                            card = redCard;
+                                            redCard =5;
+                                            redProgressNumber +=redCard;
 
+                                        }
                                         studentProgressData= new StudentProgressData(card,res.getString("date"),res.getString("title"));
                                         studentProgressDataArrayList.add(studentProgressData);
                                     }
@@ -208,7 +213,7 @@ public class StudentProgress extends AppCompatActivity {
                     }
             );
             objectRequest.setRetryPolicy(new DefaultRetryPolicy(
-                    10000,
+                    1000,
                     DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                     DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
             requestQueue.add(objectRequest);
