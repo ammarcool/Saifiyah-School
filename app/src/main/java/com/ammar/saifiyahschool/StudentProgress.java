@@ -110,7 +110,10 @@ public class StudentProgress extends AppCompatActivity {
         int redCard=R.drawable.redcard;
         int greenCard=R.drawable.greencard;
 
-        StudentProgressData studentProgressData = new StudentProgressData(R.drawable.greencard,"10-dec-2018","He's really good student and keep in Decipline");
+        StudentProgressData studentProgressData ;
+
+
+        studentProgressData= new StudentProgressData(greenCard,"10-dec-2018","He's really good student and keep in Decipline");
         studentProgressDataArrayList.add(studentProgressData);
 
         studentProgressData = new StudentProgressData(redCard, "10-dec-2018", "He's really good student and keep in Decipline");
