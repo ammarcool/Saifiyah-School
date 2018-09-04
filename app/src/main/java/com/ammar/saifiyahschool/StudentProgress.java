@@ -174,15 +174,14 @@ public class StudentProgress extends AppCompatActivity {
                                         JSONObject res = (JSONObject) jsonArray.get(i);
 
                                         if(res.getString("is_reward").equals("true")){
-
                                             card = greenCard;
-//                                            greenCard =5;
-                                            GreenProgressNumber +=5;
+                                            greenCard =5;
+                                            GreenProgressNumber +=greenCard;
                                         }
                                         else {
                                             card = redCard;
-//                                            redCard =5;
-                                            redProgressNumber += 5;
+                                            redCard =5;
+                                            redProgressNumber +=redCard;
 
                                         }
                                         studentProgressData= new StudentProgressData(card,res.getString("date"),res.getString("title"));
