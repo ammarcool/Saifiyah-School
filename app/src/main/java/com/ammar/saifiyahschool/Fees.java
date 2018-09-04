@@ -30,6 +30,8 @@ public class Fees extends AppCompatActivity {
         totalYearRupeesIcon =(TextView)findViewById(R.id.totalYearRupeesIcon);
         feesDue = (TextView)findViewById(R.id.dueAmount);
 
+
+        //call your Api our here
         totalFees.setText("16,000");
         feesDue.setText("14,000");
 
