@@ -23,11 +23,11 @@ public class TableMainLayout extends RelativeLayout {
     // set the header titles
     String headers[] = {
             "Subjects Name",
-            "1st Test \n10",
-            "2nd Test \n10",
-            "Half Yearly \n70",
-            "3rd Test \n70",
-            "Annually \n100",
+            "First\nTest\n10",
+            "Second\nTest\n10",
+            "Half\nYearly\n70",
+            "Third\nTest\n70",
+            "Annually\n100"
 //            "Header 7",
 //            "Header 8",
 //            "Header 9"
@@ -97,7 +97,7 @@ public class TableMainLayout extends RelativeLayout {
 
             SampleObject sampleObject = new SampleObject(
                     "Col 1, Row " + x,
-                    "Col 2, Row " + x + " - multi-lines",
+                    "Col 2, Row " + x,
                     "Col 3, Row " + x,
                     "Col 4, Row " + x,
                     "Col 5, Row " + x,
