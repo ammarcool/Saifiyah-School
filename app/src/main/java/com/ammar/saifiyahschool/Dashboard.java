@@ -172,6 +172,7 @@ public class Dashboard extends AppCompatActivity {
 
                                         SharedPreferences.Editor edit = sharedPreferences.edit();
                                         edit.putString("student_class_id",res.getString("student_class_id"));
+                                        edit.putString("total_fees",res.getString("total fees"));
                                         edit.apply();
 
                                         name.setText(res.getString("name").toUpperCase()+"\nClass: "+student_class.getString("name"));

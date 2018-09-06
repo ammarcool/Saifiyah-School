@@ -1,21 +1,47 @@
 package com.ammar.saifiyahschool;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.NetworkError;
+import com.android.volley.NoConnectionError;
+import com.android.volley.ParseError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.ServerError;
+import com.android.volley.TimeoutError;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Fees extends AppCompatActivity {
 
     private ArrayList<FeesTransactionData> feesTransactionDataArrayList = new ArrayList<>();
     private RecyclerView feesRecyclerview;
     private FeesTransactionAdapter feesTransactionAdapter;
+    private String type,id,ip,URL,class_id;
+    private TextView tv;
+    private SharedPreferences sharedPreferences;
 
     TextView totalFees,totalYearRupeesIcon,feesDue;
     Typeface totalfeesfont;
@@ -30,9 +56,11 @@ public class Fees extends AppCompatActivity {
         totalYearRupeesIcon =(TextView)findViewById(R.id.totalYearRupeesIcon);
         feesDue = (TextView)findViewById(R.id.dueAmount);
 
+        sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+        String total_fees = sharedPreferences.getString("total_fees",null);
 
         //call your Api our here
-        totalFees.setText("16,000");
+        totalFees.setText("Rs. "+total_fees);
         feesDue.setText("14,000");
 
         //Font
@@ -50,14 +78,81 @@ public class Fees extends AppCompatActivity {
 
     private void addFeesTransactionData() {
 
-        FeesTransactionData feesTransactionData = new FeesTransactionData("1st Tearm Fees","12-dec-2018",6000,10000);
-        feesTransactionDataArrayList.add(feesTransactionData);
+        sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
 
-        feesTransactionData = new FeesTransactionData("2nd Tearm Fees","22-Jan-2019",1000,8000);
-        feesTransactionDataArrayList.add(feesTransactionData);
+        class_id = sharedPreferences.getString("student_class_id",null);
+        id = sharedPreferences.getString("id",null);
+        ip = sharedPreferences.getString("ip",null);
 
+        if(!TextUtils.isEmpty(class_id) && !TextUtils.isEmpty(id) && !TextUtils.isEmpty(ip))
+        {
+            URL = "http://" + ip + "/school_cms/fees/feesApi.json";
 
-        feesTransactionAdapter.notifyDataSetChanged();
+            Map<String, String> params = new HashMap();
+            params.put("student_id", id);
+            params.put("student_class_id", class_id);
+            JSONObject parameters = new JSONObject(params);
+
+            RequestQueue requestQueue = Volley.newRequestQueue(Fees.this);
+
+            JsonObjectRequest objectRequest = new JsonObjectRequest(
+                    Request.Method.POST,
+                    URL,
+                    parameters,
+                    new Response.Listener<JSONObject>() {
+                        @Override
+                        public void onResponse(JSONObject response) {
+                            JSONArray jsonArray = null;
+                            try {
+                                JSONObject jsonObject = new JSONObject(response.toString());
+                                String success = jsonObject.getString("success");
+                                if (success.equals("true")) {
+                                    jsonArray = jsonObject.getJSONArray("response");
+
+                                    FeesTransactionData feesTransactionData;
+
+                                    for(int i = 0; i < jsonArray.length(); i++)
+                                    {
+                                        JSONObject res = (JSONObject) jsonArray.get(i);
+
+                                        feesTransactionData = new FeesTransactionData("1st Tearm Fees",res.getString("date"),Integer.parseInt(res.getString("credit")),Integer.parseInt(res.getString("credit")));
+                                        feesTransactionDataArrayList.add(feesTransactionData);
+                                    }
+                                    feesTransactionAdapter.notifyDataSetChanged();
+                                } else {
+                                    String msg = jsonObject.getString("message");
+                                    tv.setText(msg);
+                                }
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            if (error instanceof NetworkError) {
+                            } else if (error instanceof ServerError) {
+                            } else if (error instanceof AuthFailureError) {
+                            } else if (error instanceof ParseError) {
+                            } else if (error instanceof NoConnectionError) {
+                            } else if (error instanceof TimeoutError) {
+                                Toast.makeText(Fees.this, "Oops. Timeout error!", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    }
+            );
+            objectRequest.setRetryPolicy(new DefaultRetryPolicy(
+                    1000,
+                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            requestQueue.add(objectRequest);
+
+        }
+        else
+            tv.setText("Uh-oh Something Went Wrong");
+
     }
 
 
