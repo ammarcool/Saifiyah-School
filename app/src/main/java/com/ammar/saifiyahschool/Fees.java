@@ -39,7 +39,7 @@ public class Fees extends AppCompatActivity {
     private ArrayList<FeesTransactionData> feesTransactionDataArrayList = new ArrayList<>();
     private RecyclerView feesRecyclerview;
     private FeesTransactionAdapter feesTransactionAdapter;
-    private String type,id,ip,URL,class_id;
+    private String type,id,ip,URL,class_id,total_fees;
     private TextView tv;
     private SharedPreferences sharedPreferences;
 
@@ -57,11 +57,10 @@ public class Fees extends AppCompatActivity {
         feesDue = (TextView)findViewById(R.id.dueAmount);
 
         sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
-        String total_fees = sharedPreferences.getString("total_fees",null);
+        total_fees = sharedPreferences.getString("total_fees",null);
 
         //call your Api our here
-        totalFees.setText("Rs. "+total_fees);
-        feesDue.setText("14,000");
+        totalFees.setText("\u20B9 "+total_fees);
 
         //Font
         totalfeesfont = Typeface.createFromAsset(getAssets(), "fonts/cabinsketch.otf");
@@ -108,18 +107,22 @@ public class Fees extends AppCompatActivity {
                                 String success = jsonObject.getString("success");
                                 if (success.equals("true")) {
                                     jsonArray = jsonObject.getJSONArray("response");
+                                    JSONObject res = null;
 
                                     FeesTransactionData feesTransactionData;
 
                                     for(int i = 0; i < jsonArray.length(); i++)
                                     {
-                                        JSONObject res = (JSONObject) jsonArray.get(i);
+                                        res = (JSONObject) jsonArray.get(i);
 
                                         feesTransactionData = new FeesTransactionData("1st Tearm Fees",res.getString("date"),Integer.parseInt(res.getString("credit")),Integer.parseInt(res.getString("credit")));
                                         feesTransactionDataArrayList.add(feesTransactionData);
                                     }
+
                                     feesTransactionAdapter.notifyDataSetChanged();
+                                    feesDue.setText("\u20B9 "+res.getString("due"));
                                 } else {
+                                    feesDue.setText("\u20B9 "+total_fees);
                                     String msg = jsonObject.getString("message");
                                     tv.setText(msg);
                                 }
