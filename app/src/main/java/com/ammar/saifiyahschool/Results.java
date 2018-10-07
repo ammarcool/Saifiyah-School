@@ -33,16 +33,26 @@ import org.json.JSONObject;
 public class Results extends AppCompatActivity  {
 
     private WebView webView;
+    private String type,id,ip,URL,class_id;
+    private SharedPreferences sharedPreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
 
+        sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+
+        class_id = sharedPreferences.getString("student_class_id",null);
+        id = sharedPreferences.getString("id",null);
+        ip = sharedPreferences.getString("ip",null);
+
         webView = (WebView)findViewById(R.id.myWebView);
         webView.setWebViewClient(new WebViewClient());
 
+        URL = "http://" + ip + "/school_cms/ResultStudentMarks/index/"+class_id+"/"+id;
+
         //Put your URL our here:
-        webView.loadUrl("http://www.google.com");
+        webView.loadUrl(URL);
 
         WebSettings webSettings = webView.getSettings();
         webSettings.setJavaScriptEnabled(true);

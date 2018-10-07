@@ -175,13 +175,9 @@ public class StudentProgress extends AppCompatActivity {
 
                                         if(res.getString("is_reward").equals("true")){
                                             card = greenCard;
-                                            greenCard =5;
-                                            GreenProgressNumber +=greenCard;
                                         }
                                         else {
                                             card = redCard;
-                                            redCard =5;
-                                            redProgressNumber +=redCard;
 
                                         }
                                         studentProgressData= new StudentProgressData(card,res.getString("date"),res.getString("title"));
