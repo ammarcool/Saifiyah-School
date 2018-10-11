@@ -52,7 +52,11 @@
                     android:layout_weight="1"
                     android:gravity="center_horizontal"
                     android:hint="Select Date"
-                    android:paddingTop="6dp"/>
+                    android:paddingTop="5dp"
+                    android:paddingLeft="5dp"
+                    android:drawableLeft="@drawable/date"/>
+
+
 
             </LinearLayout>
 
@@ -71,7 +75,8 @@
                     android:layout_height="0dp"
                     android:background="@drawable/my_edittext_bg2"
                     android:layout_weight="1"
-                    android:gravity="center_horizontal"/>
+                    android:gravity="center_horizontal"
+                    android:paddingLeft="40dp"/>
 
                 <EditText
                     android:layout_marginTop="5dp"
