@@ -23,6 +23,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.ammar.saifiyahschool.teachers.TeacherClassTest;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
@@ -86,7 +87,11 @@ public class Dashboard extends AppCompatActivity {
 
                     case R.id.notes:
                         item.setChecked(true);
-                        Toast.makeText(getApplicationContext(),"this is notes bro...",Toast.LENGTH_LONG).show();
+
+                        Intent intent = new Intent(Dashboard.this,TeacherClassTest.class);
+                        intent.putExtra("Leaves","no.of leaves");
+                        startActivity(intent);
+//                        Toast.makeText(getApplicationContext(),"this is notes bro...",Toast.LENGTH_LONG).show();
                         //displaymessage("this is gallery bro...");
                         drawerLayout.closeDrawers();
                         return true;
@@ -95,7 +100,7 @@ public class Dashboard extends AppCompatActivity {
                     case R.id.leaveBalance:
                         item.setChecked(true);
 
-                        Intent intent = new Intent(Dashboard.this,studentLeave.class);
+                        intent = new Intent(Dashboard.this, studentLeave.class);
                         intent.putExtra("Leaves","no.of leaves");
                         startActivity(intent);
 

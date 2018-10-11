@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:cardBackgroundColor="@android:color/transparent">
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
+    <LinearLayout
+        android:id="@+id/mylin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="5"
+        >
+
+
+        <TextView
+            android:id="@+id/studentNo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="01."
+            android:layout_weight=".5"
+            android:paddingLeft="10dp"
+            />
+
+        <TextView
+            android:id="@+id/CTstudentNames"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3.5"
+            android:textSize="18sp"
+            android:text="Ammar Miyaji"
+            app:layout_constraintStart_toEndOf="@+id/studentNo" />
+
+        <EditText
+            android:id="@+id/enterStudentMarks"
+            android:layout_width="0dp"
+            android:layout_height="38dp"
+            android:layout_weight="1"
+            android:inputType="textPersonName"
+            android:text="08"
+            android:textSize="14sp"
+            android:paddingLeft="30dp"
+            app:layout_constraintStart_toEndOf="@+id/studentNames" />
+
+
+    </LinearLayout>
+
+
+        <View
+            android:id="@+id/nextLIne"
+            android:layout_width="match_parent"
+            android:layout_height="2sp"
+            android:background="#8a8a8a"
+            app:layout_constraintTop_toBottomOf="@+id/mylin"
+            tools:ignore="MissingConstraints,SmallSp"
+            tools:layout_editor_absoluteX="0dp">
+
+        </View>
+    </android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.CardView>

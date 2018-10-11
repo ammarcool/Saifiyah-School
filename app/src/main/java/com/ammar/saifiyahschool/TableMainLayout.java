@@ -23,11 +23,11 @@ public class TableMainLayout extends RelativeLayout {
     // set the header titles
     String headers[] = {
             "Subjects Name",
-            "First\nTest\n10",
-            "Second\nTest\n10",
-            "Half\nYearly\n70",
-            "Third\nTest\n70",
-            "Annually\n100"
+            "1st Test \n10",
+            "2nd Test \n10",
+            "Half Yearly \n70",
+            "3rd Test \n70",
+            "Annually \n100",
 //            "Header 7",
 //            "Header 8",
 //            "Header 9"
@@ -97,7 +97,7 @@ public class TableMainLayout extends RelativeLayout {
 
             SampleObject sampleObject = new SampleObject(
                     "Col 1, Row " + x,
-                    "Col 2, Row " + x,
+                    "Col 2, Row " + x + " - multi-lines",
                     "Col 3, Row " + x,
                     "Col 4, Row " + x,
                     "Col 5, Row " + x,
@@ -305,7 +305,7 @@ public class TableMainLayout extends RelativeLayout {
     void resizeHeaderHeight() {
 
         TableRow productNameHeaderTableRow = (TableRow) this.tableA.getChildAt(0);
-        TableRow productInfoTableRow = (TableRow)  this.tableB.getChildAt(0);
+        TableRow productInfoTableRow = (TableRow) this.tableB.getChildAt(0);
 
         int rowAHeight = this.viewHeight(productNameHeaderTableRow);
         int rowBHeight = this.viewHeight(productInfoTableRow);

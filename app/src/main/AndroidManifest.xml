@@ -25,7 +25,8 @@
         <activity android:name=".Fees" />
         <activity android:name=".StudentProgress" />
         <activity android:name=".Results" />
-        <activity android:name=".ipaddress"></activity>
+        <activity android:name=".ipaddress" />
+        <activity android:name=".teachers.TeacherClassTest"></activity>
     </application>
 
 </manifest>
