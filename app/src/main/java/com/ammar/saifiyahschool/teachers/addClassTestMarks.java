@@ -51,6 +51,7 @@ public class addClassTestMarks extends Fragment {
     Spinner stateSpinner;
     Spinner citiesSpinner;
     private ProgressDialog pDialog;
+    Integer staffId= 2;
     private String subject_url = "http://192.168.1.11/school_cms/student-classes/getClasses.json";
     private String subject_Name_url = "http://192.168.1.11/school_cms/ClassTests/getSubjects.json";
     private String Student_Name_url = "http://192.168.1.11/school_cms/students/getStudents.json";
@@ -303,7 +304,7 @@ public class addClassTestMarks extends Fragment {
                                             params.put("subject_id",showMe.get(position));
                                             params.put("total_marks",totalMarks.getText().toString());
                                             params.put("created_on",myTestDate.getText().toString());
-                                            params.put("created_by", String.valueOf(1));
+                                            params.put("created_by", staffId.toString());
 
                                             JSONArray ourArray = new JSONArray();
                                             JSONObject ourjsonObject = new JSONObject();
