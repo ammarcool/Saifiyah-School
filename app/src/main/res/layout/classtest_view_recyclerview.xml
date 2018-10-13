@@ -6,79 +6,263 @@
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:id="@+id/ctDay"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="12dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:text="07"
-            app:layout_constraintBottom_toTopOf="@+id/ctMonth"
-            app:layout_constraintEnd_toEndOf="@+id/textView9"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:background="@drawable/shadow"
+            android:orientation="horizontal"
+            android:padding="6dp"
+            android:weightSum="5"
+            tools:ignore="DisableBaselineAlignment">
 
-        <TextView
-            android:id="@+id/ctMonth"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="44dp"
-            android:text="Feb"
-            app:layout_constraintEnd_toEndOf="@+id/textView9"
-            app:layout_constraintStart_toStartOf="@+id/textView9"
-            app:layout_constraintTop_toTopOf="@+id/textView9" />
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1">
 
-        <TextView
-            android:id="@+id/CTSubject"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_marginStart="143dp"
-            android:text="English" />
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:weightSum="10"
+                            tools:ignore="UselessParent">
 
-        <TextView
-            android:id="@+id/totalCTMarks"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="62dp"
-            android:text="50" />
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1" />
 
-        <TextView
-            android:id="@+id/CTClass"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
-            android:layout_marginEnd="112dp"
-            android:text="Second" />
+                                <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                    xmlns:app="http://schemas.android.com/apk/res-auto"
+                                    xmlns:tools="http://schemas.android.com/tools"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="4">
 
-        <Button
-            android:id="@+id/deleteCT"
-            android:layout_width="75dp"
-            android:layout_height="20dp"
-            android:layout_alignParentStart="true"
-            android:layout_centerVertical="true"
-            android:layout_gravity="center"
-            android:layout_marginStart="57dp"
-            android:background="@drawable/mybutton"
-            android:text="Delete Test" />
+                                        <TextView
+                                            android:id="@+id/textView9"
+                                            android:layout_width="70dp"
+                                            android:layout_height="70dp"
+                                            android:background="@drawable/rounded_drawable"
+                                            tools:ignore="MissingConstraints"
+                                            tools:layout_editor_absoluteX="0dp"
+                                            tools:layout_editor_absoluteY="0dp" />
 
-    </RelativeLayout>
+                                        <TextView
+                                            android:id="@+id/ctDay"
+                                            android:layout_width="21dp"
+                                            android:layout_height="21dp"
+                                            android:layout_marginBottom="4dp"
+                                            android:layout_marginEnd="8dp"
+                                            android:layout_marginLeft="8dp"
+                                            android:layout_marginRight="8dp"
+                                            android:layout_marginStart="8dp"
+                                            android:text="07"
+                                            android:textColor="@android:color/background_light"
+                                            android:textSize="18sp"
+                                            android:textStyle="bold"
+                                            app:layout_constraintBottom_toTopOf="@+id/ctMonth"
+                                            app:layout_constraintEnd_toEndOf="@+id/textView9"
+                                            app:layout_constraintHorizontal_bias="0.484"
+                                            app:layout_constraintStart_toStartOf="parent" />
 
+                                        <TextView
+                                            android:id="@+id/ctMonth"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_marginBottom="16dp"
+                                            android:layout_marginEnd="8dp"
+                                            android:layout_marginLeft="8dp"
+                                            android:layout_marginRight="8dp"
+                                            android:layout_marginStart="8dp"
+                                            android:text="Feb"
+                                            android:textSize="18sp"
+                                            android:textStyle="bold"
+                                            app:layout_constraintBottom_toBottomOf="@+id/textView9"
+                                            app:layout_constraintEnd_toEndOf="@+id/textView9"
+                                            app:layout_constraintHorizontal_bias="0.48"
+                                            app:layout_constraintStart_toStartOf="@+id/textView9" />
+
+
+                                </android.support.constraint.ConstraintLayout>
+
+                                <TextView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="5" />
+                        </LinearLayout>
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="4"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="5dp"
+                    android:paddingStart="10dp"
+                    tools:ignore="UselessLeaf">
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="vertical"
+                            android:weightSum="3.8"
+                            tools:ignore="UselessParent">
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1">
+
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentLeft="true"
+                                            android:layout_marginEnd="8dp"
+                                            android:layout_marginLeft="8dp"
+                                            android:layout_marginRight="8dp"
+                                            android:layout_marginStart="8dp"
+                                            android:layout_marginTop="16dp"
+                                            android:text="Subject"
+                                            android:textSize="16sp"
+                                            android:textStyle="bold|italic"
+                                            tools:ignore="RtlHardcoded" />
+
+                                        <TextView
+                                            android:id="@+id/CTSubject"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentRight="true"
+                                            android:layout_marginEnd="8dp"
+                                            android:layout_marginLeft="8dp"
+                                            android:layout_marginRight="8dp"
+                                            android:layout_marginStart="8dp"
+                                            android:layout_marginTop="16dp"
+                                            android:text="English"
+                                            tools:ignore="RtlHardcoded" />
+
+                                        <View
+                                            android:layout_width="match_parent"
+                                            android:layout_height="2sp"
+                                            android:layout_alignParentLeft="true"
+                                            android:layout_alignParentStart="true"
+                                            android:layout_alignParentTop="true"
+                                            android:layout_marginTop="43dp"
+                                            android:background="#cc818181"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toBottomOf="@+id/textView10"
+                                            tools:ignore="NotSibling,SmallSp"></View>
+
+                                        <!--</View>-->
+
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1">
+
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentLeft="true"
+                                            android:layout_marginEnd="8dp"
+                                            android:layout_marginLeft="8dp"
+                                            android:layout_marginRight="8dp"
+                                            android:layout_marginStart="8dp"
+                                            android:layout_marginTop="16dp"
+                                            android:text="Marks"
+                                            android:textSize="16sp"
+                                            android:textStyle="bold|italic"
+                                            tools:ignore="RtlHardcoded" />
+
+                                        <TextView
+                                            android:id="@+id/totalCTMarks"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentEnd="true"
+                                            android:layout_alignParentRight="true"
+                                            android:layout_marginEnd="8dp"
+                                            android:layout_marginLeft="8dp"
+                                            android:layout_marginRight="8dp"
+                                            android:layout_marginStart="8dp"
+                                            android:layout_marginTop="16dp"
+                                            android:text="50" />
+
+                                        <View
+                                            android:layout_width="match_parent"
+                                            android:layout_height="2sp"
+                                            android:layout_alignParentLeft="true"
+                                            android:layout_alignParentStart="true"
+                                            android:layout_alignParentTop="true"
+                                            android:layout_marginTop="43dp"
+                                            android:background="#cc818181"
+                                            app:layout_constraintEnd_toEndOf="parent"
+                                            app:layout_constraintStart_toStartOf="parent"
+                                            app:layout_constraintTop_toBottomOf="@+id/textView10"
+                                            tools:ignore="NotSibling,SmallSp,UnknownId">
+
+                                        </View>
+
+                                </RelativeLayout>
+
+                                <RelativeLayout
+                                    android:layout_width="match_parent"
+                                    android:layout_height="0dp"
+                                    android:layout_weight="1">
+
+
+                                        <TextView
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentLeft="true"
+                                            android:layout_marginEnd="8dp"
+                                            android:layout_marginLeft="8dp"
+                                            android:layout_marginRight="8dp"
+                                            android:layout_marginStart="8dp"
+                                            android:layout_marginTop="16dp"
+                                            android:text="Class"
+                                            android:textSize="16sp"
+                                            android:textStyle="bold|italic"
+                                            tools:ignore="RtlHardcoded" />
+
+                                        <TextView
+                                            android:id="@+id/CTClass"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:layout_alignParentRight="true"
+                                            android:layout_marginEnd="8dp"
+                                            android:layout_marginLeft="8dp"
+                                            android:layout_marginRight="8dp"
+                                            android:layout_marginStart="8dp"
+                                            android:layout_marginTop="16dp"
+                                            android:text="Second" />
+
+                                </RelativeLayout>
+
+                                <Button
+                                    android:id="@+id/deleteCT"
+                                    android:layout_width="150dp"
+                                    android:layout_height="0dp"
+                                    android:layout_gravity="center"
+                                    android:layout_weight="0.8"
+                                    android:background="@drawable/mybutton"
+                                    android:fontFamily="@font/book"
+                                    android:includeFontPadding="false"
+                                    android:text="Delete Test"
+                                    android:textStyle="normal|italic"
+                                    tools:ignore="HardcodedText" />
+
+                        </LinearLayout>
+
+
+                </LinearLayout>
+
+        </LinearLayout>
 
 </android.support.v7.widget.CardView>
 

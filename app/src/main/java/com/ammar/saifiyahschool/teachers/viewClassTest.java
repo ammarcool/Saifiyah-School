@@ -6,6 +6,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -59,8 +60,8 @@ public class viewClassTest extends Fragment {
 
     private ArrayList<viewCTData> viewCTDataArrayList = new ArrayList<>();
     private RecyclerView viewCTRecyclerView;
-     viewClassTestAdapter viewClassTestAdapter;
-    LinearLayoutManager linearLayoutManager;
+    viewClassTestAdapter viewClassTestAdapter;
+    LinearLayoutManager mylinearLayoutManager;
 
 
 
@@ -88,10 +89,10 @@ public class viewClassTest extends Fragment {
         viewsubjectSpinner = v.findViewById(R.id.viewsubjectSpinner);
         requestQueue = Volley.newRequestQueue(getActivity());
 
-        viewClassTestAdapter = new viewClassTestAdapter(viewCTDataArrayList,getActivity());
+        viewClassTestAdapter = new viewClassTestAdapter(getActivity(),viewCTDataArrayList);
         viewCTRecyclerView = v.findViewById(R.id.TeacherviewCTRecyclerView);
-        linearLayoutManager = new LinearLayoutManager(getContext(),LinearLayoutManager.VERTICAL,false);
-        viewCTRecyclerView.setLayoutManager(linearLayoutManager);
+        mylinearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.VERTICAL,false);
+        viewCTRecyclerView.setLayoutManager(mylinearLayoutManager);
         viewCTRecyclerView.setAdapter(viewClassTestAdapter);
 
 
@@ -102,9 +103,8 @@ public class viewClassTest extends Fragment {
 
     }
 
-    private void viewCT() {
 
-        final List<viewCTData> viewCTDataList = new ArrayList<>();
+    private void viewCT() {
 
         Map<String, String> params = new HashMap();
         params.put("id", id.toString());
@@ -121,14 +121,13 @@ public class viewClassTest extends Fragment {
                     String success = jsonObject.getString("success");
                     if (success.equals("true")) {
                         jsonArray = jsonObject.getJSONArray("response");
-                        viewCTData classTestData = null;
+                        viewCTData OurclassTestData = null;
                         for(int i = 0; i < jsonArray.length(); i++)
                         {
                             JSONObject res = (JSONObject) jsonArray.get(i);
 
-//                            classTestData = new viewCTData(07,"Dec",res.getString("subject"),Integer.parseInt(res.getString("total_marks")),res.getString("class"),null);
-                            classTestData = new viewCTData(07,"dec","Maths",50,"First",null);
-                            viewCTDataList.add(classTestData);
+                            OurclassTestData = new viewCTData(Integer.parseInt(res.getString("day")),res.getString("month"),res.getString("subject"),Integer.parseInt(res.getString("total_marks")),res.getString("class"),null);
+                            viewCTDataArrayList.add(OurclassTestData);
                         }
 
                         viewClassTestAdapter.notifyDataSetChanged();
@@ -152,7 +151,7 @@ public class viewClassTest extends Fragment {
 
             }
         });
-            requestQueue.add(viewRequest);
+        requestQueue.add(viewRequest);
     }
 
     private void loadClassSubject() {

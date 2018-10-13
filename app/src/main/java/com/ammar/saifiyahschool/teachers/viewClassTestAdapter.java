@@ -21,7 +21,7 @@ public class viewClassTestAdapter  extends RecyclerView.Adapter<CTViewHolder> {
     ArrayList<viewCTData> ctDataArrayList;
     Context context;
 
-    viewClassTestAdapter(ArrayList<viewCTData> ctDataArrayList, Context context) {
+    viewClassTestAdapter( Context context, ArrayList<viewCTData> ctDataArrayList) {
         this.ctDataArrayList = ctDataArrayList;
         this.context = context;
     }
