@@ -107,7 +107,7 @@ public class viewClassTest extends Fragment {
         final List<viewCTData> viewCTDataList = new ArrayList<>();
 
         Map<String, String> params = new HashMap();
-        params.put("id", staffId.toString());
+        params.put("id", id.toString());
         final JSONObject parameters = new JSONObject(params);
 
         JsonObjectRequest viewRequest = new JsonObjectRequest(Request.Method.POST, viewCT_URL, parameters, new Response.Listener<JSONObject>() {

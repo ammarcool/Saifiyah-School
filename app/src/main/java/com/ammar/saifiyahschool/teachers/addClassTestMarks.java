@@ -55,7 +55,6 @@ public class addClassTestMarks extends Fragment {
     private ProgressDialog pDialog;
     private String type,id,ip,URL;
     private SharedPreferences sharedPreferences;
-    Integer staffId= 2;
     private String subject_url;
     private String subject_Name_url;
     private String Student_Name_url;
@@ -302,7 +301,7 @@ public class addClassTestMarks extends Fragment {
                                     /*Get sub Id */
                                     citiesSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                         @Override
-                                        public void onItemSelected(AdapterView<?> parent, View view, final int position, long id) {
+                                        public void onItemSelected(AdapterView<?> parent, View view, final int position, final long id) {
 
                                             Log.i("My Subject Position-->", showMe.get(position));
 
@@ -319,7 +318,7 @@ public class addClassTestMarks extends Fragment {
                                             params.put("subject_id",showMe.get(position));
                                             params.put("total_marks",totalMarks.getText().toString());
                                             params.put("created_on",myTestDate.getText().toString());
-                                            params.put("created_by", staffId.toString());
+                                            params.put("created_by", id);
 
                                             JSONArray ourArray = new JSONArray();
                                             JSONObject ourjsonObject = new JSONObject();
