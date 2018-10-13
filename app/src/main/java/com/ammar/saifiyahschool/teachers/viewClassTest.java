@@ -126,7 +126,8 @@ public class viewClassTest extends Fragment {
                         {
                             JSONObject res = (JSONObject) jsonArray.get(i);
 
-                            classTestData = new viewCTData(07,"Dec",res.getString("subject"),Integer.parseInt(res.getString("total_marks")),res.getString("class"),null);
+//                            classTestData = new viewCTData(07,"Dec",res.getString("subject"),Integer.parseInt(res.getString("total_marks")),res.getString("class"),null);
+                            classTestData = new viewCTData(07,"dec","Maths",50,"First",null);
                             viewCTDataList.add(classTestData);
                         }
 

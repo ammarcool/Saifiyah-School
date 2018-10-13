@@ -318,7 +318,7 @@ public class addClassTestMarks extends Fragment {
                                             params.put("subject_id",showMe.get(position));
                                             params.put("total_marks",totalMarks.getText().toString());
                                             params.put("created_on",myTestDate.getText().toString());
-                                            params.put("created_by", id);
+                                            params.put("created_by", String.valueOf(id));
 
                                             JSONArray ourArray = new JSONArray();
                                             JSONObject ourjsonObject = new JSONObject();
