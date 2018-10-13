@@ -3,6 +3,8 @@ package com.ammar.saifiyahschool.teachers;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -51,6 +53,8 @@ public class addClassTestMarks extends Fragment {
     Spinner stateSpinner;
     Spinner citiesSpinner;
     private ProgressDialog pDialog;
+    private String type,id,ip,URL;
+    private SharedPreferences sharedPreferences;
     Integer staffId= 2;
     private String subject_url = "http://192.168.1.101/school_cms/student-classes/getClasses.json";
     private String subject_Name_url = "http://192.168.1.101/school_cms/ClassTests/getSubjects.json";
@@ -83,6 +87,12 @@ public class addClassTestMarks extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
+
+        sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+
+        type = sharedPreferences.getString("type",null);
+        id = sharedPreferences.getString("id",null);
+        ip = sharedPreferences.getString("ip",null);
 
         v = inflater.inflate(R.layout.fragment_add_class_test_marks, container, false);
         stateSpinner = v.findViewById(R.id.classSpinner);
