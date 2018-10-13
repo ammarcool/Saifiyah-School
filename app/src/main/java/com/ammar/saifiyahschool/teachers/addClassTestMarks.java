@@ -56,10 +56,10 @@ public class addClassTestMarks extends Fragment {
     private String type,id,ip,URL;
     private SharedPreferences sharedPreferences;
     Integer staffId= 2;
-    private String subject_url = "http://192.168.1.101/school_cms/student-classes/getClasses.json";
-    private String subject_Name_url = "http://192.168.1.101/school_cms/ClassTests/getSubjects.json";
-    private String Student_Name_url = "http://192.168.1.101/school_cms/students/getStudents.json";
-    private String submitclassTest_url= "http://192.168.1.101/school_cms/ClassTests/addClassTest.json";
+    private String subject_url;
+    private String subject_Name_url;
+    private String Student_Name_url;
+    private String submitclassTest_url;
     RequestQueue requestQueue;
     ArrayList<String> mySubName = new ArrayList<>();
 
@@ -88,11 +88,16 @@ public class addClassTestMarks extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
 
-        sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+        sharedPreferences = getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
 
         type = sharedPreferences.getString("type",null);
         id = sharedPreferences.getString("id",null);
         ip = sharedPreferences.getString("ip",null);
+
+        subject_url = "http://"+ip+"/school_cms/student-classes/getClasses.json";
+        subject_Name_url = "http://"+ip+"/school_cms/ClassTests/getSubjects.json";
+        Student_Name_url = "http://"+ip+"/school_cms/students/getStudents.json";
+        submitclassTest_url= "http://"+ip+"/school_cms/ClassTests/addClassTest.json";
 
         v = inflater.inflate(R.layout.fragment_add_class_test_marks, container, false);
         stateSpinner = v.findViewById(R.id.classSpinner);

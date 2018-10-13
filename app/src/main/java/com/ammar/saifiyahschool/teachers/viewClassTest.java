@@ -73,7 +73,7 @@ public class viewClassTest extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+        sharedPreferences = getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
 
         type = sharedPreferences.getString("type",null);
         id = sharedPreferences.getString("id",null);
