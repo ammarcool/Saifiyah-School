@@ -49,7 +49,6 @@ public class viewClassTest extends Fragment {
     private String type,id,ip,URL;
     Spinner viewclassSpinner;
     Spinner viewsubjectSpinner;
-    Integer staffId= 2;
     private String subject_url;
     private String subject_Name_url;
     private String viewCT_URL;

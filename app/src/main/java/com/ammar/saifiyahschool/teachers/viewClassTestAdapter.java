@@ -2,9 +2,11 @@ package com.ammar.saifiyahschool.teachers;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -63,6 +65,7 @@ class CTViewHolder extends RecyclerView.ViewHolder{
     TextView CTClass;
     Button deleteCT;
 
+    @SuppressLint("ClickableViewAccessibility")
     public CTViewHolder(@NonNull View itemView) {
         super(itemView);
 
@@ -72,5 +75,24 @@ class CTViewHolder extends RecyclerView.ViewHolder{
         totalCTMarks = itemView.findViewById(R.id.totalCTMarks);
         CTClass = itemView.findViewById(R.id.CTClass);
         deleteCT = itemView.findViewById(R.id.deleteCT);
+
+        deleteCT.setOnTouchListener(new View.OnTouchListener() {
+
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN: {
+                        v.getBackground().setColorFilter(0xe0f47521, PorterDuff.Mode.SRC_ATOP);
+                        v.invalidate();
+                        break;
+                    }
+                    case MotionEvent.ACTION_UP: {
+                        v.getBackground().clearColorFilter();
+                        v.invalidate();
+                        break;
+                    }
+                }
+                return false;
+            }
+        });
     }
 }

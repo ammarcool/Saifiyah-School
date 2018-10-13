@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_marginLeft="10dp"
+    android:layout_marginRight="10dp"
+    android:layout_marginBottom="20dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -13,7 +16,9 @@
             android:orientation="horizontal"
             android:padding="6dp"
             android:weightSum="5"
-            tools:ignore="DisableBaselineAlignment">
+            tools:ignore="DisableBaselineAlignment"
+            android:elevation="20dp"
+            tools:targetApi="lollipop">
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -145,7 +150,7 @@
 
                                         <View
                                             android:layout_width="match_parent"
-                                            android:layout_height="2sp"
+                                            android:layout_height="1sp"
                                             android:layout_alignParentLeft="true"
                                             android:layout_alignParentStart="true"
                                             android:layout_alignParentTop="true"
@@ -154,7 +159,9 @@
                                             app:layout_constraintEnd_toEndOf="parent"
                                             app:layout_constraintStart_toStartOf="parent"
                                             app:layout_constraintTop_toBottomOf="@+id/textView10"
-                                            tools:ignore="NotSibling,SmallSp"></View>
+                                            tools:ignore="NotSibling,SmallSp,UnknownId">
+
+                                        </View>
 
                                         <!--</View>-->
 
@@ -195,7 +202,7 @@
 
                                         <View
                                             android:layout_width="match_parent"
-                                            android:layout_height="2sp"
+                                            android:layout_height="1sp"
                                             android:layout_alignParentLeft="true"
                                             android:layout_alignParentStart="true"
                                             android:layout_alignParentTop="true"
