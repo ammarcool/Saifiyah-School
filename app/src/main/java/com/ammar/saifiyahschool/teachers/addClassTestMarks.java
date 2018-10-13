@@ -52,10 +52,10 @@ public class addClassTestMarks extends Fragment {
     Spinner citiesSpinner;
     private ProgressDialog pDialog;
     Integer staffId= 2;
-    private String subject_url = "http://192.168.1.11/school_cms/student-classes/getClasses.json";
-    private String subject_Name_url = "http://192.168.1.11/school_cms/ClassTests/getSubjects.json";
-    private String Student_Name_url = "http://192.168.1.11/school_cms/students/getStudents.json";
-    private String submitclassTest_url= "http://192.168.1.11/school_cms/ClassTests/addClassTest.json";
+    private String subject_url = "http://192.168.1.101/school_cms/student-classes/getClasses.json";
+    private String subject_Name_url = "http://192.168.1.101/school_cms/ClassTests/getSubjects.json";
+    private String Student_Name_url = "http://192.168.1.101/school_cms/students/getStudents.json";
+    private String submitclassTest_url= "http://192.168.1.101/school_cms/ClassTests/addClassTest.json";
     RequestQueue requestQueue;
     ArrayList<String> mySubName = new ArrayList<>();
 

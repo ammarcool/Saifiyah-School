@@ -3,6 +3,8 @@ package com.ammar.saifiyahschool.teachers;
 
 import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
@@ -43,12 +45,14 @@ import java.util.Map;
 public class viewClassTest extends Fragment {
 
     View v;
+    private String type,id,ip,URL;
     Spinner viewclassSpinner;
     Spinner viewsubjectSpinner;
-    Integer staffId= 1;
-    private String subject_url = "http://192.168.1.11/school_cms/student-classes/getClasses.json";
-    private String subject_Name_url = "http://192.168.1.11/school_cms/ClassTests/getSubjects.json";
-    private String viewCT_URL= "http://192.168.1.11/school_cms/ClassTests/viewClassTest.json";
+    Integer staffId= 2;
+    private String subject_url;
+    private String subject_Name_url;
+    private String viewCT_URL;
+    private SharedPreferences sharedPreferences;
     RequestQueue requestQueue;
     ArrayList<String> mySubName = new ArrayList<>();
 
@@ -58,6 +62,8 @@ public class viewClassTest extends Fragment {
      viewClassTestAdapter viewClassTestAdapter;
     LinearLayoutManager linearLayoutManager;
 
+
+
     public viewClassTest() {
         // Required empty public constructor
     }
@@ -66,6 +72,15 @@ public class viewClassTest extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
+        sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
+
+        type = sharedPreferences.getString("type",null);
+        id = sharedPreferences.getString("id",null);
+        ip = sharedPreferences.getString("ip",null);
+        subject_url = "http://"+ip+"/school_cms/student-classes/getClasses.json";
+        subject_Name_url = "http://"+ip+"/school_cms/ClassTests/getSubjects.json";
+        viewCT_URL = "http://"+ip+"/school_cms/ClassTests/viewClassTest.json";
         // Inflate the layout for this fragment
 
         v = inflater.inflate(R.layout.fragment_view_class_test, container, false);
@@ -102,6 +117,7 @@ public class viewClassTest extends Fragment {
                 JSONArray jsonArray = null;
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
+
                     String success = jsonObject.getString("success");
                     if (success.equals("true")) {
                         jsonArray = jsonObject.getJSONArray("response");
