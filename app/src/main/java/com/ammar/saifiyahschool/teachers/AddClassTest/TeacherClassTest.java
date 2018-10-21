@@ -1,4 +1,4 @@
-package com.ammar.saifiyahschool.teachers;
+package com.ammar.saifiyahschool.teachers.AddClassTest;
 
 import android.content.Context;
 import android.support.design.widget.TabItem;

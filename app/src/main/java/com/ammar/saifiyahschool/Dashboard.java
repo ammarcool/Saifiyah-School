@@ -23,7 +23,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.ammar.saifiyahschool.teachers.TeacherClassTest;
+import com.ammar.saifiyahschool.teachers.AddClassTest.TeacherClassTest;
+import com.ammar.saifiyahschool.teachers.LeaveBalance.leaveBalance;
+import com.ammar.saifiyahschool.teachers.Progress.progresses;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
@@ -32,7 +34,6 @@ import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
-import com.android.volley.RetryPolicy;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
@@ -59,13 +60,14 @@ public class Dashboard extends AppCompatActivity {
 
     private Toolbar toolbar ;
 
-    Button syllabus,classTest,feeButton;
+    Button syllabus,classTest,feeButton,notificationButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
+        notificationButton = (Button)findViewById(R.id.notificationButton);
         syllabus = (Button)findViewById(R.id.syllabusButton);
         classTest =(Button)findViewById(R.id.classTestButton);
         feeButton = (Button)findViewById(R.id.feeButton);
@@ -122,6 +124,16 @@ public class Dashboard extends AppCompatActivity {
 
                         intent = new Intent(Dashboard.this, StudentProgress.class);
                         intent.putExtra("progress","Rewards");
+                        startActivity(intent);
+
+                        drawerLayout.closeDrawers();
+                        return true;
+
+                    case R.id.changePassword:
+                        item.setChecked(true);
+
+                        intent = new Intent(Dashboard.this, progresses.class);
+                        intent.putExtra("teacherProgress","addAndView");
                         startActivity(intent);
 
                         drawerLayout.closeDrawers();
@@ -218,6 +230,15 @@ public class Dashboard extends AppCompatActivity {
         else
             tv.setText("Uh-oh Something Went Wrong");
 
+
+        notificationButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(Dashboard.this,leaveBalance.class);
+                intent.putExtra("LeaveBalance","LeaveBalance");
+                startActivity(intent);
+            }
+        });
 
         syllabus.setOnClickListener(new View.OnClickListener() {
             @Override

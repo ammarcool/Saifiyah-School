@@ -5,4 +5,8 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="add_classtest">Add ClassTest</string>
     <string name="view_classtest">View ClassTest</string>
+    <string name="add_leaveBalance">Add Your Leave</string>
+    <string name="view_leaveBalance">View Leave Balance</string>
+    <string name="add_progress">Add Progress</string>
+    <string name="view_progress">View Progress</string>
 </resources>

@@ -1,12 +1,9 @@
-package com.ammar.saifiyahschool.teachers;
+package com.ammar.saifiyahschool.teachers.AddClassTest;
 
 
-import android.app.DatePickerDialog;
-import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,14 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ammar.saifiyahschool.R;
-import com.ammar.saifiyahschool.Recycler;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -121,11 +114,12 @@ public class viewClassTest extends Fragment {
                     if (success.equals("true")) {
                         jsonArray = jsonObject.getJSONArray("response");
                         viewCTData OurclassTestData = null;
+
                         for(int i = 0; i < jsonArray.length(); i++)
                         {
                             JSONObject res = (JSONObject) jsonArray.get(i);
 
-                            OurclassTestData = new viewCTData(Integer.parseInt(res.getString("day")),res.getString("month"),res.getString("subject"),Integer.parseInt(res.getString("total_marks")),res.getString("class"),null);
+                            OurclassTestData = new viewCTData(Integer.parseInt(res.getString("day")),res.getString("month"),res.getString("subject"),Integer.parseInt(res.getString("total_marks")),res.getString("class"),res.getString("id"));
                             viewCTDataArrayList.add(OurclassTestData);
                         }
 

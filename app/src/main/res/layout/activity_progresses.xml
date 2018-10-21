@@ -4,11 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".teachers.AddClassTest.TeacherClassTest"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    tools:context=".teachers.Progress.progresses">
 
     <android.support.v7.widget.Toolbar
-        android:id="@+id/classTesttoolbar"
+        android:id="@+id/progressToolbar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/colorPrimary"
@@ -22,21 +22,21 @@
 
 
     <android.support.design.widget.TabLayout
-        android:id="@+id/classTestTabs"
+        android:id="@+id/progressTabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="#E9BF88"
         app:tabIndicatorColor="#000">
 
         <android.support.design.widget.TabItem
-            android:id="@+id/addClassTest"
+            android:id="@+id/addProgress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Add Class Test"
             tools:ignore="HardcodedText" />
 
         <android.support.design.widget.TabItem
-            android:id="@+id/viewClassTest"
+            android:id="@+id/viewProgress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="View Class Test"
@@ -46,7 +46,7 @@
     </android.support.design.widget.TabLayout>
 
     <android.support.v4.view.ViewPager
-        android:id="@+id/classTestviewPage"
+        android:id="@+id/progressviewPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 

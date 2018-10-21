@@ -138,7 +138,7 @@ public class classTest extends AppCompatActivity {
                                     classTestAdapter.notifyDataSetChanged();
                                 } else {
                                     String msg = jsonObject.getString("message");
-                                    tv.setText(msg);
+//                                    tv.setText(msg);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -168,7 +168,8 @@ public class classTest extends AppCompatActivity {
 
         }
         else
-            tv.setText("Uh-oh Something Went Wrong");
+            Log.i("Error:-","Something went wrong");
+//            tv.setText("Uh-oh Something Went Wrong");
 
     }
 

@@ -26,7 +26,9 @@
         <activity android:name=".StudentProgress" />
         <activity android:name=".Results" />
         <activity android:name=".ipaddress" />
-        <activity android:name=".teachers.TeacherClassTest"></activity>
+        <activity android:name=".teachers.AddClassTest.TeacherClassTest" />
+        <activity android:name=".teachers.LeaveBalance.leaveBalance" />
+        <activity android:name=".teachers.Progress.progresses"></activity>
     </application>
 
 </manifest>
