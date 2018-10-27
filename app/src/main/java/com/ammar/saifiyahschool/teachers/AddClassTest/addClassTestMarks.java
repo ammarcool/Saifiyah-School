@@ -313,12 +313,18 @@ public class addClassTestMarks extends Fragment {
                                         public void onClick(View v) {
 
 
-                                            Map<String, String> params = new HashMap();
-                                            params.put("student_class_id", String.valueOf(subPosition));
-                                            params.put("subject_id",showMe.get(position));
-                                            params.put("total_marks",totalMarks.getText().toString());
-                                            params.put("created_on",myTestDate.getText().toString());
-                                            params.put("created_by", staff_id);
+                                            //Map<String, String> params = new HashMap();
+                                            JSONObject params = new JSONObject();
+                                            try {
+                                                params.put("student_class_id", String.valueOf(subPosition));
+                                                params.put("subject_id",showMe.get(position));
+                                                params.put("total_marks",totalMarks.getText().toString());
+                                                params.put("created_on",myTestDate.getText().toString());
+                                                params.put("created_by", staff_id);
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+
 
                                             JSONArray ourArray = new JSONArray();
                                             JSONObject ourjsonObject = new JSONObject();
@@ -340,19 +346,24 @@ public class addClassTestMarks extends Fragment {
                                                 ourArray.put(mJsonObject);
                                             }
 
-                                            params.put("class_test_rows", ourArray.toString());
-                                            Log.i("class_test_rows",ourArray.toString());
+                                            try {
+                                                params.put("class_test_rows", ourArray);
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+
                                             submitCTMarksnew.clear();
                                             StRollNo.clear();
 
-                                            JSONObject parameters = new JSONObject(params);
+                                            Log.i("class_test_rows",params.toString());
 
                                             JsonObjectRequest submitMarks = new JsonObjectRequest(
-                                                    Request.Method.POST, submitclassTest_url, parameters, new Response.Listener<JSONObject>() {
+                                                    Request.Method.POST, submitclassTest_url, params, new Response.Listener<JSONObject>() {
                                                 @Override
                                                 public void onResponse(JSONObject response) {
 
                                                     String CTjsonArray = null;
+                                                    Log.i("response",response.toString());
                                                     try {
                                                         JSONObject jsonObject = new JSONObject(response.toString());
                                                         String success = jsonObject.getString("success");
