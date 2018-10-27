@@ -185,15 +185,22 @@ public class Dashboard extends AppCompatActivity {
                                     if (success.equals("true")) {
                                         jsonArray = response.getJSONArray("response");
                                         JSONObject res = (JSONObject) jsonArray.get(0);
-                                        JSONObject student_class = res.getJSONObject("student_class");
+                                        if (type.equals("student")) {
+                                            JSONObject student_class = res.getJSONObject("student_class");
 
-                                        SharedPreferences.Editor edit = sharedPreferences.edit();
-                                        edit.putString("student_class_id",res.getString("student_class_id"));
-                                        edit.putString("total_fees",res.getString("total fees"));
-                                        edit.apply();
+                                            SharedPreferences.Editor edit = sharedPreferences.edit();
+                                            edit.putString("student_class_id", res.getString("student_class_id"));
+                                            edit.putString("total_fees", res.getString("total fees"));
+                                            edit.apply();
 
-                                        name.setText(res.getString("name").toUpperCase()+"\nClass: "+student_class.getString("name"));
-                                        user_id.setText("ID: "+res.getString("id"));
+                                            name.setText(res.getString("name").toUpperCase() + "\nClass: " + student_class.getString("name"));
+
+                                        }
+                                        else
+                                        {
+                                            name.setText(res.getString("name").toUpperCase());
+                                        }
+                                        user_id.setText("ID: " + res.getString("id"));
                                         String path = "http://"+ip+"/school_cms/"+res.getString("image");
                                         Picasso.with(Dashboard.this).load(path).into(profile);
                                     } else {
@@ -243,7 +250,11 @@ public class Dashboard extends AppCompatActivity {
         syllabus.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Dashboard.this,Syllabus.class);
+                Intent intent;
+                if (type.equals("student"))
+                    intent = new Intent(Dashboard.this,Syllabus.class);
+                else
+                    intent = new Intent(Dashboard.this,Syllabus.class);
                 intent.putExtra("syllabus","subjects");
                 startActivity(intent);
             }
@@ -252,7 +263,11 @@ public class Dashboard extends AppCompatActivity {
         classTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(Dashboard.this,classTest.class);
+                Intent intent;
+                if (type.equals("student"))
+                    intent = new Intent(Dashboard.this,classTest.class);
+                else
+                    intent = new Intent(Dashboard.this,TeacherClassTest.class);
                 intent.putExtra("class","marks");
                 startActivity(intent);
             }
