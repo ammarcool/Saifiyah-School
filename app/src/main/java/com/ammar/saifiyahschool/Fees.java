@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -124,7 +125,7 @@ public class Fees extends AppCompatActivity {
                                 } else {
                                     feesDue.setText("\u20B9 "+total_fees);
                                     String msg = jsonObject.getString("message");
-                                    tv.setText(msg);
+//                                    tv.setText(msg);
                                 }
                             } catch (JSONException e) {
                                 e.printStackTrace();
@@ -154,7 +155,8 @@ public class Fees extends AppCompatActivity {
 
         }
         else
-            tv.setText("Uh-oh Something Went Wrong");
+//            tv.setText("Uh-oh Something Went Wrong");
+        Log.i("Error","class id->"+class_id+" ID->"+id+" IP->"+ip);
 
     }
 

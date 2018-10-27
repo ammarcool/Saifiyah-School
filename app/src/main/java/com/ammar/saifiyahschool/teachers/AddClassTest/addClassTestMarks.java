@@ -1,4 +1,4 @@
-package com.ammar.saifiyahschool.teachers;
+package com.ammar.saifiyahschool.teachers.AddClassTest;
 
 
 import android.app.DatePickerDialog;
@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,7 +54,7 @@ public class addClassTestMarks extends Fragment {
     Spinner stateSpinner;
     Spinner citiesSpinner;
     private ProgressDialog pDialog;
-    private String type,id,ip,URL;
+    private String type,staff_id,ip,URL;
     private SharedPreferences sharedPreferences;
     private String subject_url;
     private String subject_Name_url;
@@ -90,7 +91,7 @@ public class addClassTestMarks extends Fragment {
         sharedPreferences = getActivity().getSharedPreferences("user", Context.MODE_PRIVATE);
 
         type = sharedPreferences.getString("type",null);
-        id = sharedPreferences.getString("id",null);
+        staff_id = sharedPreferences.getString("id",null);
         ip = sharedPreferences.getString("ip",null);
 
         subject_url = "http://"+ip+"/school_cms/student-classes/getClasses.json";
@@ -106,6 +107,7 @@ public class addClassTestMarks extends Fragment {
         submitCTest = v.findViewById(R.id.submitCTest);
         enterStudentMarks = v.findViewById(R.id.enterStudentMarks);
         myTestDate = v.findViewById(R.id.myTestDate);
+        myTestDate.setInputType(InputType.TYPE_NULL);
         totalMarks = v.findViewById(R.id.totalMarks);
         studentNo = v.findViewById(R.id.studentNo);
 
@@ -160,7 +162,6 @@ public class addClassTestMarks extends Fragment {
             public void onResponse(JSONObject response) {
 
                 JSONArray jsonArray = null;
-                List<String> classNameList = new ArrayList<>();
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
                     final String success = jsonObject.getString("success");
@@ -184,7 +185,6 @@ public class addClassTestMarks extends Fragment {
                             final classNameAdapter classNameAdapter = new classNameAdapter(getActivity(),R.layout.class_name,R.id.className,classSubjectDataList);
                             stateSpinner.setAdapter(classNameAdapter);
 
-                            final Integer finalClassId = classId;
                             stateSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
                                 @Override
                                 public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -318,7 +318,7 @@ public class addClassTestMarks extends Fragment {
                                             params.put("subject_id",showMe.get(position));
                                             params.put("total_marks",totalMarks.getText().toString());
                                             params.put("created_on",myTestDate.getText().toString());
-                                            params.put("created_by", String.valueOf(id));
+                                            params.put("created_by", staff_id);
 
                                             JSONArray ourArray = new JSONArray();
                                             JSONObject ourjsonObject = new JSONObject();
@@ -360,8 +360,8 @@ public class addClassTestMarks extends Fragment {
                                                             CTjsonArray = jsonObject.getString("message");
 
                                                             Toast.makeText(getContext(),CTjsonArray.toString(),Toast.LENGTH_LONG).show();
-                                                            Log.i("Response Me ----->", String.valueOf(CTjsonArray));
 
+                                                            Log.i("Response Me ----->", String.valueOf(CTjsonArray));
 
                                                         }else {
                                                             String msg = jsonObject.getString("message");
