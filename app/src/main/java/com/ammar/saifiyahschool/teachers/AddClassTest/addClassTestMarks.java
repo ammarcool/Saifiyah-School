@@ -321,7 +321,6 @@ public class addClassTestMarks extends Fragment {
                                             params.put("created_by", staff_id);
 
                                             JSONArray ourArray = new JSONArray();
-                                            JSONObject ourjsonObject = new JSONObject();
                                             JSONObject mJsonObject = null;
 
                                             for(int i= 0; i<addCTMarksDataArrayList.size();i++){
@@ -341,11 +340,20 @@ public class addClassTestMarks extends Fragment {
                                             }
 
                                             //params.put("class_test_rows", ourArray.toString());
-                                            Log.i("class_test_rows",ourArray.toString());
-                                            submitCTMarksnew.clear();
+// <<<<<<< HEAD
+//                                             Log.i("class_test_rows",ourArray.toString());
+// =======
+//                                             //Log.i("class_test_rows",ourArray.toString());
+// >>>>>>> ade02f3eaafaf2b2f5e7c198c5fc2235a5770ca0
+//                                             submitCTMarksnew.clear();
                                             StRollNo.clear();
 
                                             JSONObject parameters = new JSONObject(params);
+                                            try {
+                                                parameters.put("class_test_rows",ourArray);
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
 
                                             try {
                                                 parameters.put("class_test_rows",ourArray);
