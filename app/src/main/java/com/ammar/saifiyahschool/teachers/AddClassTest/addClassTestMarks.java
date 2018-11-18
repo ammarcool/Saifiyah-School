@@ -172,10 +172,10 @@ public class addClassTestMarks extends Fragment {
                         Integer classId = null;
                         String my_sub_id = null;
                         for (int i = 0; i < jsonArray.length(); i++) {
-                                res = (JSONObject) jsonArray.get(i);
+                            res = (JSONObject) jsonArray.get(i);
 
-                                className = res.getString("name");
-                                classId= res.getInt("id");
+                            className = res.getString("name");
+                            classId= res.getInt("id");
 
 //                                classNameList.add(String.valueOf(className));
 //                                classNameList.add(String.valueOf(classId));
@@ -210,8 +210,8 @@ public class addClassTestMarks extends Fragment {
                                                 String sub_id = null;
                                                 if (success.equals("true")) {
                                                     myjsonArray = jsonObject.getJSONArray("response");
-                                                        mySubName.clear();
-                                                        showMe.clear();
+                                                    mySubName.clear();
+                                                    showMe.clear();
                                                     for (int s=0;s<myjsonArray.length();s++) {
                                                         mysubName = (JSONObject) myjsonArray.get(s);
 
@@ -307,100 +307,92 @@ public class addClassTestMarks extends Fragment {
 
                                             Log.i("My classID--->", String.valueOf(subPosition));
 
-                /* -----------------------------------Start submit the class test---------------------------*/
-                                    submitCTest.setOnClickListener(new View.OnClickListener() {
-                                        @Override
-                                        public void onClick(View v) {
-
-
-                                            Map<String, String> params = new HashMap();
-                                            params.put("student_class_id", String.valueOf(subPosition));
-                                            params.put("subject_id",showMe.get(position));
-                                            params.put("total_marks",totalMarks.getText().toString());
-                                            params.put("created_on",myTestDate.getText().toString());
-                                            params.put("created_by", staff_id);
-
-                                            JSONArray ourArray = new JSONArray();
-                                            JSONObject mJsonObject = null;
-
-                                            for(int i= 0; i<addCTMarksDataArrayList.size();i++){
-
-                                                submitCTMarksnew.add(myaddCTMarksAdapter.addCTMarksDataArrayList.get(i).getEnterCT().toString());
-
-                                                try {
-                                                    mJsonObject  = new JSONObject();
-
-                                                    mJsonObject.put("student_id",StRollNo.get(i));
-                                                    mJsonObject.put("marks",submitCTMarksnew.get(i));
-                                                } catch (JSONException e) {
-                                                    e.printStackTrace();
-                                                }
-
-                                                ourArray.put(mJsonObject);
-                                            }
-
-                                            //params.put("class_test_rows", ourArray.toString());
-// <<<<<<< HEAD
-//                                             Log.i("class_test_rows",ourArray.toString());
-// =======
-//                                             //Log.i("class_test_rows",ourArray.toString());
-// >>>>>>> ade02f3eaafaf2b2f5e7c198c5fc2235a5770ca0
-//                                             submitCTMarksnew.clear();
-                                            StRollNo.clear();
-
-                                            JSONObject parameters = new JSONObject(params);
-                                            try {
-                                                parameters.put("class_test_rows",ourArray);
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
-                                            }
-
-                                            try {
-                                                parameters.put("class_test_rows",ourArray);
-                                            } catch (JSONException e) {
-                                                e.printStackTrace();
-                                            }
-
-                                            JsonObjectRequest submitMarks = new JsonObjectRequest(
-                                                    Request.Method.POST, submitclassTest_url, parameters, new Response.Listener<JSONObject>() {
+                                            /* -----------------------------------Start submit the class test---------------------------*/
+                                            submitCTest.setOnClickListener(new View.OnClickListener() {
                                                 @Override
-                                                public void onResponse(JSONObject response) {
+                                                public void onClick(View v) {
 
-                                                    String CTjsonArray = null;
-                                                    try {
-                                                        JSONObject jsonObject = new JSONObject(response.toString());
-                                                        String success = jsonObject.getString("success");
-                                                        if (success.equals("true")) {
-                                                            CTjsonArray = jsonObject.getString("message");
 
-                                                            Toast.makeText(getContext(),CTjsonArray.toString(),Toast.LENGTH_LONG).show();
+                                                    Map<String, String> params = new HashMap();
+                                                    params.put("student_class_id", String.valueOf(subPosition));
+                                                    params.put("subject_id",showMe.get(position));
+                                                    params.put("total_marks",totalMarks.getText().toString());
+                                                    params.put("created_on",myTestDate.getText().toString());
+                                                    params.put("created_by", staff_id);
 
-                                                            Log.i("Response Me ----->", String.valueOf(CTjsonArray));
+                                                    JSONArray ourArray = new JSONArray();
+                                                    JSONObject ourjsonObject = new JSONObject();
+                                                    JSONObject mJsonObject = null;
 
-                                                        }else {
-                                                            String msg = jsonObject.getString("message");
-                                                            Toast.makeText(getActivity(),msg,Toast.LENGTH_LONG).show();
+                                                    for(int i= 0; i<addCTMarksDataArrayList.size();i++){
+
+                                                        submitCTMarksnew.add(myaddCTMarksAdapter.addCTMarksDataArrayList.get(i).getEnterCT().toString());
+
+                                                        try {
+                                                            mJsonObject  = new JSONObject();
+
+                                                            mJsonObject.put("student_id",StRollNo.get(i));
+                                                            mJsonObject.put("marks",submitCTMarksnew.get(i));
+                                                        } catch (JSONException e) {
+                                                            e.printStackTrace();
                                                         }
-                                                    } catch (JSONException e) {
-                                                        e.printStackTrace();
-                                                        Toast.makeText(getContext(),String.valueOf(e),Toast.LENGTH_LONG).show();
+
+                                                        ourArray.put(mJsonObject);
                                                     }
 
-                                                }
-                                            }, new Response.ErrorListener() {
-                                                @Override
-                                                public void onErrorResponse(VolleyError error) {
+                                                    //params.put("class_test_rows", ourArray.toString());
+                                                    Log.i("class_test_rows",ourArray.toString());
+                                                    submitCTMarksnew.clear();
+                                                    StRollNo.clear();
+
+                                                    JSONObject parameters = new JSONObject(params);
+
+                                                    try {
+                                                        parameters.put("class_test_rows",ourArray);
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                    }
+
+                                                    JsonObjectRequest submitMarks = new JsonObjectRequest(
+                                                            Request.Method.POST, submitclassTest_url, parameters, new Response.Listener<JSONObject>() {
+                                                        @Override
+                                                        public void onResponse(JSONObject response) {
+
+                                                            String CTjsonArray = null;
+                                                            try {
+                                                                JSONObject jsonObject = new JSONObject(response.toString());
+                                                                String success = jsonObject.getString("success");
+                                                                if (success.equals("true")) {
+                                                                    CTjsonArray = jsonObject.getString("message");
+
+                                                                    Toast.makeText(getContext(),CTjsonArray.toString(),Toast.LENGTH_LONG).show();
+
+                                                                    Log.i("Response Me ----->", String.valueOf(CTjsonArray));
+
+                                                                }else {
+                                                                    String msg = jsonObject.getString("message");
+                                                                    Toast.makeText(getActivity(),msg,Toast.LENGTH_LONG).show();
+                                                                }
+                                                            } catch (JSONException e) {
+                                                                e.printStackTrace();
+                                                                Toast.makeText(getContext(),String.valueOf(e),Toast.LENGTH_LONG).show();
+                                                            }
+
+                                                        }
+                                                    }, new Response.ErrorListener() {
+                                                        @Override
+                                                        public void onErrorResponse(VolleyError error) {
+
+                                                        }
+                                                    }
+
+                                                    );
+                                                    requestQueue.add(submitMarks);
 
                                                 }
-                                            }
+                                            });
 
-                                            );
-                                            requestQueue.add(submitMarks);
-
-                                        }
-                                    });
-
-                /* ------------------------------------End submit the Class test -----------------------------*/
+                                            /* ------------------------------------End submit the Class test -----------------------------*/
 
                                         }
 
