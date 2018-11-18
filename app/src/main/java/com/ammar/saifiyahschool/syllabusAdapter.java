@@ -1,7 +1,6 @@
 package com.ammar.saifiyahschool;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,10 +16,10 @@ public class syllabusAdapter extends RecyclerView.Adapter<SyllabusViewHolder> {
     private ArrayList<SyllabusData> syllabusListData;
     private Context syllabusContext;
 
-    public syllabusAdapter(Context syllabusContext,List syllabusListData){
+    public syllabusAdapter(Context syllabusContext,ArrayList<SyllabusData> syllabusListData){
 
         this.syllabusContext = syllabusContext;
-        this.syllabusListData = (ArrayList<SyllabusData>) syllabusListData;
+        this.syllabusListData = syllabusListData;
     }
 
     @Override
@@ -32,19 +31,21 @@ public class syllabusAdapter extends RecyclerView.Adapter<SyllabusViewHolder> {
 
     @Override
     public void onBindViewHolder( SyllabusViewHolder holder, int position) {
+//
+//        SyllabusData syllabusData = syllabusListData.get(position);
+//        holder.month.setText(syllabusData.getMonth());
+//        holder.UnitName.setText(syllabusData.getUnitName());
+        holder.syllabusMonth.setText(syllabusListData.get(position).getSyllabusMonth());
+        holder.syllabusDay.setText(syllabusListData.get(position).getSyllabusDay());
+        holder.SyllabusStudentChapterNo.setText(syllabusListData.get(position).getSyllabusStudentChapterNo());
+        holder.syllabusName.setText(syllabusListData.get(position).getSyllabusName());
 
-        SyllabusData syllabusData = syllabusListData.get(position);
-        holder.month.setText(syllabusData.getMonth());
-        holder.UnitName.setText(syllabusData.getUnitName());
+        if (syllabusListData.get(position).getSyllabusStatus()== "true"){
+            holder.syllabusStatus.setImageResource(R.drawable.done_sticker);
+        }else {
+            holder.syllabusStatus.setImageResource(R.drawable.pending_sticker);
+        }
 
-        //or you can write code like that as well
-        holder.UnitDesc.setText(syllabusListData.get(position).getUnitDesc());
-        holder.status.setImageResource(syllabusListData.get(position).getStatus());
-
-//        String month = syllabusListData.get(position);
-//            holder.month.setText(month);
-//            holder.UnitDesc.setText(month);
-//            holder.UnitName.setText(month);
     }
 
     @Override
@@ -56,17 +57,21 @@ public class syllabusAdapter extends RecyclerView.Adapter<SyllabusViewHolder> {
 }
 class SyllabusViewHolder extends RecyclerView.ViewHolder{
 
-    TextView month;
-    ImageView status;
-    TextView UnitName;
-    TextView UnitDesc;
+
+    TextView syllabusMonth;
+    TextView syllabusDay;
+    ImageView syllabusStatus;
+    TextView syllabusName;
+    TextView SyllabusStudentChapterNo;
 
     public SyllabusViewHolder( View itemView) {
         super(itemView);
 
-        month = itemView.findViewById(R.id.tvIcon);
-        status =itemView.findViewById(R.id.status);
-        UnitName = itemView.findViewById(R.id.UnitName);
-        UnitDesc = itemView.findViewById(R.id.UnitDesc);
+     syllabusMonth = itemView.findViewById(R.id.syllabusMonth);
+     syllabusDay = itemView.findViewById(R.id.syllabusDay);
+     syllabusStatus= itemView.findViewById(R.id.syllabusStatus);
+     syllabusName = itemView.findViewById(R.id.syllabusName);
+     SyllabusStudentChapterNo = itemView.findViewById(R.id.SyllabusStudentChapterNo);
+
     }
 }

@@ -1,5 +1,7 @@
 package com.ammar.saifiyahschool;
 
+import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -13,12 +15,15 @@ import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +31,7 @@ import android.widget.Toast;
 import com.ammar.saifiyahschool.teachers.AddClassTest.TeacherClassTest;
 import com.ammar.saifiyahschool.teachers.LeaveBalance.leaveBalance;
 import com.ammar.saifiyahschool.teachers.Progress.progresses;
+import com.ammar.saifiyahschool.teachers.Syllabus.AddSyllabus;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
@@ -39,6 +45,7 @@ import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.basgeekball.awesomevalidation.AwesomeValidation;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -47,6 +54,9 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+
+import static com.basgeekball.awesomevalidation.ValidationStyle.COLORATION;
+import static com.basgeekball.awesomevalidation.ValidationStyle.TEXT_INPUT_LAYOUT;
 
 public class Dashboard extends AppCompatActivity {
 
@@ -57,8 +67,14 @@ public class Dashboard extends AppCompatActivity {
     private NavigationView navigationView;
     private long backPressedTime;
     private SharedPreferences sharedPreferences;
+    private String changePassword_URL;
 
     private Toolbar toolbar ;
+
+    EditText currentPassword,newPassword,confirmPassword;
+    Button changePassword_btn,cancelPassword_btn;
+    AwesomeValidation mAwesomeValidation;
+    LinearLayout changePasswordDialog;
 
     Button syllabus,classTest,feeButton,notificationButton;
 
@@ -73,6 +89,8 @@ public class Dashboard extends AppCompatActivity {
         feeButton = (Button)findViewById(R.id.feeButton);
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+//        Toast.makeText(getApplicationContext(),Integer.parseInt(sharedPreferences.getString("token_id",null)),Toast.LENGTH_LONG).show();
 
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigationView);
@@ -134,6 +152,16 @@ public class Dashboard extends AppCompatActivity {
 
                         intent = new Intent(Dashboard.this, progresses.class);
                         intent.putExtra("teacherProgress","addAndView");
+                        startActivity(intent);
+
+                        drawerLayout.closeDrawers();
+                        return true;
+
+                    case R.id.logout:
+                        item.setChecked(true);
+
+                        intent = new Intent(Dashboard.this, AddSyllabus.class);
+                        intent.putExtra("addSyllabus","AddMeSyllabus");
                         startActivity(intent);
 
                         drawerLayout.closeDrawers();
@@ -285,7 +313,158 @@ public class Dashboard extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
+
+            case R.id.changePassword:
+                item.setChecked(true);
+
+                final Dialog customDialog;
+
+                LayoutInflater inflater = (LayoutInflater) getLayoutInflater();
+                View customView = inflater.inflate(R.layout.change_password_popup, null);
+                // Build the dialog
+                customDialog = new Dialog(this, R.style.ChangePasswordStyle);
+                customDialog.setContentView(customView);
+
+                currentPassword = customDialog.findViewById(R.id.currentPassword);
+                newPassword = customDialog.findViewById(R.id.newPassword);
+                confirmPassword = customDialog.findViewById(R.id.confirmPassword);
+                changePassword_btn = customDialog.findViewById(R.id.changePassword_btn);
+                cancelPassword_btn = customDialog.findViewById(R.id.cancelPassword_btn);
+                changePasswordDialog = customDialog.findViewById(R.id.changePasswordDialog);
+                String regexPassword = "(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d])(?=.*[~`!@#\\$%\\^&\\*\\(\\)\\-_\\+=\\{\\}\\[\\]\\|\\;:\"<>,./\\?]).{8,}";
+                final RequestQueue changePasswordRequestQueue = Volley.newRequestQueue(Dashboard.this);
+                changePassword_URL = "http://"+ip+"/school_cms/logins/change_password.json";
+
+                mAwesomeValidation = new AwesomeValidation(COLORATION);
+
+                mAwesomeValidation.addValidation(currentPassword,sharedPreferences.getString("password",null),"Your current Password is Invalid");
+//                mAwesomeValidation.addValidation(newPassword,regexPassword,"Enter Password Please");
+                mAwesomeValidation.addValidation(confirmPassword,newPassword,"Password Doesn't Match");
+
+                /*********** change Password JsonVolley ***********/
+
+                changePassword_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (mAwesomeValidation.validate()){
+
+                            Map<String, String> params = new HashMap();
+                            params.put("username", sharedPreferences.getString("username",null));
+                            params.put("password",sharedPreferences.getString("password",null));
+                            params.put("new_password",confirmPassword.getText().toString());
+
+
+                            final JSONObject parameters = new JSONObject(params);
+                            Log.i("my Parameters--->",params.toString());
+                            JsonObjectRequest changePasswordRequest = new JsonObjectRequest(Request.Method.POST, changePassword_URL, parameters, new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
+                                    String deleteMsg = null;
+                                    try {
+                                        JSONObject jsonObject = new JSONObject(response.toString());
+
+                                        String success = jsonObject.getString("success");
+
+                                        if (success.equals("true")) {
+                                            deleteMsg = jsonObject.getString("message");
+
+                                            Toast.makeText(getApplicationContext(), deleteMsg, Toast.LENGTH_LONG).show();
+                                            customDialog.dismiss();
+
+
+                                        } else {
+                                            String msg = jsonObject.getString("message");
+                                            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+
+                                }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
+
+                                }
+                            }
+                            );
+                            changePasswordRequestQueue.add(changePasswordRequest);
+
+
+                    /*************** End Json Volley of Change Password **************/
+
+                        }
+                        else{
+                            Toast.makeText(getApplicationContext(),"Sorry! Something Went Wrong",Toast.LENGTH_LONG).show();
+                        }
+
+
+
+                    }
+                });
+
+                cancelPassword_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        mAwesomeValidation.clear();
+//                        changePasswordDialog.setVisibility(View.GONE);
+                        customDialog.dismiss();
+                    }
+                });
+                customDialog.show();
+
+                return true;
+
+
             case R.id.logout:
+
+
+                /****** Start Token and Login ID ********************/
+                RequestQueue requestQueue = Volley.newRequestQueue(Dashboard.this);
+                String Token_URL = "http://"+ip+"/school_cms/tokens/add.json";
+
+                Map<String, String> param = new HashMap();
+                param.put("login_id", sharedPreferences.getString("login_id",null));
+                param.put("token_no", "LOGOUT");
+
+                JSONObject Myparams = new JSONObject(param);
+
+
+                JsonObjectRequest tokenObjectRequest = new JsonObjectRequest(
+                        Request.Method.POST,
+                        Token_URL,
+                        Myparams,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                try {
+                                    JSONObject jsonObject = new JSONObject(response.toString());
+                                    String success = jsonObject.getString("success");
+                                    if (success.equals("true")) {
+                                        JSONObject user = jsonObject.getJSONObject("response");
+                                        Toast.makeText(getApplicationContext(),user.toString(),Toast.LENGTH_LONG).show();
+                                    } else {
+                                        String msg = jsonObject.getString("message");
+                                        tv.setText(msg);
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.e("API Response", error.toString());
+                            }
+                        }
+                );
+                requestQueue.add(tokenObjectRequest);
+
+
+
+                /****** End Token and Login ID ********************/
+
                 SharedPreferences.Editor edit = sharedPreferences.edit();
                 edit.remove("username");
                 edit.remove("password");

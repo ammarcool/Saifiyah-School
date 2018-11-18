@@ -8,11 +8,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Dashboard"
-    android:fitsSystemWindows="true" >
+    android:fitsSystemWindows="true"
+    android:background="@drawable/blur_bg">
 
- xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
 <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -35,7 +33,9 @@
         android:id="@+id/cardView2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="2.5">
+        android:layout_weight="2.5"
+        android:background="@android:color/transparent"
+        android:layout_margin="10dp">
 
         <ImageView
             android:layout_width="match_parent"
@@ -106,7 +106,8 @@
         android:layout_height="0dp"
         android:layout_weight="7.5"
         android:layout_below="@id/cardView2"
-        app:layout_constraintTop_toBottomOf="@+id/cardView2">
+        app:layout_constraintTop_toBottomOf="@+id/cardView2"
+        android:layout_margin="10dp">
 
         <android.support.v7.widget.AppCompatButton
             android:id="@+id/notificationButton"
@@ -169,7 +170,9 @@
             android:background="@drawable/fees"/>
 
     </android.support.v7.widget.GridLayout>
+
 </LinearLayout>
+
     <android.support.design.widget.NavigationView
 
         android:layout_height="match_parent"

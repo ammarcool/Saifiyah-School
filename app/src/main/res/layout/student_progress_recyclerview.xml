@@ -2,40 +2,57 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent" android:layout_height="wrap_content">
+    android:layout_width="wrap_content"
+    android:layout_height="190dp">
 
     <ImageView
         android:id="@+id/progressCard"
         android:layout_width="match_parent"
-        android:layout_height="184dp"
+        android:layout_height="match_parent"
         android:layout_alignParentStart="true"
         android:layout_alignParentTop="true"
-        android:layout_marginTop="11dp"
-        app:srcCompat="@drawable/greencard" />
+        app:srcCompat="@drawable/greencard"
+        android:layout_marginTop="10dp"/>
 
-    <TextView
-        android:id="@+id/progress_date"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginEnd="15dp"
-        android:layout_marginTop="20dp"
-        android:text="12-jan-2018"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="4"
+        android:layout_marginTop="13dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:layout_marginBottom="30dp">
 
-    <TextView
-        android:id="@+id/progressDesc"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="36dp"
-        android:layout_marginTop="134dp"
-        android:text="TextView"
-        android:textSize="16sp"
-        tools:layout_editor_absoluteX="29dp"
-        tools:layout_editor_absoluteY="145dp" />
+        <TextView
+            android:id="@+id/progress_date"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:text="12-jan-2018"
+            android:textSize="12sp"
+            android:layout_gravity="right"
+            android:gravity="center_vertical"
+            android:paddingRight="10dp"
+            android:textColor="@android:color/white"
+            />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="2"/>
+
+        <TextView
+            android:id="@+id/progressDesc"
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1.1"
+            android:text="TextView"
+            android:textSize="16sp"
+            android:padding="5dp"
+            android:textColor="@android:color/black"
+            android:layout_marginLeft="5dp"/>
+
+    </LinearLayout>
+
 </RelativeLayout>

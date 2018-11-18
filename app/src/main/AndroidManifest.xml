@@ -28,7 +28,22 @@
         <activity android:name=".ipaddress" />
         <activity android:name=".teachers.AddClassTest.TeacherClassTest" />
         <activity android:name=".teachers.LeaveBalance.leaveBalance" />
-        <activity android:name=".teachers.Progress.progresses"></activity>
+        <activity android:name=".teachers.Progress.progresses" />
+        <activity android:name=".teachers.Syllabus.AddSyllabus" />
+        <activity android:name=".NoticeBoard" />
+        <activity android:name=".teachers.Notification.addNotification"></activity>
+
+        <service android:name=".MyFirebaseInstanceIDService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
+            </intent-filter>
+        </service>
+        <service android:name=".MyFirebaseMessagingService">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+
     </application>
 
 </manifest>

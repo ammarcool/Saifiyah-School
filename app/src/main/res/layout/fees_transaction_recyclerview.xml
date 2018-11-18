@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="80dp"
+    android:background="#CED0A3">
 
     <TextView
         android:id="@+id/transactionName"
@@ -49,8 +50,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/transactionAmount"
-        android:layout_marginEnd="84dp"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="78dp"
         android:text="₹"
         android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@+id/transactionAmount"
@@ -63,11 +64,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
+        android:layout_centerVertical="true"
         android:layout_marginEnd="21dp"
-        android:layout_marginTop="31dp"
         android:text="4,000"
         android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.04"
+        android:background="#ccffffff"
+        tools:ignore="NestedWeights">
+
+    </View>
 </RelativeLayout>

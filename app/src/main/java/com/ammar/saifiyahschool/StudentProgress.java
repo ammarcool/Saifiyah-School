@@ -74,61 +74,65 @@ public class StudentProgress extends AppCompatActivity {
         successPercentage = (TextView) findViewById(R.id.successPercentage);
         complainPercentage = (TextView) findViewById(R.id.complainPercentage);
 
+        runProgressBar();
+
+    }
+
+    private void runProgressBar() {
         prb.setMax(100);
         prb.setProgress(0);
 
         prb.setProgressDrawable(getResources().getDrawable(R.drawable.custom_success_progressbar));
         progressBarComplain.setProgressDrawable(getResources().getDrawable(R.drawable.custom_complain_progressbar));
 
-        //this is for progress bar
-        for (int i =0;i<studentProgressDataArrayList.size();i++){
-            Log.i("my Arraylist "+i, String.valueOf(Integer.valueOf(studentProgressDataArrayList.get(i).getCard())));
+//        //this is for progress bar
+//        for (int i =0;i<studentProgressDataArrayList.size();i++){
+//            Log.i("my Arraylist "+i, String.valueOf(Integer.valueOf(studentProgressDataArrayList.get(i).getCard())));
+//
+//            if(studentProgressDataArrayList.get(i).getCard()==R.drawable.greencard){
+//                Log.i("Green Card","this is a Green Card");
+//                GreenProgressNumber+=5;
+//            }
+//            else{
+//                Log.i("Red Card","Red Card hai bhai");
+//                redProgressNumber+=5;
+//            }
+//
+//        }
 
-            if(studentProgressDataArrayList.get(i).getCard()==R.drawable.greencard){
-                Log.i("Green Card","this is a Green Card");
-                GreenProgressNumber+=5;
-            }
-            else{
-                Log.i("Red Card","Red Card hai bhai");
-                redProgressNumber+=5;
-            }
-
-        }
-
-        final Thread thread = new Thread() {
-            @Override
-            public void run() {
-                for (int i = 0; i <= 100; i++) {
-                    try {
-                        final int finalI = i;
-                        final int success= GreenProgressNumber;
-                        final int complain=redProgressNumber;
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if(success >= finalI){
-                                    prb.setProgress(finalI);
-                                    successPercentage.setText(Integer.toString(finalI)+"%");
-                                    Log.i("Success value",Integer.toString(finalI));
-
-                                }
-                                if (complain >=finalI){
-                                    progressBarComplain.setProgress(finalI);
-                                    complainPercentage.setText(Integer.toString(finalI)+"%");
-                                    Log.i("Complain value",Integer.toString(finalI));
-                                }
-
-                            }
-                        });
-                        sleep(60);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-        };
-        thread.start();
-
+//        final Thread thread = new Thread() {
+//            @Override
+//            public void run() {
+//                for (int i = 0; i <= 100; i++) {
+//                    try {
+//                        final int finalI = i;
+//                        final int success= GreenProgressNumber;
+//                        final int complain=redProgressNumber;
+//                        runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                if(success >= finalI){
+//                                    prb.setProgress(finalI);
+//                                    successPercentage.setText(Integer.toString(finalI)+"%");
+//                                    Log.i("Success value",Integer.toString(finalI));
+//
+//                                }
+//                                if (complain >=finalI){
+//                                    progressBarComplain.setProgress(finalI);
+//                                    complainPercentage.setText(Integer.toString(finalI)+"%");
+//                                    Log.i("Complain value",Integer.toString(finalI));
+//                                }
+//
+//                            }
+//                        });
+//                        sleep(60);
+//                    } catch (InterruptedException e) {
+//                        e.printStackTrace();
+//                    }
+//                }
+//            }
+//        };
+//        thread.start();
     }
 
     private void addStudentProgressData() {
@@ -175,15 +179,52 @@ public class StudentProgress extends AppCompatActivity {
 
                                         if(res.getString("is_reward").equals("true")){
                                             card = greenCard;
+                                            GreenProgressNumber+=5;
                                         }
                                         else {
                                             card = redCard;
-
+                                            redProgressNumber+=5;
                                         }
                                         studentProgressData= new StudentProgressData(card,res.getString("date"),res.getString("title"));
                                         studentProgressDataArrayList.add(studentProgressData);
+
+                                        final Thread thread = new Thread() {
+                                            @Override
+                                            public void run() {
+                                                for (int i = 0; i <= 100; i++) {
+                                                    try {
+                                                        final int finalI = i;
+                                                        final int success= GreenProgressNumber;
+                                                        final int complain=redProgressNumber;
+                                                        runOnUiThread(new Runnable() {
+                                                            @Override
+                                                            public void run() {
+                                                                if(success >= finalI){
+                                                                    prb.setProgress(finalI);
+                                                                    successPercentage.setText(Integer.toString(finalI)+"%");
+                                                                    Log.i("Success value",Integer.toString(finalI));
+
+                                                                }
+                                                                if (complain >=finalI){
+                                                                    progressBarComplain.setProgress(finalI);
+                                                                    complainPercentage.setText(Integer.toString(finalI)+"%");
+                                                                    Log.i("Complain value",Integer.toString(finalI));
+                                                                }
+
+                                                            }
+                                                        });
+                                                        sleep(60);
+                                                    } catch (InterruptedException e) {
+                                                        e.printStackTrace();
+                                                    }
+                                                }
+                                            }
+                                        };
+                                        thread.start();
                                     }
                                     studentprogressAdapter.notifyDataSetChanged();
+
+
                                 } else {
                                     String msg = jsonObject.getString("message");
                                     tv.setText(msg);

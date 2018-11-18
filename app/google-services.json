@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "51724543851",
+    "firebase_url": "https://saifiyah-school.firebaseio.com",
+    "project_id": "saifiyah-school",
+    "storage_bucket": "saifiyah-school.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:51724543851:android:ef49c722a7d5dd88",
+        "android_client_info": {
+          "package_name": "com.ammar.saifiyahschool"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "51724543851-5qhpikkcgofpl4te22bip5qgtsv03gjq.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.ammar.saifiyahschool",
+            "certificate_hash": "33f872fd644e0c2014e14ca9b9d19c53651c3beb"
+          }
+        },
+        {
+          "client_id": "51724543851-3be0b5gapa4qnup0ors1da5jqq6f8vrt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCeq754hfjzkkF2GILl1Bx7ES7ypsReg8U"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "51724543851-3be0b5gapa4qnup0ors1da5jqq6f8vrt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

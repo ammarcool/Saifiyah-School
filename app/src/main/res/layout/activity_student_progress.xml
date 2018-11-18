@@ -5,114 +5,206 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".StudentProgress"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="5"
+    android:background="@drawable/blur_bg"
+    >
 
     <android.support.v7.widget.CardView
         xmlns:card_view="http://schemas.android.com/apk/res-auto"
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:backgroundTint="#ddfff498"
-        card_view:cardElevation="5dp">
-        <!--card_view:cardBackgroundColor="@android:color/transparent"-->
-    <RelativeLayout
+        android:layout_height="0dp"
+        android:layout_weight="1.8"
+        card_view:cardElevation="10dp"
+        app:cardCornerRadius="20dp"
+        app:cardBackgroundColor="@android:color/transparent"
+
+        >
+
+        <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="246dp"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:layout_gravity="center"
-        android:layout_marginEnd="0dp"
-        android:layout_marginRight="11dp"
-        app:srcCompat="@drawable/ic_card" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="99dp"
-        android:layout_marginTop="162dp"
-        android:text="Achievements" />
+        android:background="@drawable/progress_card"
+        android:layout_margin="10dp">
 
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignTop="@+id/textView"
-        android:layout_marginEnd="69dp"
-        android:text="Complain" />
+    <!--<ImageView-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--android:layout_alignParentEnd="true"-->
+        <!--android:layout_alignParentTop="true"-->
+        <!--android:layout_gravity="center"-->
+        <!--app:srcCompat="@drawable/ic_card" />-->
 
-    <TextView
-        android:id="@+id/textView4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="14dp"
-        android:text="Total Scores" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:weightSum="5">
 
-    <ProgressBar
-        android:id="@+id/progressBarSuccess"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="278dp"
-        android:layout_height="36dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="40dp" />
 
-    <ProgressBar
-        android:id="@+id/progressBarComplain"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="278dp"
-        android:layout_height="36dp"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="88dp"
-        />
+                <TextView
+                    android:id="@+id/textView4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="Total Scores"
+                    android:gravity="center_vertical"
+                    android:layout_gravity="center"/>
 
-    <TextView
-        android:id="@+id/successPercentage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginStart="76dp"
-        android:layout_marginTop="48dp"
-        android:text="100%" />
+                <RelativeLayout
+                    android:layout_width="300dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginBottom="10dp">
 
-    <TextView
-        android:id="@+id/complainPercentage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_alignStart="@+id/successPercentage"
-        android:layout_marginTop="95dp"
-        android:text="100" />
+                    <ProgressBar
+                        android:id="@+id/progressBarSuccess"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="center_horizontal" />
 
-        <ImageView
-            android:id="@+id/imageView6"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginStart="0dp"
-            android:layout_marginTop="206dp"
-            app:srcCompat="@drawable/progress_result" />
+                    <TextView
+                        android:id="@+id/successPercentage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100%"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"
+                        />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="300dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:layout_gravity="center_horizontal"
+                    >
+
+                <ProgressBar
+                    android:id="@+id/progressBarComplain"
+                    style="?android:attr/progressBarStyleHorizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    />
+
+                    <TextView
+                        android:id="@+id/complainPercentage"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="100"
+                        android:layout_centerHorizontal="true"
+                        android:layout_centerVertical="true"/>
+
+                </RelativeLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.7"/>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.04"
+                    android:background="#ccffffff"
+                    tools:ignore="NestedWeights"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_margin="10dp">
+
+                </View>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="0.8"
+                    android:orientation="horizontal"
+                    android:weightSum="2"
+                    android:paddingLeft="10dp"
+                    android:paddingRight="10dp"
+                    >
+
+                    <ImageView
+                        android:id="@+id/green-icon"
+                        android:layout_width="0dp"
+                        android:layout_height="25dp"
+                        android:layout_weight="0.10"
+                        android:src="@drawable/greencard_bg"
+                        android:layout_gravity="center_vertical"
+                        />
+
+                    <TextView
+                        android:id="@+id/textView"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="Achievements"
+                        android:layout_gravity="center_vertical"
+                        android:gravity="left"
+                        android:paddingLeft="10dp"
+                        />
+
+                    <ImageView
+                        android:layout_width="0dp"
+                        android:layout_height="25dp"
+                        android:layout_weight="0.10"
+                        android:src="@drawable/redcard_bg"
+                        android:layout_gravity="center_vertical"
+                        />
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="0dp"
+                        android:layout_weight="1"
+                        android:layout_height="wrap_content"
+                        android:text="Complain"
+                        android:gravity="left"
+                        android:layout_gravity="center_vertical"
+                        android:paddingLeft="10dp"/>
+
+
+                </LinearLayout>
+
+            </LinearLayout>
+
+        <!--<ImageView-->
+            <!--android:id="@+id/imageView6"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_alignParentStart="true"-->
+            <!--android:layout_alignParentTop="true"-->
+            <!--android:layout_marginStart="0dp"-->
+            <!--android:layout_marginTop="206dp"-->
+            <!--app:srcCompat="@drawable/progress_result" />-->
 
     </RelativeLayout>
 
     </android.support.v7.widget.CardView>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.25"
+        android:background="@android:color/white">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="Your Complain and Achievement Card"
+            android:textStyle="bold"
+            android:gravity="center"/>
+
+    </LinearLayout>
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/studentProgress_recyclerview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3.2"
         android:scrollbars="vertical" />
 
 </LinearLayout>

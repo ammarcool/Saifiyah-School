@@ -82,6 +82,8 @@ public class viewClassTestAdapter  extends RecyclerView.Adapter<viewClassTestAda
 
     public void deleteFromServer(int id) {
 
+
+
         deleteCT_URL = "http://"+ip+"/school_cms/ClassTests/deleteClassTest.json";
 
         Map<String, String> params = new HashMap();
@@ -99,6 +101,8 @@ public class viewClassTestAdapter  extends RecyclerView.Adapter<viewClassTestAda
 
                     if (success.equals("true")) {
                         deleteMsg = jsonObject.getString("message");
+
+
                         Toast.makeText(context, deleteMsg, Toast.LENGTH_LONG).show();
                         ctDataArrayList.clear();
 
@@ -118,6 +122,8 @@ public class viewClassTestAdapter  extends RecyclerView.Adapter<viewClassTestAda
             }
         }
         );
+
+
         requestQueue.add(deleteJSON);
     }
 
@@ -136,7 +142,7 @@ public class viewClassTestAdapter  extends RecyclerView.Adapter<viewClassTestAda
             super(itemView);
 
             ctDay = itemView.findViewById(R.id.ctDay);
-            ctMonth = itemView.findViewById(R.id.ctMonth);
+            ctMonth = itemView.findViewById(R.id.addSyllabusMonth);
             CTSubject = itemView.findViewById(R.id.CTSubject);
             totalCTMarks = itemView.findViewById(R.id.totalCTMarks);
             CTClass = itemView.findViewById(R.id.CTClass);
@@ -166,7 +172,8 @@ public class viewClassTestAdapter  extends RecyclerView.Adapter<viewClassTestAda
                 @Override
                 public void onClick(View v) {
                     deleteFromServer(Integer.parseInt(ctDataArrayList.get(getAdapterPosition()).getDeletePosition()));
-
+                    ctDataArrayList.remove(getAdapterPosition()).getDeletePosition();
+                    notifyItemRemoved(getAdapterPosition());
                 Toast.makeText(context,"Your Test has been deleted",Toast.LENGTH_LONG).show();
                 }
             });

@@ -9,73 +9,43 @@
     android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
-    android:id="@+id/toolbar"
+    android:id="@+id/syllabusToolbar"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="?attr/colorPrimary"
-    android:minHeight="?attr/actionBarSize"
     android:theme="?attr/actionBarTheme"
+    app:layout_scrollFlags="scroll|enterAlways"
     app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-    app:theme="@style/ThemeOverlay.AppCompat.Dark"
+    app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
     tools:ignore="MissingPrefix">
 
 </android.support.v7.widget.Toolbar>
 
 
     <android.support.design.widget.TabLayout
-        android:id="@+id/tablayout"
+        android:id="@+id/myTabLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:tabGravity="fill"
+        app:tabIndicatorHeight="3dp"
+        app:tabTextColor="@android:color/white"
+        android:background="#E9BF88"
+        app:tabIndicatorColor="#000">
 
-        <android.support.design.widget.TabItem
-            android:id="@+id/english"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Eng.." />
 
-        <android.support.design.widget.TabItem
-            android:id="@+id/hindi"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Hindi"
-            tools:ignore="HardcodedText" />
-
-        <android.support.design.widget.TabItem
-            android:id="@+id/maths"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Maths"
-            tools:ignore="HardcodedText" />
-
-        <android.support.design.widget.TabItem
-            android:id="@+id/science"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SCI.."
-            tools:ignore="HardcodedText" />
-
-        <android.support.design.widget.TabItem
-            android:id="@+id/ss"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="SS"
-            tools:ignore="HardcodedText" />
-
-        <android.support.design.widget.TabItem
-            android:id="@+id/urdu"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Urdu"
-            tools:ignore="HardcodedText" />
     </android.support.design.widget.TabLayout>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/viewPage"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+        <android.support.v4.view.ViewPager
+            android:id="@+id/myViewpager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
 
-
-
+    </RelativeLayout>
 
 </LinearLayout>

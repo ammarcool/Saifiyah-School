@@ -66,13 +66,13 @@
                                             android:textColor="@android:color/background_light"
                                             android:textSize="18sp"
                                             android:textStyle="bold"
-                                            app:layout_constraintBottom_toTopOf="@+id/ctMonth"
+                                            app:layout_constraintBottom_toTopOf="@+id/syllabusMonth"
                                             app:layout_constraintEnd_toEndOf="@+id/textView9"
                                             app:layout_constraintHorizontal_bias="0.484"
                                             app:layout_constraintStart_toStartOf="parent" />
 
                                         <TextView
-                                            android:id="@+id/ctMonth"
+                                            android:id="@+id/addSyllabusMonth"
                                             android:layout_width="wrap_content"
                                             android:layout_height="wrap_content"
                                             android:layout_marginBottom="16dp"

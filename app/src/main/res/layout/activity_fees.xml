@@ -7,133 +7,110 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:weightSum="10"
+    android:background="@drawable/blur_bg">
 
-
-    <android.support.v7.widget.CardView
-        android:id="@+id/feeCardView"
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="0dp"
+        android:layout_weight="3.1"
+        android:orientation="vertical"
+        android:background="@drawable/feesboard">
 
-        <RelativeLayout
-            android:id="@+id/feeRelativeLayout"
+        <!--<ImageView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:src="@drawable/feesboard"-->
+            <!--/>-->
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-
-
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="411dp"
-                android:layout_height="232dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="1.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/feesboard" />
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:weightSum="5"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp">
 
             <ImageView
                 android:id="@+id/imageView3"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginStart="88dp"
-                android:layout_marginTop="19dp"
-                app:layout_constraintBottom_toBottomOf="@+id/imageView2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.476"
-                app:layout_constraintStart_toStartOf="parent"
-                app:srcCompat="@drawable/totalyear" />
+                android:layout_height="0dp"
+                android:layout_weight="1.2"
+                app:srcCompat="@drawable/totalyear"
+                android:layout_gravity="center_horizontal"
+                />
 
             <TextView
-                android:id="@+id/totalYearRupeesIcon"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentStart="true"
-                android:layout_alignTop="@+id/totalAmount"
-                android:layout_marginStart="171dp"
-                android:text="₹"
-                android:textColor="@android:color/white"
-                android:textSize="30sp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.986"
-                app:layout_constraintStart_toEndOf="@+id/imageView2"
-                app:layout_constraintTop_toBottomOf="@+id/imageView3"
-                tools:textColor="@android:color/white" />
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="2.3"/>
 
             <TextView
                 android:id="@+id/totalAmount"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignStart="@+id/dueAmount"
-                android:layout_marginTop="152dp"
-                android:text=""
+                android:layout_height="0dp"
+                android:layout_weight="1.3"
+                android:text="5000"
                 android:textColor="@android:color/white"
                 android:textSize="30sp"
-                app:layout_constraintEnd_toStartOf="@+id/imageView2"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@+id/totalYearRupeesIcon"
-                app:layout_constraintTop_toTopOf="parent" />
+                android:layout_gravity="center_horizontal"/>
 
-            <ImageView
-                android:id="@+id/imageView4"
-                android:layout_width="414dp"
-                android:layout_height="69dp"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/imageView2"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.526"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView2"
-                app:srcCompat="@drawable/dueamount" />
+        </LinearLayout>
 
-            <ImageView
-                android:id="@+id/imageView5"
-                android:layout_width="411dp"
-                android:layout_height="38dp"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/imageView4"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageView4"
-                app:srcCompat="@drawable/oldtransaction" />
+    </RelativeLayout>
 
-            <TextView
-                android:id="@+id/dueAmount"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginEnd="156dp"
-                android:layout_marginTop="240dp"
-                android:text=""
-                android:textColor="@android:color/holo_red_dark"
-                android:textSize="20sp"
-                app:layout_constraintBottom_toTopOf="@+id/imageView5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/imageView4"
-                app:layout_constraintVertical_bias="0.0" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.1"
+        android:orientation="vertical"
+        android:weightSum="2"
+        android:background="@drawable/shadow">
 
-        </RelativeLayout>
-    </android.support.v7.widget.CardView>
+        <TextView
+            android:id="@+id/dueAmount"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:text="2000"
+            android:gravity="center"
+            android:textColor="@android:color/holo_red_dark"
+            />
 
-    <!--<android.support.v4.widget.NestedScrollView-->
-        <!--android:id="@+id/feesNestedScrollView"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="match_parent"-->
-        <!--android:fillViewport="true">-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:textSize="20sp"
+            android:text="Amount Due"
+            android:gravity="center"
+            android:textColor="@android:color/holo_red_dark"
+            />
+    </LinearLayout>
 
-        <!--<LinearLayout-->
-            <!--android:id="@+id/feesLinearLayout"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="match_parent"-->
-            <!--android:orientation="vertical">-->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:background="#95CC6B">
 
-            <android.support.v7.widget.RecyclerView
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:fontFamily="serif-monospace"
+            android:gravity="center"
+            android:text="Older Transaction Details"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+     <android.support.v7.widget.RecyclerView
                 android:id="@+id/fees_recyclerView"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="5.3"
                 android:scrollbars="vertical"
                 android:padding="5dp">
 

@@ -3,20 +3,25 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/blur_bg">
 
     <!-- TODO: Update blank fragment layout -->
-    <!--<TextView-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:text="English"-->
-        <!--android:textSize="30sp"-->
-        <!--android:layout_gravity="center_vertical|center_horizontal"/>-->
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/English_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="vertical" />
+
+    <!--<TextView-->
+        <!--android:id="@+id/commonTextView"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerInParent="true"-->
+        <!--android:text="Hello Ammar Miyaji"-->
+        <!--android:textColor="@color/colorPrimaryDark"-->
+        <!--android:textStyle="bold" />-->
 
 </LinearLayout>
 

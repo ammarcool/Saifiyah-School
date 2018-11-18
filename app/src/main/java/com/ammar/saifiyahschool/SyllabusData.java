@@ -4,48 +4,57 @@ import android.widget.ImageView;
 
 public class SyllabusData {
 
-    private String month;
-    private String UnitName;
-    private String UnitDesc;
-    private int status;
+    private String syllabusMonth;
+    private String syllabusDay;
+    private String SyllabusStudentChapterNo;
+    private String syllabusName;
+    private String syllabusStatus;
 
-    public SyllabusData(String month, String UnitName, String UnitDesc, int status){
-        this.month = month;
-        this.UnitName = UnitName;
-        this.UnitDesc = UnitDesc;
-        this.status = status;
-
+    public SyllabusData(String syllabusMonth, String syllabusDay, String syllabusStudentChapterNo, String syllabusName, String syllabusStatus) {
+        this.syllabusMonth = syllabusMonth;
+        this.syllabusDay = syllabusDay;
+        this.SyllabusStudentChapterNo = syllabusStudentChapterNo;
+        this.syllabusName = syllabusName;
+        this.syllabusStatus = syllabusStatus;
     }
 
-    public String getMonth() {
-        return month;
+    public String getSyllabusMonth() {
+        return syllabusMonth;
     }
 
-    public void setMonth(String month) {
-        this.month = month;
+    public void setSyllabusMonth(String syllabusMonth) {
+        this.syllabusMonth = syllabusMonth;
     }
 
-    public String getUnitName() {
-        return UnitName;
+    public String getSyllabusDay() {
+        return syllabusDay;
     }
 
-    public void setUnitName(String unitName) {
-        UnitName = unitName;
+    public void setSyllabusDay(String syllabusDay) {
+        this.syllabusDay = syllabusDay;
     }
 
-    public String getUnitDesc() {
-        return UnitDesc;
+    public String getSyllabusStudentChapterNo() {
+        return SyllabusStudentChapterNo;
     }
 
-    public void setUnitDesc(String unitDesc) {
-        UnitDesc = unitDesc;
+    public void setSyllabusStudentChapterNo(String syllabusStudentChapterNo) {
+        SyllabusStudentChapterNo = syllabusStudentChapterNo;
     }
 
-    public int getStatus() {
-        return status;
+    public String getSyllabusName() {
+        return syllabusName;
     }
 
-    public void setStatus(int status) {
-        this.status = status;
+    public void setSyllabusName(String syllabusName) {
+        this.syllabusName = syllabusName;
+    }
+
+    public String getSyllabusStatus() {
+        return syllabusStatus;
+    }
+
+    public void setSyllabusStatus(String syllabusStatus) {
+        this.syllabusStatus = syllabusStatus;
     }
 }

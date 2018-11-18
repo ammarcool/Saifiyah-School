@@ -340,12 +340,18 @@ public class addClassTestMarks extends Fragment {
                                                 ourArray.put(mJsonObject);
                                             }
 
-                                            params.put("class_test_rows", ourArray.toString());
+                                            //params.put("class_test_rows", ourArray.toString());
                                             Log.i("class_test_rows",ourArray.toString());
                                             submitCTMarksnew.clear();
                                             StRollNo.clear();
 
                                             JSONObject parameters = new JSONObject(params);
+
+                                            try {
+                                                parameters.put("class_test_rows",ourArray);
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
 
                                             JsonObjectRequest submitMarks = new JsonObjectRequest(
                                                     Request.Method.POST, submitclassTest_url, parameters, new Response.Listener<JSONObject>() {

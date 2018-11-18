@@ -3,7 +3,8 @@
     android:id="@+id/table"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:scrollbars="horizontal|vertical" >
+    android:scrollbars="horizontal|vertical"
+    >
 
     <WebView
         android:id="@+id/myWebView"

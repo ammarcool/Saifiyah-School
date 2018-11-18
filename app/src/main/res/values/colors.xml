@@ -25,4 +25,7 @@
 
     <color name="shadow_start">#80000000</color>
     <color name="shadow_end">#00000000</color>
+
+    <color name="Black0Percent">#00000000</color>
+
 </resources>

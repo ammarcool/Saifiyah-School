@@ -54,7 +54,7 @@ public class Fees extends AppCompatActivity {
 
         totalFees =(TextView)findViewById(R.id.totalAmount);
         feesRecyclerview =(RecyclerView)findViewById(R.id.fees_recyclerView);
-        totalYearRupeesIcon =(TextView)findViewById(R.id.totalYearRupeesIcon);
+//        totalYearRupeesIcon =(TextView)findViewById(R.id.totalYearRupeesIcon);
         feesDue = (TextView)findViewById(R.id.dueAmount);
 
         sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
@@ -66,7 +66,7 @@ public class Fees extends AppCompatActivity {
         //Font
         totalfeesfont = Typeface.createFromAsset(getAssets(), "fonts/cabinsketch.otf");
         totalFees.setTypeface(totalfeesfont);
-        totalYearRupeesIcon.setTypeface(totalfeesfont);
+//        totalYearRupeesIcon.setTypeface(totalfeesfont);
 
         feesTransactionAdapter = new FeesTransactionAdapter(feesTransactionDataArrayList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
@@ -102,28 +102,42 @@ public class Fees extends AppCompatActivity {
                     new Response.Listener<JSONObject>() {
                         @Override
                         public void onResponse(JSONObject response) {
-                            JSONArray jsonArray = null;
+                            JSONObject jsonArray = null;
+                            JSONArray feeTransaction = null;
                             try {
                                 JSONObject jsonObject = new JSONObject(response.toString());
                                 String success = jsonObject.getString("success");
                                 if (success.equals("true")) {
-                                    jsonArray = jsonObject.getJSONArray("response");
+                                    jsonArray = jsonObject.getJSONObject("response");
                                     JSONObject res = null;
-
+                                    feesDue.setText(jsonArray.getString("due"));
+                                    feeTransaction = jsonArray.getJSONArray("fee_rows");
                                     FeesTransactionData feesTransactionData;
 
-                                    for(int i = 0; i < jsonArray.length(); i++)
-                                    {
-                                        res = (JSONObject) jsonArray.get(i);
+                                    if (feeTransaction == null){
+                                        Toast.makeText(Fees.this,"No Transaction has been found",Toast.LENGTH_LONG).show();
+                                        Log.i("Our Status===>","NO Data Found");
+                                    }else{
+                                        for (int i = 0; i<feeTransaction.length();i++){
+                                            res = (JSONObject) feeTransaction.get(i);
 
                                         feesTransactionData = new FeesTransactionData("1st Tearm Fees",res.getString("date"),Integer.parseInt(res.getString("credit")),Integer.parseInt(res.getString("credit")));
                                         feesTransactionDataArrayList.add(feesTransactionData);
+                                        }
+                                        feesTransactionAdapter.notifyDataSetChanged();
                                     }
 
-                                    feesTransactionAdapter.notifyDataSetChanged();
-                                    feesDue.setText("\u20B9 "+res.getString("due"));
+
+//                                    for(int i = 0; i < jsonArray.length(); i++)
+//                                    {
+//                                        res = (JSONObject) jsonArray.get(i);
+
+//                                        feesTransactionData = new FeesTransactionData("1st Tearm Fees",res.getString("date"),Integer.parseInt(res.getString("credit")),Integer.parseInt(res.getString("credit")));
+//                                        feesTransactionDataArrayList.add(feesTransactionData);
+//                                    }
+
+//                                    feesTransactionAdapter.notifyDataSetChanged();
                                 } else {
-                                    feesDue.setText("\u20B9 "+total_fees);
                                     String msg = jsonObject.getString("message");
 //                                    tv.setText(msg);
                                 }

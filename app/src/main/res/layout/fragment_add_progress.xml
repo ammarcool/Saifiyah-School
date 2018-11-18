@@ -6,7 +6,8 @@
     tools:context=".teachers.Progress.addProgress"
     android:orientation="vertical"
     android:weightSum="4.6"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:background="@drawable/blur_bg">
 
     <!-- TODO: Update blank fragment layout -->
 
@@ -90,6 +91,7 @@
                 android:layout_weight="1"
                 android:checked="true"
                 android:text="Rewards"
+
                 />
 
             <RadioButton
@@ -98,7 +100,8 @@
                 android:layout_height="wrap_content"
                 android:text="Complain"
                 android:layout_weight="1"
-                android:textColor="#C09863"/>
+                android:textColor="#FFFFFF"
+                />
 
         </RadioGroup>
 
@@ -135,9 +138,9 @@
         android:layout_marginBottom="5dp"
         android:id="@+id/submitProgress"
         android:layout_marginTop="6dp"
-        android:layout_width="200dp"
+        android:layout_width="250dp"
         android:layout_height="0dp"
-        android:text="Submit Leave"
+        android:text="Submit Progress"
         android:textSize="20sp"
         android:layout_weight="0.5"
         android:background="@drawable/leavesubmitbutton"
