@@ -31,7 +31,7 @@
         <activity android:name=".teachers.Progress.progresses" />
         <activity android:name=".teachers.Syllabus.AddSyllabus" />
         <activity android:name=".NoticeBoard" />
-        <activity android:name=".teachers.Notification.addNotification"></activity>
+        <activity android:name=".teachers.Notification.addNotification" />
 
         <service android:name=".MyFirebaseInstanceIDService">
             <intent-filter>
@@ -44,6 +44,7 @@
             </intent-filter>
         </service>
 
+        <activity android:name=".teachers.LeaveApproval.LeaveApproval"></activity>
     </application>
 
 </manifest>

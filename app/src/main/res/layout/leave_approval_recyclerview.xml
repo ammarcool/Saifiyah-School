@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/expandCard"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:layout_marginTop="10dp"
+    android:elevation="10dp"
+    android:orientation="horizontal"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="11dp"
+    tools:ignore="UnusedAttribute"
+    android:background="@drawable/shadow">
+
+    <RelativeLayout
+        android:id="@+id/myRelative"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/mybutton"
+        android:paddingBottom="5dp">
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="10dp"
+            android:weightSum="10">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_weight="3"
+                android:orientation="horizontal"
+                android:weightSum="5">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/rounded_drawable"
+                    android:orientation="vertical"
+                    tools:ignore="NestedWeights"
+                    android:layout_marginTop="5dp">
+
+                    <TextView
+                        android:id="@+id/leaveApproveDate"
+                        android:layout_width="21dp"
+                        android:layout_height="21dp"
+                        android:layout_gravity="center"
+                        android:text="07"
+                        android:textColor="@android:color/background_light"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <TextView
+                        android:id="@+id/leaveApproveMonth"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="Feb"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+
+                </LinearLayout>
+
+                <TextView
+                    android:id="@+id/leaveApproveTeacherName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="3.7"
+                    android:gravity="center"
+                    android:paddingLeft="20dp"
+                    android:text="Ammar Miyaji"
+                    android:textColor="@android:color/holo_blue_dark"
+                    android:textSize="22sp"
+                    android:textStyle="bold|italic"
+                     />
+
+                <ImageView
+                    android:id="@+id/leaveApproveDropDownIcon"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="0.2"
+
+                    app:srcCompat="@drawable/drop_down" />
+
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="2"
+                android:orientation="horizontal"
+                android:weightSum="5">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.8"
+                    tools:ignore="NestedWeights" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text="Casual Leave:"
+                    android:textColor="@android:color/background_light"
+                    android:textSize="16sp"
+                    android:textStyle="bold|italic" />
+
+                <TextView
+                    android:id="@+id/leaveApproveTypeOfLeave"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="Half Day"
+                    android:textSize="20sp"
+                    android:textStyle="bold|italic" />
+
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/leaveApproveDateLayout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="1.5"
+                android:orientation="horizontal"
+                android:paddingTop="10dp"
+                android:weightSum="5"
+                android:visibility="visible">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.2"
+                    tools:ignore="NestedWeights" />
+
+                <TextView
+                    android:id="@+id/leaveApproveFromDate"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.6"
+                    android:text="10-10-2018"
+                    android:textSize="16sp"
+                    android:textStyle="bold|italic" />
+
+                <ImageView
+                    android:id="@+id/studentProgressLine"
+                    android:layout_width="0dp"
+                    android:layout_height="20dp"
+                    android:layout_weight="1.5"
+                    android:src="@drawable/design_line" />
+
+                <TextView
+                    android:id="@+id/leaveApproveToDate"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.5"
+                    android:gravity="right"
+                    android:text="12-10-2018"
+                    android:textSize="16sp"
+                    android:textStyle="bold|italic" />
+
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/leaveApproveReasonLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="3"
+                android:orientation="horizontal"
+                android:paddingTop="10dp"
+                android:visibility="visible">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.2"
+                    tools:ignore="NestedWeights" />
+
+                <TextView
+                    android:id="@+id/leaveApproveReason"
+                    android:layout_width="296dp"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/my_edittext_bg2"
+                    android:padding="8dp"
+                    android:text="Description thank you soo much for this amaing leave reqest for teacher and studenet adnd i hot you really liken it thank you soo much"
+                    android:textSize="18sp"
+                    android:textStyle="bold|italic" />
+
+            </LinearLayout>
+
+            <RelativeLayout
+                android:id="@+id/leaveApproveHorizontalLine"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+
+                >
+
+                <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#ccffffff"
+                tools:ignore="NestedWeights"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp">
+                </View>
+
+            </RelativeLayout>
+
+            <LinearLayout
+                android:id="@+id/leaveApproveButtonLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:orientation="horizontal"
+                android:weightSum="5"
+                android:visibility="visible"
+                >
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.2"
+                    tools:ignore="NestedWeights"
+                    />
+
+                <TextView
+                    android:id="@+id/leaveStatusAfterAction"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="3.7"
+                    android:textSize="18sp"
+                    android:text="Leave has been Approved"
+                    android:visibility="gone"/>
+
+                <Button
+                    android:id="@+id/leaveApproveBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.7"
+                    android:text="Approve"
+                    android:background="@android:color/holo_green_light"
+                    android:drawableLeft="@drawable/done"
+                    android:paddingLeft="10dp"
+                    android:visibility="visible"/>
+
+                <TextView
+                    android:id="@+id/leaveApproveBtnGap"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="0.4"
+                    tools:ignore="NestedWeights"
+                    android:visibility="visible"
+                    />
+
+                <Button
+                    android:id="@+id/leaveRejectBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.7"
+                    android:text="Reject"
+                    android:background="@android:color/darker_gray"
+                    android:textStyle="italic"
+                    android:fontFamily="sans-serif"
+                    android:drawableLeft="@drawable/a_delete_icon"
+                    android:paddingLeft="10dp"
+                    android:visibility="visible"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+</android.support.v7.widget.CardView>

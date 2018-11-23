@@ -29,7 +29,9 @@ import android.widget.Toast;
 
 
 import com.ammar.saifiyahschool.teachers.AddClassTest.TeacherClassTest;
+import com.ammar.saifiyahschool.teachers.LeaveApproval.LeaveApproval;
 import com.ammar.saifiyahschool.teachers.LeaveBalance.leaveBalance;
+import com.ammar.saifiyahschool.teachers.Notification.addNotification;
 import com.ammar.saifiyahschool.teachers.Progress.progresses;
 import com.ammar.saifiyahschool.teachers.Syllabus.AddSyllabus;
 import com.android.volley.AuthFailureError;
@@ -55,14 +57,16 @@ import org.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 import static com.basgeekball.awesomevalidation.ValidationStyle.COLORATION;
 import static com.basgeekball.awesomevalidation.ValidationStyle.TEXT_INPUT_LAYOUT;
 
 public class Dashboard extends AppCompatActivity {
 
     private String type,id,ip,URL;
-    private TextView tv, name, user_id,house;
-    private ImageView profile;
+    private TextView tv, name, user_id,house,houseColor,studentClassName;
+    private CircleImageView profile;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private long backPressedTime;
@@ -182,6 +186,7 @@ public class Dashboard extends AppCompatActivity {
         name = findViewById(R.id.name);
         user_id = findViewById(R.id.userID);
         profile = findViewById(R.id.imageView);
+        studentClassName = findViewById(R.id.studentClassName);
 
         if(!TextUtils.isEmpty(type) && !TextUtils.isEmpty(id) && !TextUtils.isEmpty(ip))
         {
@@ -220,10 +225,11 @@ public class Dashboard extends AppCompatActivity {
                                         edit.putString("total_fees",res.getString("total fees"));
                                         edit.apply();
 
-                                        name.setText(res.getString("name").toUpperCase()+"\nClass: "+student_class.getString("name"));
-                                        user_id.setText("ID: "+res.getString("id"));
+                                        name.setText(res.getString("name").toUpperCase());
+                                        studentClassName.setText(student_class.getString("name"));
+                                        user_id.setText(res.getString("id"));
                                         String path = "http://"+ip+"/school_cms/"+res.getString("image");
-                                        Picasso.with(Dashboard.this).load(path).into(profile);
+                                        Picasso.with(Dashboard.this).load(path).noFade().into(profile);
                                     } else {
                                         String msg = jsonObject.getString("message");
                                         tv.setText(msg);
@@ -313,6 +319,37 @@ public class Dashboard extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()){
+
+
+            case R.id.progress:
+                item.setChecked(true);
+
+            Intent intent = new Intent(Dashboard.this, addNotification.class);
+                intent.putExtra("notification","addNotification");
+                startActivity(intent);
+
+
+                return true;
+
+            case R.id.leaveBalance:
+                item.setChecked(true);
+
+                intent = new Intent(Dashboard.this, LeaveApproval.class);
+                intent.putExtra("LeaveApproval","no.of leaves");
+                startActivity(intent);
+
+                drawerLayout.closeDrawers();
+                return true;
+
+            case R.id.results:
+                item.setChecked(true);
+
+                intent = new Intent(Dashboard.this, NoticeBoard.class);
+                intent.putExtra("noticeBoard","this is notice Board");
+                startActivity(intent);
+
+
+                return true;
 
             case R.id.changePassword:
                 item.setChecked(true);

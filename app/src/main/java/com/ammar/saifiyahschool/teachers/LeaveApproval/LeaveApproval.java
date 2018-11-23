@@ -1,16 +1,18 @@
-package com.ammar.saifiyahschool;
+package com.ammar.saifiyahschool.teachers.LeaveApproval;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ammar.saifiyahschool.NoticeBoardAdapter;
+import com.ammar.saifiyahschool.NoticeBoardData;
+import com.ammar.saifiyahschool.R;
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.NetworkError;
@@ -33,11 +35,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class NoticeBoard extends AppCompatActivity {
+public class LeaveApproval extends AppCompatActivity {
 
-    private ArrayList<NoticeBoardData> noticeBoardDataArrayList = new ArrayList<>();
-    private RecyclerView notificationMessage;
-    private NoticeBoardAdapter noticeBoardAdapter;
+    private ArrayList<LeaveApprovalData> leaveApprovalDataArrayList = new ArrayList<>();
+    private RecyclerView leave_approval_recyclerview;
+    private LeaveApprovalAdapter leaveApprovalAdapter;
     private String type,id,ip,URL,class_id;
     private TextView tv;
     private SharedPreferences sharedPreferences;
@@ -45,26 +47,29 @@ public class NoticeBoard extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_notice_board);
+        setContentView(R.layout.activity_leave_approval);
 
-        notificationMessage=(RecyclerView)findViewById(R.id.notificationMessage);
+        leave_approval_recyclerview=(RecyclerView)findViewById(R.id.leave_approval_recyclerview);
 
-        noticeBoardAdapter = new NoticeBoardAdapter(noticeBoardDataArrayList,this);
+        leaveApprovalAdapter = new LeaveApprovalAdapter(leaveApprovalDataArrayList,this);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        notificationMessage.setLayoutManager(mLayoutManager);
-        notificationMessage.setAdapter(noticeBoardAdapter);
+        leave_approval_recyclerview.setLayoutManager(mLayoutManager);
+        leave_approval_recyclerview.setAdapter(leaveApprovalAdapter);
 
-//        addNotice();
+     LeaveApprovalData  leaveApprovalData = new LeaveApprovalData("20","feb","Ammar Miyaji","casual leave","14-12-2018","20-20-2018","i'm suffering from Fever","0");
+        leaveApprovalDataArrayList.add(leaveApprovalData);
 
-      NoticeBoardData  noticeBoardData = new NoticeBoardData("Ammar Miyaji","10/12/2018","hello bro!thank you soo much");
-        noticeBoardDataArrayList.add(noticeBoardData);
+        leaveApprovalData = new LeaveApprovalData("10","feb","Ammar Miyaji","casual leave","14-12-2018","20-20-2018","i'm suffering from Fever","1");
+        leaveApprovalDataArrayList.add(leaveApprovalData);
 
-        noticeBoardData = new NoticeBoardData("Ammar Miyaji","10/12/2018","hello bro!thank you soo much,for being with me yhou are really amazing i love yhour company");
-        noticeBoardDataArrayList.add(noticeBoardData);
+        leaveApprovalData = new LeaveApprovalData("10","feb","Ammar Nuruddin Miyaji","casual leave","14-12-2018","20-20-2018","i'm suffering from Fever so i can't attend the class please try to understand and resolve this problem.thankyou soo much","2");
+        leaveApprovalDataArrayList.add(leaveApprovalData);
 
+//        leaveApprovalList();
+        
     }
 
-    private void addNotice() {
+    private void leaveApprovalList() {
 
         sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
 
@@ -97,17 +102,17 @@ public class NoticeBoard extends AppCompatActivity {
                             if (success.equals("true")) {
                                 jsonArray = jsonObject.getJSONArray("response");
 
-                                NoticeBoardData noticeBoardData;
+                                LeaveApprovalData leaveApprovalData;
                                 for(int i = 0; i < jsonArray.length(); i++)
                                 {
                                     JSONObject res = (JSONObject) jsonArray.get(i);
                                     Log.e("data",res.toString());
 
-                                    noticeBoardData = new NoticeBoardData("Ammar Miyaji","10/12/2018","hello bro!thank you soo much");
-                                    noticeBoardDataArrayList.add(noticeBoardData);
+                                    leaveApprovalData = new LeaveApprovalData("20","feb","Ammar Miyaji","casual leave","14-12-2018","20-20-2018","i'm suffering from Fever","0");
+                                    leaveApprovalDataArrayList.add(leaveApprovalData);
 
                                 }
-                                noticeBoardAdapter.notifyDataSetChanged();
+                                leaveApprovalAdapter.notifyDataSetChanged();
 
                             } else {
                                 String msg = jsonObject.getString("message");
@@ -138,6 +143,8 @@ public class NoticeBoard extends AppCompatActivity {
                 DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(objectRequest);
+
+
 
     }
 }

@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="350dp"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:layout_weight="10"
+    android:background="@drawable/my_edittext_bg2"
+    android:layout_margin="10dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="3">
+
+        <TextView
+            android:id="@+id/notificationTeacherName"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="2"
+            android:text="Ammar Nuruddin Miyaji"
+            android:textSize="20sp"
+            android:layout_gravity="center_vertical"
+            android:layout_marginTop="5dp"
+            android:paddingLeft="24dp"
+            android:textColor="@android:color/holo_blue_dark"
+            />
+
+        <TextView
+            android:id="@+id/notificationTime"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="0.8"
+            android:textSize="16sp"
+            android:text="10-12-2018"
+            android:gravity="center_vertical"
+            android:layout_marginTop="7dp"
+            />
+
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/leaveApproveHorizontalLine"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="visible"
+
+        >
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#ccffffff"
+            tools:ignore="NestedWeights"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp">
+        </View>
+
+    </RelativeLayout>
+
+    <TextView
+        android:id="@+id/notificationMsg"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="7.5"
+        android:textSize="20sp"
+        android:padding="15dp"
+        android:text="  for doing this coding.i just love my job soo much.thank you for being with me,this is really amazing job for doing this coding.i just love my job soo much.thank you for being with me this is really amazing job for doing this coding.i just love my job soo much.thank you for being with me,this is really amazing job for doing this coding.i just love my job soo much.thank you for being with me,this is really amazing job for doing this coding.i just love my job soo much.thank you for being with me,this is really amazing job for doing this "/>
+
+
+</LinearLayout>
