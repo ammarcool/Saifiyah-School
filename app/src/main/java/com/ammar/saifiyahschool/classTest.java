@@ -99,7 +99,7 @@ public class classTest extends AppCompatActivity {
 
         sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
 
-        class_id = sharedPreferences.getString("student_class_id",null);
+        class_id = sharedPreferences.getString("student_class_section_id",null);
         id = sharedPreferences.getString("id",null);
         ip = sharedPreferences.getString("ip",null);
 
@@ -109,7 +109,7 @@ public class classTest extends AppCompatActivity {
 
             Map<String, String> params = new HashMap();
             params.put("student_id", id);
-            params.put("student_class_id", class_id);
+            params.put("student_class_section_id", class_id);
             JSONObject parameters = new JSONObject(params);
 
             RequestQueue requestQueue = Volley.newRequestQueue(classTest.this);

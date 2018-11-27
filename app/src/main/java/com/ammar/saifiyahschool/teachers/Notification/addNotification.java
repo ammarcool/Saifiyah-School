@@ -60,15 +60,19 @@ public class addNotification extends AppCompatActivity {
         ip = sharedPreferences.getString("ip",null);
         requestQueue = Volley.newRequestQueue(addNotification.this);
 
-        subject_url = "http://"+ip+"/school_cms/student-classes/getClasses.json";
+        subject_url = "http://"+ip+"/school_cms/Schedules/getClasses.json";
         submit_Notification_URL = "";
 
+        final String staff_id = sharedPreferences.getString("id",null);
 
+        final Map<String, String> params = new HashMap();
+        params.put("staff_id", staff_id);
+        JSONObject myParams = new JSONObject(params);
 
 
                 final List<classSubjectData> classSubjectDataList = new ArrayList<>();
                 JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                        Request.Method.GET, subject_url, new Response.Listener<JSONObject>() {
+                        Request.Method.POST, subject_url,myParams, new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
 

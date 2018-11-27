@@ -71,8 +71,8 @@ public class viewClassTest extends Fragment {
         type = sharedPreferences.getString("type",null);
         id = sharedPreferences.getString("id",null);
         ip = sharedPreferences.getString("ip",null);
-        subject_url = "http://"+ip+"/school_cms/student-classes/getClasses.json";
-        subject_Name_url = "http://"+ip+"/school_cms/ClassTests/getSubjects.json";
+        subject_url = "http://"+ip+"/school_cms/Schedules/getClasses.json";
+        subject_Name_url = "http://"+ip+"/school_cms/Schedules/getSubjects.json";
         viewCT_URL = "http://"+ip+"/school_cms/ClassTests/viewClassTest.json";
         // Inflate the layout for this fragment
 
@@ -99,7 +99,7 @@ public class viewClassTest extends Fragment {
     private void viewCT() {
 
         Map<String, String> params = new HashMap();
-        params.put("id", id.toString());
+        params.put("id", id);
         final JSONObject parameters = new JSONObject(params);
 
         JsonObjectRequest viewRequest = new JsonObjectRequest(Request.Method.POST, viewCT_URL, parameters, new Response.Listener<JSONObject>() {
@@ -151,8 +151,15 @@ public class viewClassTest extends Fragment {
 
         final List<classSubjectData> classSubjectDataList = new ArrayList<>();
         final ArrayList<String> showMe = new ArrayList<>();
+
+        final String staff_id = sharedPreferences.getString("id",null);
+
+        final Map<String, String> params = new HashMap();
+        params.put("staff_id", staff_id);
+        JSONObject myParams = new JSONObject(params);
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                Request.Method.GET, subject_url, new Response.Listener<JSONObject>() {
+                Request.Method.POST, subject_url,myParams, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
@@ -186,9 +193,10 @@ public class viewClassTest extends Fragment {
 //                                    List<Integer> subPosition = Collections.singletonList(subjectName.getClassId());
                                     final int subPosition = subjectName.getClassId();
 
-                                    Map<String, String> params = new HashMap();
-                                    params.put("id", String.valueOf(subPosition));
-                                    final JSONObject parameters = new JSONObject(params);
+                                    Map<String, String> param = new HashMap();
+                                    param.put("section_id", String.valueOf(subPosition));
+                                    param.put("staff_id", staff_id);
+                                    final JSONObject parameters = new JSONObject(param);
 
                                     JsonObjectRequest jsonObjectRequest1 = new JsonObjectRequest(
                                             Request.Method.POST, subject_Name_url, parameters, new Response.Listener<JSONObject>() {

@@ -8,7 +8,8 @@
     tools:context=".teachers.AddClassTest.addClassTestMarks"
     android:orientation="vertical"
     android:weightSum="5"
-    android:background="@drawable/blur_bg">
+    android:background="@drawable/blur_bg"
+    android:padding="5dp">
 
     <!-- TODO: Update blank fragment layout -->
     <android.support.v7.widget.CardView
@@ -16,7 +17,9 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="@android:color/transparent">
+        app:cardBackgroundColor="@android:color/transparent"
+        app:cardCornerRadius="10dp"
+        app:cardElevation="10dp">
 
         <LinearLayout
             android:id="@+id/myGridLayout"
@@ -53,9 +56,8 @@
                     android:inputType="date"
                     android:background="@drawable/my_edittext_bg2"
                     android:layout_weight="1"
-                    android:gravity="center_horizontal"
+                    android:gravity="center"
                     android:hint="Select Date"
-                    android:paddingTop="5dp"
                     android:paddingLeft="5dp"
                     android:drawableLeft="@drawable/date"/>
 
@@ -87,47 +89,37 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:hint="Total Marks"
-                    android:gravity="center_horizontal"
                     android:background="@drawable/my_edittext_bg2"
                     android:layout_weight="1"
-                    android:paddingTop="6dp"
+                    android:gravity="center"
                     android:inputType="number"/>
             </LinearLayout>
 
         </LinearLayout>
     </android.support.v7.widget.CardView>
 
-    <android.support.v7.widget.CardView
-
-        android:id="@+id/classTestBackground"
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3.8"
-        app:layout_constraintTop_toBottomOf="@+id/myCardView">
+        android:layout_weight="0.15"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="3.7"
             android:layout_above="@+id/myCardView"
             android:orientation="vertical"
             app:layout_constraintTop_toBottomOf="@+id/myCardView"
             tools:ignore="MissingConstraints"
-            tools:layout_editor_absoluteX="0dp">
+            tools:layout_editor_absoluteX="0dp"
+            android:layout_marginBottom="2dp"
+            android:background="@android:color/transparent">
 
 
             <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentStart="true"
-                    android:layout_alignParentTop="true"
-                    app:srcCompat="@drawable/item_table1"
-                    android:layout_alignParentLeft="true">
-
-                </ImageView>
+                android:layout_height="wrap_content"
+                android:background="@drawable/item_table1">
 
                 <!--Vertical Line-->
                 <View
@@ -191,7 +183,6 @@
             </RelativeLayout>
 
         </LinearLayout>
-    </android.support.v7.widget.CardView>
 
     <Button
         android:id="@+id/submitCTest"
@@ -201,6 +192,11 @@
         android:text="Submit Marks"
         android:textSize="20sp"
         android:layout_weight="0.1"
-        android:background="@drawable/mybutton"/>
+        android:textColor="#ffffff"
+        android:textStyle="italic"
+        android:fontFamily="sans-serif"
+        android:background="@drawable/mybutton"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"/>
 
 </LinearLayout>

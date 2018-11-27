@@ -91,8 +91,8 @@ public class AddSyllabus extends AppCompatActivity implements  RecyclerItemTouch
         type = sharedPreferences.getString("type",null);
         staff_id = sharedPreferences.getString("id",null);
         ip = sharedPreferences.getString("ip",null);
-        subject_url = "http://"+ip+"/school_cms/student-classes/getClasses.json";
-        subject_Name_url = "http://"+ip+"/school_cms/ClassTests/getSubjects.json";
+        subject_url = "http://"+ip+"/school_cms/Schedules/getClasses.json";
+        subject_Name_url = "http://"+ip+"/school_cms/Schedules/getSubjects.json";
         add_Chapter_URL = "http://"+ip+"/school_cms/syllabus/viewSyllabus.json";
         addSyllabus_URL ="http://"+ip+"/school_cms/syllabus/addSyllabus.json";
 
@@ -114,9 +114,7 @@ public class AddSyllabus extends AppCompatActivity implements  RecyclerItemTouch
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(viewProgressRecycler);
 
-
         loadClassSubject();
-
 
     }
 
@@ -134,7 +132,7 @@ public class AddSyllabus extends AppCompatActivity implements  RecyclerItemTouch
         switch (item.getItemId()){
 
             case R.id.add_syllabus_button:
-                Dialog customDialog;
+                final Dialog customDialog;
                 LayoutInflater inflater = (LayoutInflater) getLayoutInflater();
                 View customView = inflater.inflate(R.layout.syllabus_custom_dialog, null);
                 // Build the dialog
@@ -158,7 +156,6 @@ public class AddSyllabus extends AppCompatActivity implements  RecyclerItemTouch
 
                     @Override
                     public void onTextChanged(CharSequence s, int start, int before, int count) {
-
 
                     }
 
@@ -240,6 +237,11 @@ public class AddSyllabus extends AppCompatActivity implements  RecyclerItemTouch
                                     String success = jsonObject.getString("success");
                                     if (success.equals("true")) {
                                         CTjsonArray = jsonObject.getString("message");
+                                        customDialog.dismiss();
+
+                                    myAddSyllabusAdapter.notifyDataSetChanged();
+//                                    addTopicsDataArrayList.notify();
+//                                    myAddTopicAdapter.notifyDataSetChanged();
 
                                         Toast.makeText(getApplicationContext(),CTjsonArray.toString(),Toast.LENGTH_LONG).show();
 
@@ -281,8 +283,14 @@ public class AddSyllabus extends AppCompatActivity implements  RecyclerItemTouch
 
         final List<classSubjectData> classSubjectDataList = new ArrayList<>();
         final ArrayList<String> showMe = new ArrayList<>();
+
+        final Map<String, String> params = new HashMap();
+        params.put("staff_id", staff_id);
+        JSONObject myParams = new JSONObject(params);
+
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
-                Request.Method.GET, subject_url, new Response.Listener<JSONObject>() {
+                Request.Method.POST, subject_url,myParams, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
 
@@ -317,7 +325,8 @@ public class AddSyllabus extends AppCompatActivity implements  RecyclerItemTouch
                                     final int subPosition = subjectName.getClassId();
 
                                     Map<String, String> params = new HashMap();
-                                    params.put("id", String.valueOf(subPosition));
+                                    params.put("section_id", String.valueOf(subPosition));
+                                    params.put("staff_id", staff_id);
                                     final JSONObject parameters = new JSONObject(params);
 
                                     JsonObjectRequest jsonObjectRequest1 = new JsonObjectRequest(

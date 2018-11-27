@@ -65,7 +65,7 @@ import static com.basgeekball.awesomevalidation.ValidationStyle.TEXT_INPUT_LAYOU
 public class Dashboard extends AppCompatActivity {
 
     private String type,id,ip,URL;
-    private TextView tv, name, user_id,house,houseColor,studentClassName;
+    private TextView tv, name, user_id,house,houseColor,studentClassName,changeClassName,changeHouseName,myhouseColor;
     private CircleImageView profile;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
@@ -91,6 +91,11 @@ public class Dashboard extends AppCompatActivity {
         syllabus = (Button)findViewById(R.id.syllabusButton);
         classTest =(Button)findViewById(R.id.classTestButton);
         feeButton = (Button)findViewById(R.id.feeButton);
+
+        changeClassName = findViewById(R.id.changeClassName);
+        changeHouseName = findViewById(R.id.changeHouseName);
+        myhouseColor = findViewById(R.id.houseColor);
+
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -188,15 +193,24 @@ public class Dashboard extends AppCompatActivity {
         profile = findViewById(R.id.imageView);
         studentClassName = findViewById(R.id.studentClassName);
 
+
+
         if(!TextUtils.isEmpty(type) && !TextUtils.isEmpty(id) && !TextUtils.isEmpty(ip))
         {
-            if(id.equals("0"))
+            Log.i("Hello Details--->",type+" "+id+" "+ip);
+
+            if(id.equals("0")) {
                 tv.setText("Hello Admin");
+                Toast.makeText(this, "this is invalid", Toast.LENGTH_LONG).show();
+            }
             else {
-                if (type.equals("student"))
+                if (type.equals("student")) {
                     URL = "http://" + ip + "/school_cms/Students/viewApi.json";
-                else
+                }
+                else {
+                    Log.i("Staff-->", "This is staff bro!!!");
                     URL = "http://" + ip + "/school_cms/staffs/viewApi.json";
+                }
 
                 Map<String, String> params = new HashMap();
                 params.put("id", id);
@@ -215,15 +229,27 @@ public class Dashboard extends AppCompatActivity {
                                 try {
                                     JSONObject jsonObject = new JSONObject(response.toString());
                                     String success = jsonObject.getString("success");
+
                                     if (success.equals("true")) {
                                         jsonArray = response.getJSONArray("response");
                                         JSONObject res = (JSONObject) jsonArray.get(0);
-                                        JSONObject student_class = res.getJSONObject("student_class");
-
-                                        SharedPreferences.Editor edit = sharedPreferences.edit();
-                                        edit.putString("student_class_id",res.getString("student_class_id"));
-                                        edit.putString("total_fees",res.getString("total fees"));
-                                        edit.apply();
+                                        Log.i("my Res--->",res.toString());
+                                        JSONObject student_class = null ;
+//                                        JSONObject SC = res.getJSONObject("student_class");
+//
+                                        if (type.equals("student")){
+                                            student_class = res.getJSONObject("student_class");
+                                            SharedPreferences.Editor edit = sharedPreferences.edit();
+                                            edit.putString("student_class_id",res.getString("student_class_id"));
+                                            edit.putString("student_class_section_id",res.getString("student_class_section_id"));
+                                            edit.putString("total_fees",res.getString("total fees"));
+                                            edit.apply();
+                                        }else {
+                                            student_class = res.getJSONObject("designation");
+                                            changeClassName.setText("Designation");
+                                            changeHouseName.setText("Mobile");
+                                            myhouseColor.setText(res.getString("mobile"));
+                                        }
 
                                         name.setText(res.getString("name").toUpperCase());
                                         studentClassName.setText(student_class.getString("name"));
@@ -263,6 +289,7 @@ public class Dashboard extends AppCompatActivity {
         }
         else
             tv.setText("Uh-oh Something Went Wrong");
+//        Toast.makeText(this,"Hey!!! something went wrong!",Toast.LENGTH_LONG).show();
 
 
         notificationButton.setOnClickListener(new View.OnClickListener() {
@@ -508,6 +535,7 @@ public class Dashboard extends AppCompatActivity {
                 edit.remove("id");
                 edit.remove("type");
                 edit.remove("student_class_id");
+                edit.remove("student_class_section_id");
                 edit.apply();
                 Intent it = new Intent(Dashboard.this, MainActivity.class);
                 startActivity(it);

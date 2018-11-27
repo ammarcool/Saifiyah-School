@@ -5,20 +5,21 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_marginLeft="10dp"
-    android:layout_marginRight="10dp"
-    android:layout_marginBottom="20dp">
+    android:layout_margin="10dp"
+    app:cardElevation="10dp"
+    app:cardCornerRadius="10dp"
+    app:cardBackgroundColor="@android:color/transparent">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/shadow"
+            android:background="@drawable/my_edittext_bg2"
             android:orientation="horizontal"
             android:padding="6dp"
             android:weightSum="5"
             tools:ignore="DisableBaselineAlignment"
-            android:elevation="20dp"
-            tools:targetApi="lollipop">
+            tools:targetApi="lollipop"
+            >
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -102,7 +103,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="4"
+                    android:layout_weight="3.9"
                     android:paddingLeft="10dp"
                     android:paddingRight="5dp"
                     android:paddingStart="10dp"
@@ -262,7 +263,8 @@
                                     android:includeFontPadding="false"
                                     android:text="Delete Test"
                                     android:textStyle="normal|italic"
-                                    tools:ignore="HardcodedText" />
+                                    tools:ignore="HardcodedText"
+                                    android:layout_marginBottom="10dp"/>
 
                         </LinearLayout>
 

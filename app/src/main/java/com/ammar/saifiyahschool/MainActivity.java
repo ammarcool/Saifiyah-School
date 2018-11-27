@@ -111,6 +111,7 @@ public class MainActivity extends AppCompatActivity {
                                             edit.remove("id");
                                             edit.remove("type");
                                             edit.remove("student_class_id");
+                                            edit.remove("student_class_section_id");
                                             edit.apply();
 //                                        Intent it = new Intent(getApplicationContext(), MainActivity.class);
 //                                        startActivity(it);
@@ -183,9 +184,10 @@ public class MainActivity extends AppCompatActivity {
                                                 String t = user.getString("type");
                                                 String login_id = user.getString("id");
                                                 String id = null;
+                                                Log.i("Type==>",t);
                                                 if (t.equals("student"))
                                                     id = user.getString("student_id");
-                                                else if (t.equals("staff"))
+                                                else if (t.equals("Teacher Sr. Sec."))
                                                     id = user.getString("staff_id");
                                                 else
                                                     id = "0";
