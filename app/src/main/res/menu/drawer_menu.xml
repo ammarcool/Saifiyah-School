@@ -1,17 +1,34 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-<group android:checkableBehavior="single">
+<group android:checkableBehavior="single"
+    android:id="@+id/impNotes">
     <item
-        android:id="@+id/notes"
+        android:id="@+id/progress"
         android:checked="false"
         android:icon="@drawable/notes"
-        android:title="Important Notes" />
+        android:title="Progress" />
+</group>
 
+    <group android:checkableBehavior="single"
+        android:id="@+id/leaveApproveGroup">
+        <item
+            android:id="@+id/staff_leave_approval"
+            android:checked="false"
+            android:icon="@drawable/approve_leave"
+            android:title="Staff Leave Approval" />
+    </group>
+
+    <group android:checkableBehavior="single"
+        android:id="@+id/menuLeaveBalance">
     <item
         android:id="@+id/leaveBalance"
         android:checked="false"
         android:icon="@drawable/leavebalance"
         android:title="Leave Balance" />
+    </group>
+
+    <group android:checkableBehavior="single"
+        android:id="@+id/menuResult">
 
     <item
         android:id="@+id/results"
@@ -19,11 +36,21 @@
         android:icon="@drawable/results"
         android:title="Exams Results" />
 
+    </group>
+
+    <group android:checkableBehavior="single"
+        android:id="@+id/menuProgress">
+
     <item
-        android:id="@+id/progress"
+        android:id="@+id/notes"
         android:checked="false"
-        android:icon="@drawable/progress"
-        android:title="Rewards-Complains" />
+        android:icon="@drawable/gallery_icon"
+        android:title="Gallery" />
+
+    </group>
+
+    <group android:checkableBehavior="single"
+        android:id="@+id/menuChangePassword">
 
     <item
         android:id="@+id/changePassword"
@@ -31,14 +58,23 @@
         android:icon="@drawable/lock"
         android:title="Change Your Password" />
 
+    </group>
+
+    <group android:checkableBehavior="single"
+        android:id="@+id/menuLogOut">
+
     <item
         android:id="@+id/logout"
         android:checked="false"
         android:icon="@drawable/logout"
         android:title="Logout" />
 
-
-
-
 </group>
+
+    <group>
+
+        <item
+            android:title=""
+            android:orderInCategory="200"/>
+    </group>
 </menu>

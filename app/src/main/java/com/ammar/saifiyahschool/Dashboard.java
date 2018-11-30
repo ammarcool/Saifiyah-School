@@ -48,6 +48,12 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.basgeekball.awesomevalidation.AwesomeValidation;
+import com.mikepenz.materialdrawer.Drawer;
+import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
+import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
+import com.mikepenz.materialdrawer.model.SecondaryDrawerItem;
+import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.squareup.picasso.Picasso;
 
 import org.json.JSONArray;
@@ -81,6 +87,8 @@ public class Dashboard extends AppCompatActivity {
     LinearLayout changePasswordDialog;
 
     Button syllabus,classTest,feeButton,notificationButton;
+    Intent intent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,8 +107,6 @@ public class Dashboard extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-//        Toast.makeText(getApplicationContext(),Integer.parseInt(sharedPreferences.getString("token_id",null)),Toast.LENGTH_LONG).show();
-
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.navigationView);
 
@@ -108,78 +114,594 @@ public class Dashboard extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
 
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+        sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
 
-                switch (item.getItemId()) {
+        type = sharedPreferences.getString("type",null);
+        id = sharedPreferences.getString("id",null);
 
-                    case R.id.notes:
-                        item.setChecked(true);
+//        navigationView.getMenu().findItem(R.id.notes).setVisible(false);
 
-                        Intent intent = new Intent(Dashboard.this,TeacherClassTest.class);
-                        intent.putExtra("Leaves","no.of leaves");
-                        startActivity(intent);
-//                        Toast.makeText(getApplicationContext(),"this is notes bro...",Toast.LENGTH_LONG).show();
-                        //displaymessage("this is gallery bro...");
-                        drawerLayout.closeDrawers();
-                        return true;
+        if (type.equals("student")){
+
+            /***** Start Navigation Drawer*****/
+
+            navigationView.getMenu().findItem(R.id.staff_leave_approval).setVisible(false);
+
+            navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
 
 
-                    case R.id.leaveBalance:
-                        item.setChecked(true);
+                    switch (item.getItemId()) {
 
-                        intent = new Intent(Dashboard.this, studentLeave.class);
-                        intent.putExtra("Leaves","no.of leaves");
-                        startActivity(intent);
+                        case R.id.notes:
+                            item.setChecked(true);
+//                            Intent intent = new Intent(Dashboard.this,TeacherClassTest.class);
+//                            intent.putExtra("Leaves","no.of leaves");
+//                            startActivity(intent);
+                            Toast.makeText(Dashboard.this,"Gallery is Coming Soon",Toast.LENGTH_LONG).show();
+                            drawerLayout.closeDrawer(GravityCompat.START);
+                            return true;
 
-                        drawerLayout.closeDrawers();
-                        return true;
 
-                    case R.id.results:
-                        item.setChecked(true);
+                        case R.id.leaveBalance:
+                            item.setChecked(true);
 
-                        intent = new Intent(Dashboard.this, Results.class);
-                        intent.putExtra("results","myResults");
-                        startActivity(intent);
+                            intent = new Intent(Dashboard.this, studentLeave.class);
+                            intent.putExtra("Leaves","no.of leaves");
+                            startActivity(intent);
+                            drawerLayout.closeDrawer(GravityCompat.START);
 
-                        drawerLayout.closeDrawers();
-                        return true;
+                            return true;
 
-                    case R.id.progress:
-                        item.setChecked(true);
+                        case R.id.results:
+                            item.setChecked(true);
 
-                        intent = new Intent(Dashboard.this, StudentProgress.class);
-                        intent.putExtra("progress","Rewards");
-                        startActivity(intent);
+                            intent = new Intent(Dashboard.this, Results.class);
+                            intent.putExtra("results","myResults");
+                            startActivity(intent);
 
-                        drawerLayout.closeDrawers();
-                        return true;
+                            drawerLayout.closeDrawer(GravityCompat.START);
+                            return true;
 
-                    case R.id.changePassword:
-                        item.setChecked(true);
+                        case R.id.progress:
+                            item.setChecked(true);
 
-                        intent = new Intent(Dashboard.this, progresses.class);
-                        intent.putExtra("teacherProgress","addAndView");
-                        startActivity(intent);
+                            intent = new Intent(Dashboard.this, StudentProgress.class);
+                            intent.putExtra("progress","Rewards");
+                            startActivity(intent);
 
-                        drawerLayout.closeDrawers();
-                        return true;
+//                            intent = new Intent(Dashboard.this, progresses.class);
+//                            intent.putExtra("teacherProgress","addAndView");
+//                            startActivity(intent);
 
-                    case R.id.logout:
-                        item.setChecked(true);
+                            drawerLayout.closeDrawer(GravityCompat.START);
 
-                        intent = new Intent(Dashboard.this, AddSyllabus.class);
-                        intent.putExtra("addSyllabus","AddMeSyllabus");
-                        startActivity(intent);
+                            return true;
 
-                        drawerLayout.closeDrawers();
-                        return true;
+                        case R.id.changePassword:
+                            item.setChecked(true);
+
+                            final Dialog customDialog;
+
+                            LayoutInflater inflater = (LayoutInflater) getLayoutInflater();
+                            View customView = inflater.inflate(R.layout.change_password_popup, null);
+                            // Build the dialog
+                            customDialog = new Dialog(Dashboard.this, R.style.ChangePasswordStyle);
+                            customDialog.setContentView(customView);
+
+                            currentPassword = customDialog.findViewById(R.id.currentPassword);
+                            newPassword = customDialog.findViewById(R.id.newPassword);
+                            confirmPassword = customDialog.findViewById(R.id.confirmPassword);
+                            changePassword_btn = customDialog.findViewById(R.id.changePassword_btn);
+                            cancelPassword_btn = customDialog.findViewById(R.id.cancelPassword_btn);
+                            changePasswordDialog = customDialog.findViewById(R.id.changePasswordDialog);
+                            String regexPassword = "(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d])(?=.*[~`!@#\\$%\\^&\\*\\(\\)\\-_\\+=\\{\\}\\[\\]\\|\\;:\"<>,./\\?]).{8,}";
+                            final RequestQueue changePasswordRequestQueue = Volley.newRequestQueue(Dashboard.this);
+                            changePassword_URL = "http://"+ip+"/school_cms/logins/change_password.json";
+
+                            mAwesomeValidation = new AwesomeValidation(COLORATION);
+
+                            mAwesomeValidation.addValidation(currentPassword,sharedPreferences.getString("password",null),"Your current Password is Invalid");
+//                mAwesomeValidation.addValidation(newPassword,regexPassword,"Enter Password Please");
+                            mAwesomeValidation.addValidation(confirmPassword,newPassword,"Password Doesn't Match");
+
+                            /*********** change Password JsonVolley ***********/
+
+                            changePassword_btn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (mAwesomeValidation.validate()){
+
+                                        Map<String, String> params = new HashMap();
+                                        params.put("username", sharedPreferences.getString("username",null));
+                                        params.put("password",sharedPreferences.getString("password",null));
+                                        params.put("new_password",confirmPassword.getText().toString());
+
+
+                                        final JSONObject parameters = new JSONObject(params);
+                                        Log.i("my Parameters--->",params.toString());
+                                        JsonObjectRequest changePasswordRequest = new JsonObjectRequest(Request.Method.POST, changePassword_URL, parameters, new Response.Listener<JSONObject>() {
+                                            @Override
+                                            public void onResponse(JSONObject response) {
+                                                String deleteMsg = null;
+                                                try {
+                                                    JSONObject jsonObject = new JSONObject(response.toString());
+
+                                                    String success = jsonObject.getString("success");
+
+                                                    if (success.equals("true")) {
+                                                        deleteMsg = jsonObject.getString("message");
+
+                                                        Toast.makeText(getApplicationContext(), deleteMsg, Toast.LENGTH_LONG).show();
+                                                        customDialog.dismiss();
+
+
+                                                    } else {
+                                                        String msg = jsonObject.getString("message");
+                                                        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                                                    }
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+
+                                            }
+                                        }, new Response.ErrorListener() {
+                                            @Override
+                                            public void onErrorResponse(VolleyError error) {
+
+                                            }
+                                        }
+                                        );
+                                        changePasswordRequestQueue.add(changePasswordRequest);
+
+
+                                        /*************** End Json Volley of Change Password **************/
+
+                                    }
+                                    else{
+                                        Toast.makeText(getApplicationContext(),"Sorry! Something Went Wrong",Toast.LENGTH_LONG).show();
+                                    }
+
+
+
+                                }
+                            });
+
+                            cancelPassword_btn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    mAwesomeValidation.clear();
+//                        changePasswordDialog.setVisibility(View.GONE);
+                                    customDialog.dismiss();
+                                }
+                            });
+                            customDialog.show();
+
+                            drawerLayout.closeDrawers();
+                            return true;
+
+                        case R.id.logout:
+                            item.setChecked(true);
+
+//                            intent = new Intent(Dashboard.this, AddSyllabus.class);
+//                            intent.putExtra("addSyllabus","AddMeSyllabus");
+//                            startActivity(intent);
+
+                            /****** Start Token and Login ID ********************/
+                            RequestQueue requestQueue = Volley.newRequestQueue(Dashboard.this);
+                            String Token_URL = "http://"+ip+"/school_cms/tokens/add.json";
+
+                            Map<String, String> param = new HashMap();
+                            param.put("login_id", sharedPreferences.getString("login_id",null));
+                            param.put("token_no", "LOGOUT");
+
+                            JSONObject Myparams = new JSONObject(param);
+
+
+                            JsonObjectRequest tokenObjectRequest = new JsonObjectRequest(
+                                    Request.Method.POST,
+                                    Token_URL,
+                                    Myparams,
+                                    new Response.Listener<JSONObject>() {
+                                        @Override
+                                        public void onResponse(JSONObject response) {
+                                            try {
+                                                JSONObject jsonObject = new JSONObject(response.toString());
+                                                String success = jsonObject.getString("success");
+                                                if (success.equals("true")) {
+                                                    JSONObject user = jsonObject.getJSONObject("response");
+                                                    Toast.makeText(getApplicationContext(),user.toString(),Toast.LENGTH_LONG).show();
+                                                } else {
+                                                    String msg = jsonObject.getString("message");
+                                                    tv.setText(msg);
+                                                }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    },
+                                    new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            Log.e("API Response", error.toString());
+                                        }
+                                    }
+                            );
+                            requestQueue.add(tokenObjectRequest);
+
+
+
+                            /****** End Token and Login ID ********************/
+
+                            SharedPreferences.Editor edit = sharedPreferences.edit();
+                            edit.remove("username");
+                            edit.remove("password");
+                            edit.remove("id");
+                            edit.remove("type");
+                            edit.remove("student_class_id");
+                            edit.remove("student_class_section_id");
+                            edit.apply();
+                            Intent it = new Intent(Dashboard.this, MainActivity.class);
+                            startActivity(it);
+                            finish();
+                            break;
+
+
+
+                    }
+//
+////                if (item.isChecked()){
+////                    item.setChecked(false);
+////                }else {
+////                    item.setChecked(true);
+////                }
+
+                    return false;
+
                 }
+            });
 
-                return false;
-            }
-        });
+            /***** End Navigation Drawer*****/
+
+            /****** Start 4 Buttons********/
+
+            notificationButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+//                    Intent intent = new Intent(Dashboard.this,leaveBalance.class);
+//                    intent.putExtra("LeaveBalance","LeaveBalance");
+//                    startActivity(intent);
+                    intent = new Intent(Dashboard.this, NoticeBoard.class);
+                    intent.putExtra("noticeBoard","this is notice Board");
+                    startActivity(intent);
+
+                }
+            });
+
+            syllabus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Dashboard.this,Syllabus.class);
+                    intent.putExtra("syllabus","subjects");
+                    startActivity(intent);
+                }
+            });
+
+            classTest.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Dashboard.this,classTest.class);
+                    intent.putExtra("class","marks");
+                    startActivity(intent);
+                }
+            });
+
+            feeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Dashboard.this,Fees.class);
+                    intent.putExtra("fees","transaction");
+                    startActivity(intent);
+                }
+            });
+
+            /*******End 4 Buttons *********/
+
+        }else if (type.equals("Teacher Sr. Sec.")){
+
+
+            navigationView.getMenu().findItem(R.id.progress).setTitle("Add Gallery Album");
+            navigationView.getMenu().findItem(R.id.progress).setIcon(R.drawable.add_gallery);
+
+//            navigationView.getMenu().findItem(R.id.staff_leave_approval).setVisible(false);
+
+            navigationView.getMenu().findItem(R.id.results).setTitle("Send Notification");
+            navigationView.getMenu().findItem(R.id.results).setIcon(R.drawable.add_alert);
+            /***** Start Navigation Drawer*****/
+
+            navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+                @Override
+                public boolean onNavigationItemSelected(@NonNull final MenuItem item) {
+
+
+                    switch (item.getItemId()) {
+
+                        case R.id.notes:
+                            item.setChecked(true);
+//
+                            Toast.makeText(Dashboard.this,"Gallery is Coming Soon",Toast.LENGTH_LONG).show();
+                            drawerLayout.closeDrawer(GravityCompat.START);
+                            return true;
+
+
+                        case R.id.leaveBalance:
+                            item.setChecked(true);
+
+                            intent = new Intent(Dashboard.this,leaveBalance.class);
+                            intent.putExtra("LeaveBalance","LeaveBalance");
+                            startActivity(intent);
+                            drawerLayout.closeDrawer(GravityCompat.START);
+
+                            return true;
+
+                        case R.id.results:
+                            item.setChecked(true);
+
+                            intent = new Intent(Dashboard.this, addNotification.class);
+                            intent.putExtra("notification","addNotification");
+                            startActivity(intent);
+
+                            drawerLayout.closeDrawer(GravityCompat.START);
+                            return true;
+
+                        case R.id.progress:
+                            item.setChecked(true);
+
+                            Toast.makeText(Dashboard.this,"Add Gallery is Coming Soon",Toast.LENGTH_LONG).show();
+
+                            drawerLayout.closeDrawer(GravityCompat.START);
+
+                            return true;
+
+                        case R.id.staff_leave_approval:
+                            item.setChecked(true);
+
+                            intent = new Intent(Dashboard.this, LeaveApproval.class);
+                            intent.putExtra("LeaveApproval","no.of leaves");
+                            startActivity(intent);
+                            drawerLayout.closeDrawer(GravityCompat.START);
+
+                            return true;
+
+                        case R.id.changePassword:
+                            item.setChecked(true);
+
+                            final Dialog customDialog;
+
+                            LayoutInflater inflater = (LayoutInflater) getLayoutInflater();
+                            View customView = inflater.inflate(R.layout.change_password_popup, null);
+                            // Build the dialog
+                            customDialog = new Dialog(Dashboard.this, R.style.ChangePasswordStyle);
+                            customDialog.setContentView(customView);
+
+                            currentPassword = customDialog.findViewById(R.id.currentPassword);
+                            newPassword = customDialog.findViewById(R.id.newPassword);
+                            confirmPassword = customDialog.findViewById(R.id.confirmPassword);
+                            changePassword_btn = customDialog.findViewById(R.id.changePassword_btn);
+                            cancelPassword_btn = customDialog.findViewById(R.id.cancelPassword_btn);
+                            changePasswordDialog = customDialog.findViewById(R.id.changePasswordDialog);
+                            String regexPassword = "(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d])(?=.*[~`!@#\\$%\\^&\\*\\(\\)\\-_\\+=\\{\\}\\[\\]\\|\\;:\"<>,./\\?]).{8,}";
+                            final RequestQueue changePasswordRequestQueue = Volley.newRequestQueue(Dashboard.this);
+                            changePassword_URL = "http://"+ip+"/school_cms/logins/change_password.json";
+
+                            mAwesomeValidation = new AwesomeValidation(COLORATION);
+
+                            mAwesomeValidation.addValidation(currentPassword,sharedPreferences.getString("password",null),"Your current Password is Invalid");
+//                mAwesomeValidation.addValidation(newPassword,regexPassword,"Enter Password Please");
+                            mAwesomeValidation.addValidation(confirmPassword,newPassword,"Password Doesn't Match");
+
+                            /*********** change Password JsonVolley ***********/
+
+                            changePassword_btn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    if (mAwesomeValidation.validate()){
+
+                                        Map<String, String> params = new HashMap();
+                                        params.put("username", sharedPreferences.getString("username",null));
+                                        params.put("password",sharedPreferences.getString("password",null));
+                                        params.put("new_password",confirmPassword.getText().toString());
+
+
+                                        final JSONObject parameters = new JSONObject(params);
+                                        Log.i("my Parameters--->",params.toString());
+                                        JsonObjectRequest changePasswordRequest = new JsonObjectRequest(Request.Method.POST, changePassword_URL, parameters, new Response.Listener<JSONObject>() {
+                                            @Override
+                                            public void onResponse(JSONObject response) {
+                                                String deleteMsg = null;
+                                                try {
+                                                    JSONObject jsonObject = new JSONObject(response.toString());
+
+                                                    String success = jsonObject.getString("success");
+
+                                                    if (success.equals("true")) {
+                                                        deleteMsg = jsonObject.getString("message");
+
+                                                        Toast.makeText(getApplicationContext(), deleteMsg, Toast.LENGTH_LONG).show();
+                                                        customDialog.dismiss();
+
+
+                                                    } else {
+                                                        String msg = jsonObject.getString("message");
+                                                        Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                                                    }
+                                                } catch (JSONException e) {
+                                                    e.printStackTrace();
+                                                }
+
+                                            }
+                                        }, new Response.ErrorListener() {
+                                            @Override
+                                            public void onErrorResponse(VolleyError error) {
+
+                                            }
+                                        }
+                                        );
+                                        changePasswordRequestQueue.add(changePasswordRequest);
+
+
+                                        /*************** End Json Volley of Change Password **************/
+
+                                    }
+                                    else{
+                                        Toast.makeText(getApplicationContext(),"Sorry! Something Went Wrong",Toast.LENGTH_LONG).show();
+                                    }
+
+
+
+                                }
+                            });
+
+                            cancelPassword_btn.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    mAwesomeValidation.clear();
+//                        changePasswordDialog.setVisibility(View.GONE);
+                                    customDialog.dismiss();
+                                }
+                            });
+                            customDialog.show();
+
+                            drawerLayout.closeDrawers();
+                            return true;
+
+                        case R.id.logout:
+                            item.setChecked(true);
+
+                            /****** Start Token and Login ID ********************/
+                            RequestQueue requestQueue = Volley.newRequestQueue(Dashboard.this);
+                            String Token_URL = "http://"+ip+"/school_cms/tokens/add.json";
+
+                            Map<String, String> param = new HashMap();
+                            param.put("login_id", sharedPreferences.getString("login_id",null));
+                            param.put("token_no", "LOGOUT");
+
+                            JSONObject Myparams = new JSONObject(param);
+
+
+                            JsonObjectRequest tokenObjectRequest = new JsonObjectRequest(
+                                    Request.Method.POST,
+                                    Token_URL,
+                                    Myparams,
+                                    new Response.Listener<JSONObject>() {
+                                        @Override
+                                        public void onResponse(JSONObject response) {
+                                            try {
+                                                JSONObject jsonObject = new JSONObject(response.toString());
+                                                String success = jsonObject.getString("success");
+                                                if (success.equals("true")) {
+                                                    JSONObject user = jsonObject.getJSONObject("response");
+                                                    Toast.makeText(getApplicationContext(),user.toString(),Toast.LENGTH_LONG).show();
+                                                } else {
+                                                    String msg = jsonObject.getString("message");
+                                                    tv.setText(msg);
+                                                }
+                                            } catch (JSONException e) {
+                                                e.printStackTrace();
+                                            }
+                                        }
+                                    },
+                                    new Response.ErrorListener() {
+                                        @Override
+                                        public void onErrorResponse(VolleyError error) {
+                                            Log.e("API Response", error.toString());
+                                        }
+                                    }
+                            );
+                            requestQueue.add(tokenObjectRequest);
+
+
+
+                            /****** End Token and Login ID ********************/
+
+                            SharedPreferences.Editor edit = sharedPreferences.edit();
+                            edit.remove("username");
+                            edit.remove("password");
+                            edit.remove("id");
+                            edit.remove("type");
+                            edit.remove("student_class_id");
+                            edit.remove("student_class_section_id");
+                            edit.apply();
+                            Intent it = new Intent(Dashboard.this, MainActivity.class);
+                            startActivity(it);
+                            finish();
+                            break;
+
+                    }
+//
+////                if (item.isChecked()){
+////                    item.setChecked(false);
+////                }else {
+////                    item.setChecked(true);
+////                }
+
+                    return false;
+
+                }
+            });
+
+            /***** End Navigation Drawer*****/
+
+            /****** Start 4 Buttons********/
+
+            notificationButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                    intent = new Intent(Dashboard.this, NoticeBoard.class);
+                    intent.putExtra("noticeBoard","this is notice Board");
+                    startActivity(intent);
+
+                }
+            });
+
+            syllabus.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    intent = new Intent(Dashboard.this, AddSyllabus.class);
+                    intent.putExtra("addSyllabus","AddMeSyllabus");
+                    startActivity(intent);
+                }
+            });
+
+            classTest.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(Dashboard.this,TeacherClassTest.class);
+                    intent.putExtra("Leaves","no.of leaves");
+                    startActivity(intent);
+                }
+            });
+            feeButton.setBackgroundResource(R.drawable.progresses);
+            feeButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    intent = new Intent(Dashboard.this, progresses.class);
+                    intent.putExtra("teacherProgress","addAndView");
+                    startActivity(intent);
+                }
+            });
+
+            /*******End 4 Buttons *********/
+
+        }else{
+            Toast.makeText(this,"this is admin only",Toast.LENGTH_LONG).show();
+        }
+
+
+
+
 
         sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
 
@@ -200,7 +722,7 @@ public class Dashboard extends AppCompatActivity {
             Log.i("Hello Details--->",type+" "+id+" "+ip);
 
             if(id.equals("0")) {
-                tv.setText("Hello Admin");
+//                tv.setText("Hello Admin");
                 Toast.makeText(this, "this is invalid", Toast.LENGTH_LONG).show();
             }
             else {
@@ -292,41 +814,9 @@ public class Dashboard extends AppCompatActivity {
 //        Toast.makeText(this,"Hey!!! something went wrong!",Toast.LENGTH_LONG).show();
 
 
-        notificationButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(Dashboard.this,leaveBalance.class);
-                intent.putExtra("LeaveBalance","LeaveBalance");
-                startActivity(intent);
-            }
-        });
 
-        syllabus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Dashboard.this,Syllabus.class);
-                intent.putExtra("syllabus","subjects");
-                startActivity(intent);
-            }
-        });
 
-        classTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Dashboard.this,classTest.class);
-                intent.putExtra("class","marks");
-                startActivity(intent);
-            }
-        });
 
-        feeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(Dashboard.this,Fees.class);
-                intent.putExtra("fees","transaction");
-                startActivity(intent);
-            }
-        });
     }
 
 
@@ -335,224 +825,78 @@ public class Dashboard extends AppCompatActivity {
         Log.d("message====>",message);
     }
 
-    @Override
+
+
+        @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.drawer_menu,menu);
+//        MenuInflater inflater = getMenuInflater();
+//        inflater.inflate(R.menu.drawer_menu,menu);
         return super.onCreateOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()){
-
-
-            case R.id.progress:
-                item.setChecked(true);
-
-            Intent intent = new Intent(Dashboard.this, addNotification.class);
-                intent.putExtra("notification","addNotification");
-                startActivity(intent);
-
-
-                return true;
-
-            case R.id.leaveBalance:
-                item.setChecked(true);
-
-                intent = new Intent(Dashboard.this, LeaveApproval.class);
-                intent.putExtra("LeaveApproval","no.of leaves");
-                startActivity(intent);
-
-                drawerLayout.closeDrawers();
-                return true;
-
-            case R.id.results:
-                item.setChecked(true);
-
-                intent = new Intent(Dashboard.this, NoticeBoard.class);
-                intent.putExtra("noticeBoard","this is notice Board");
-                startActivity(intent);
-
-
-                return true;
-
-            case R.id.changePassword:
-                item.setChecked(true);
-
-                final Dialog customDialog;
-
-                LayoutInflater inflater = (LayoutInflater) getLayoutInflater();
-                View customView = inflater.inflate(R.layout.change_password_popup, null);
-                // Build the dialog
-                customDialog = new Dialog(this, R.style.ChangePasswordStyle);
-                customDialog.setContentView(customView);
-
-                currentPassword = customDialog.findViewById(R.id.currentPassword);
-                newPassword = customDialog.findViewById(R.id.newPassword);
-                confirmPassword = customDialog.findViewById(R.id.confirmPassword);
-                changePassword_btn = customDialog.findViewById(R.id.changePassword_btn);
-                cancelPassword_btn = customDialog.findViewById(R.id.cancelPassword_btn);
-                changePasswordDialog = customDialog.findViewById(R.id.changePasswordDialog);
-                String regexPassword = "(?=.*[a-z])(?=.*[A-Z])(?=.*[\\d])(?=.*[~`!@#\\$%\\^&\\*\\(\\)\\-_\\+=\\{\\}\\[\\]\\|\\;:\"<>,./\\?]).{8,}";
-                final RequestQueue changePasswordRequestQueue = Volley.newRequestQueue(Dashboard.this);
-                changePassword_URL = "http://"+ip+"/school_cms/logins/change_password.json";
-
-                mAwesomeValidation = new AwesomeValidation(COLORATION);
-
-                mAwesomeValidation.addValidation(currentPassword,sharedPreferences.getString("password",null),"Your current Password is Invalid");
-//                mAwesomeValidation.addValidation(newPassword,regexPassword,"Enter Password Please");
-                mAwesomeValidation.addValidation(confirmPassword,newPassword,"Password Doesn't Match");
-
-                /*********** change Password JsonVolley ***********/
-
-                changePassword_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (mAwesomeValidation.validate()){
-
-                            Map<String, String> params = new HashMap();
-                            params.put("username", sharedPreferences.getString("username",null));
-                            params.put("password",sharedPreferences.getString("password",null));
-                            params.put("new_password",confirmPassword.getText().toString());
-
-
-                            final JSONObject parameters = new JSONObject(params);
-                            Log.i("my Parameters--->",params.toString());
-                            JsonObjectRequest changePasswordRequest = new JsonObjectRequest(Request.Method.POST, changePassword_URL, parameters, new Response.Listener<JSONObject>() {
-                                @Override
-                                public void onResponse(JSONObject response) {
-                                    String deleteMsg = null;
-                                    try {
-                                        JSONObject jsonObject = new JSONObject(response.toString());
-
-                                        String success = jsonObject.getString("success");
-
-                                        if (success.equals("true")) {
-                                            deleteMsg = jsonObject.getString("message");
-
-                                            Toast.makeText(getApplicationContext(), deleteMsg, Toast.LENGTH_LONG).show();
-                                            customDialog.dismiss();
-
-
-                                        } else {
-                                            String msg = jsonObject.getString("message");
-                                            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
-                                        }
-                                    } catch (JSONException e) {
-                                        e.printStackTrace();
-                                    }
-
-                                }
-                            }, new Response.ErrorListener() {
-                                @Override
-                                public void onErrorResponse(VolleyError error) {
-
-                                }
-                            }
-                            );
-                            changePasswordRequestQueue.add(changePasswordRequest);
-
-
-                            /*************** End Json Volley of Change Password **************/
-
-                        }
-                        else{
-                            Toast.makeText(getApplicationContext(),"Sorry! Something Went Wrong",Toast.LENGTH_LONG).show();
-                        }
-
-
-
-                    }
-                });
-
-                cancelPassword_btn.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        mAwesomeValidation.clear();
-//                        changePasswordDialog.setVisibility(View.GONE);
-                        customDialog.dismiss();
-                    }
-                });
-                customDialog.show();
-
-                return true;
-
-
-            case R.id.logout:
-
-
-                /****** Start Token and Login ID ********************/
-                RequestQueue requestQueue = Volley.newRequestQueue(Dashboard.this);
-                String Token_URL = "http://"+ip+"/school_cms/tokens/add.json";
-
-                Map<String, String> param = new HashMap();
-                param.put("login_id", sharedPreferences.getString("login_id",null));
-                param.put("token_no", "LOGOUT");
-
-                JSONObject Myparams = new JSONObject(param);
-
-
-                JsonObjectRequest tokenObjectRequest = new JsonObjectRequest(
-                        Request.Method.POST,
-                        Token_URL,
-                        Myparams,
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    JSONObject jsonObject = new JSONObject(response.toString());
-                                    String success = jsonObject.getString("success");
-                                    if (success.equals("true")) {
-                                        JSONObject user = jsonObject.getJSONObject("response");
-                                        Toast.makeText(getApplicationContext(),user.toString(),Toast.LENGTH_LONG).show();
-                                    } else {
-                                        String msg = jsonObject.getString("message");
-                                        tv.setText(msg);
-                                    }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        },
-                        new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
-                                Log.e("API Response", error.toString());
-                            }
-                        }
-                );
-                requestQueue.add(tokenObjectRequest);
-
-
-
-                /****** End Token and Login ID ********************/
-
-                SharedPreferences.Editor edit = sharedPreferences.edit();
-                edit.remove("username");
-                edit.remove("password");
-                edit.remove("id");
-                edit.remove("type");
-                edit.remove("student_class_id");
-                edit.remove("student_class_section_id");
-                edit.apply();
-                Intent it = new Intent(Dashboard.this, MainActivity.class);
-                startActivity(it);
-                finish();
-                break;
-            case android.R.id.home:
-                drawerLayout.openDrawer(GravityCompat.START);
-                return true;
-        }
+        drawerLayout.openDrawer(GravityCompat.START);
+//        switch (item.getItemId()){
+//
+//
+////            case R.id.progress:
+////                item.setChecked(true);
+////
+////
+////
+////
+////                return true;
+////
+////            case R.id.leaveBalance:
+////                item.setChecked(true);
+////
+////
+////
+////                drawerLayout.closeDrawers();
+////                return true;
+////
+////            case R.id.results:
+////                item.setChecked(true);
+////
+////
+////
+////
+////                return true;
+////
+////            case R.id.changePassword:
+////                item.setChecked(true);
+////
+////
+////
+////                return true;
+////
+////
+////            case R.id.logout:
+////
+//
+//
+//            case android.R.id.home:
+//                drawerLayout.openDrawer(GravityCompat.START);
+//                return true;
+//        }
 
         return super.onOptionsItemSelected(item);
     }
 
     @Override
     public void onBackPressed() {
-        if(drawerLayout.isDrawerOpen(GravityCompat.START))
+        if(drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawers();
+
+            int size = navigationView.getMenu().size();
+//
+//            if (navigationView.getMenu().hasVisibleItems()) {
+                for (int i = 0; i < size; i++) {
+                    navigationView.getMenu().getItem(i).setChecked(false);
+                }
+//            }
+        }
         else {
             if (backPressedTime + 2000 > System.currentTimeMillis()) {
                 super.onBackPressed();

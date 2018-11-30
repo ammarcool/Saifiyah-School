@@ -256,7 +256,7 @@
             app:layout_gravity="fill"
             app:layout_row="0"
             app:layout_rowWeight="1"
-            android:background="@drawable/mynotification"
+            android:background="@drawable/notification_bg"
             android:layout_margin="5dp"/>
 
         <Button
@@ -302,7 +302,8 @@
             app:layout_row="1"
             app:layout_rowWeight="1"
             android:layout_margin="5dp"
-            android:background="@drawable/fees"/>
+            android:background="@drawable/fees"
+            />
 
     </android.support.v7.widget.GridLayout>
 
@@ -316,6 +317,36 @@
         android:layout_gravity ="start"
         app:menu="@menu/drawer_menu"
         app:headerLayout="@layout/header_layout"
-        />
+        android:background="@drawable/blur_bg"
+        >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:clickable="true"
+            android:orientation="vertical"
+            android:background="@drawable/leavesubmitbutton"
+            >
+
+            <TextView
+                android:id="@+id/nav_footer_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Anwar Infotech"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/second_nav_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Visualize Your Dream"
+                android:layout_marginBottom="10dp"/>
+
+        </LinearLayout>
+
+    </android.support.design.widget.NavigationView>
 
 </android.support.v4.widget.DrawerLayout>

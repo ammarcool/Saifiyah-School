@@ -55,12 +55,9 @@ public class viewClassTest extends Fragment {
     viewClassTestAdapter viewClassTestAdapter;
     LinearLayoutManager mylinearLayoutManager;
 
-
-
     public viewClassTest() {
         // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

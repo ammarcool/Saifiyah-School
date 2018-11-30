@@ -9,8 +9,9 @@ public class viewLeaveBalanceData {
     String viewNoOfLeaves;
     String viewTypesOfLeaves;
     String viewLBStatus;
+    String teacherHalfDay;
 
-    public viewLeaveBalanceData(String viewLBDay, String viewLBMonth, String viewFromDate, String viewToDate, String viewNoOfLeaves, String viewTypesOfLeaves, String viewLBStatus) {
+    public viewLeaveBalanceData(String viewLBDay, String viewLBMonth, String viewFromDate, String viewToDate, String viewNoOfLeaves, String viewTypesOfLeaves, String viewLBStatus, String teacherHalfDay) {
         this.viewLBDay = viewLBDay;
         this.viewLBMonth = viewLBMonth;
         this.viewFromDate = viewFromDate;
@@ -18,6 +19,7 @@ public class viewLeaveBalanceData {
         this.viewNoOfLeaves = viewNoOfLeaves;
         this.viewTypesOfLeaves = viewTypesOfLeaves;
         this.viewLBStatus = viewLBStatus;
+        this.teacherHalfDay = teacherHalfDay;
     }
 
     public String getViewLBDay() {
@@ -74,5 +76,13 @@ public class viewLeaveBalanceData {
 
     public void setViewLBStatus(String viewLBStatus) {
         this.viewLBStatus = viewLBStatus;
+    }
+
+    public String getTeacherHalfDay() {
+        return teacherHalfDay;
+    }
+
+    public void setTeacherHalfDay(String teacherHalfDay) {
+        this.teacherHalfDay = teacherHalfDay;
     }
 }

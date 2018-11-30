@@ -42,6 +42,7 @@ public class viewLeaveBalanceAdapter extends RecyclerView.Adapter<leaveBalanceVi
         holder.teacherLeaveBalToDate.setText(viewLeaveBalanceDataArrayList.get(position).getViewToDate());
         holder.noOfLeavesBalance.setText(viewLeaveBalanceDataArrayList.get(position).getViewNoOfLeaves());
         holder.typesOfLeavesStatus.setText(viewLeaveBalanceDataArrayList.get(position).getViewTypesOfLeaves());
+        holder.teacherHalfDay.setText(viewLeaveBalanceDataArrayList.get(position).getTeacherHalfDay());
 
         if (viewLeaveBalanceDataArrayList.get(position).getViewLBStatus()== String.valueOf(0)){
             holder.teacherLeavestatus.setText("Pending");
@@ -77,6 +78,7 @@ class leaveBalanceViewHolder extends RecyclerView.ViewHolder{
     TextView noOfLeavesBalance;
     TextView typesOfLeavesStatus;
     TextView teacherLeavestatus;
+    TextView teacherHalfDay;
     ImageView leave_bg_img;
 
     public leaveBalanceViewHolder(@NonNull View itemView) {
@@ -89,6 +91,7 @@ class leaveBalanceViewHolder extends RecyclerView.ViewHolder{
         noOfLeavesBalance = itemView.findViewById(R.id.noOfLeavesBalance);
         typesOfLeavesStatus = itemView.findViewById(R.id.typesOfLeavesStatus);
         teacherLeavestatus = itemView.findViewById(R.id.teacherLeavestatus);
+        teacherHalfDay = itemView.findViewById(R.id.teacherHalfDay);
         leave_bg_img = itemView.findViewById(R.id.leave_bg_img);
 
     }

@@ -169,7 +169,7 @@ public class viewLeaveBalance extends Fragment {
                         {
                             JSONObject res = (JSONObject) jsonArray.get(i);
 
-                            newviewLeaveBalanceData = new viewLeaveBalanceData(res.getString("day"),res.getString("month"),res.getString("from"),res.getString("to"),res.getString("duretion"),res.getString("type"),res.getString("status"));
+                            newviewLeaveBalanceData = new viewLeaveBalanceData(res.getString("day"),res.getString("month"),res.getString("from"),res.getString("to"),res.getString("duretion"),res.getString("type"),res.getString("status"),res.getString("half_day"));
                             viewLeaveBalanceDataArrayList.add(newviewLeaveBalanceData);
                         }
 
