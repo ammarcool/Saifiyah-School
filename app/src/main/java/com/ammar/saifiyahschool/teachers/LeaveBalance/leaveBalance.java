@@ -22,6 +22,9 @@ public class leaveBalance extends AppCompatActivity {
         toolbar.setTitle("Add & View Leave");
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         TabLayout classTestTabs = findViewById(R.id.leaveBalanceTabLayout);
         TabItem addClassTest = findViewById(R.id.addLeaveBalance);
         TabItem viewClassTest = findViewById(R.id.viewLeaveBalance);
@@ -32,6 +35,12 @@ public class leaveBalance extends AppCompatActivity {
         classTestTabs.setupWithViewPager(myviewPager);
 
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     }

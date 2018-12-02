@@ -9,10 +9,12 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -75,8 +77,7 @@ public class addLeaveBalance extends Fragment {
 // Inflate the layout for this fragment
         v = inflater.inflate(R.layout.fragment_add_leave_balance, container, false);
 
-
-
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         leaveTypes = v.findViewById(R.id.typesOfLeaves);
         fromDate = v.findViewById(R.id.leaveBalanceFromDate);
@@ -221,55 +222,60 @@ public class addLeaveBalance extends Fragment {
                                     @Override
                                     public void onClick(View v) {
 
+                                        if (!fromDate.equals("01-01-1970") && !ToDate.equals("01-01-1970")) {
 
-                                    final Map<String, String> params = new HashMap();
-                                    params.put("staff_id", staff_id);
-                                    params.put("date_from",fromDate.getText().toString());
-                                    params.put("date_to",ToDate.getText().toString());
-                                    params.put("leave_type_id",leaveTypesListID.get(position));
 
-                                    if (YesHalfDay.isChecked()){
-                                        params.put("half_day","Yes");
-                                    }else{
-                                        params.put("half_day","No");
-                                    }
-                                    params.put("leave_reason",leaveBalanceReason.getText().toString());
-                                    final JSONObject parameters = new JSONObject(params);
+                                            final Map<String, String> params = new HashMap();
+                                            params.put("staff_id", staff_id);
+                                            params.put("date_from", fromDate.getText().toString());
+                                            params.put("date_to", ToDate.getText().toString());
+                                            params.put("leave_type_id", leaveTypesListID.get(position));
 
-                                JsonObjectRequest addLeaveRequest = new JsonObjectRequest(Request.Method.POST, Add_Leave_URL, parameters, new Response.Listener<JSONObject>() {
-                                    @Override
-                                    public void onResponse(JSONObject response) {
-
-                                        String CTjsonArray = null;
-                                        try {
-                                            JSONObject jsonObject = new JSONObject(response.toString());
-                                            String success = jsonObject.getString("success");
-                                            if (success.equals("true")) {
-                                                CTjsonArray = jsonObject.getString("message");
-
-                                                Toast.makeText(getContext(),CTjsonArray.toString(),Toast.LENGTH_LONG).show();
-
-                                                Log.i("Response Me ----->", String.valueOf(CTjsonArray));
-
-                                            }else {
-                                                String msg = jsonObject.getString("message");
-                                                Toast.makeText(getActivity(),msg,Toast.LENGTH_LONG).show();
-                                                Log.i("show my Error====>",msg);
+                                            if (YesHalfDay.isChecked()) {
+                                                params.put("half_day", "Yes");
+                                            } else {
+                                                params.put("half_day", "No");
                                             }
-                                        } catch (JSONException e) {
-                                            e.printStackTrace();
-                                            Toast.makeText(getContext(),String.valueOf(e),Toast.LENGTH_LONG).show();
+                                            params.put("leave_reason", leaveBalanceReason.getText().toString());
+                                            final JSONObject parameters = new JSONObject(params);
+
+                                            JsonObjectRequest addLeaveRequest = new JsonObjectRequest(Request.Method.POST, Add_Leave_URL, parameters, new Response.Listener<JSONObject>() {
+                                                @Override
+                                                public void onResponse(JSONObject response) {
+
+                                                    String CTjsonArray = null;
+                                                    try {
+                                                        JSONObject jsonObject = new JSONObject(response.toString());
+                                                        String success = jsonObject.getString("success");
+                                                        if (success.equals("true")) {
+                                                            CTjsonArray = jsonObject.getString("message");
+
+                                                            Toast.makeText(getContext(), CTjsonArray.toString(), Toast.LENGTH_LONG).show();
+
+                                                            Log.i("Response Me ----->", String.valueOf(CTjsonArray));
+
+                                                        } else {
+                                                            String msg = jsonObject.getString("message");
+                                                            Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
+                                                            Log.i("show my Error====>", msg);
+                                                        }
+                                                    } catch (JSONException e) {
+                                                        e.printStackTrace();
+                                                        Toast.makeText(getContext(), String.valueOf(e), Toast.LENGTH_LONG).show();
+                                                    }
+
+                                                }
+                                            }, new Response.ErrorListener() {
+                                                @Override
+                                                public void onErrorResponse(VolleyError error) {
+
+                                                }
+                                            }
+                                            );
+                                            myrequestQueue.add(addLeaveRequest);
+                                        }else {
+                                            Toast.makeText(getContext(),"Please Add From or To Date",Toast.LENGTH_LONG).show();
                                         }
-
-                                    }
-                                }, new Response.ErrorListener() {
-                                    @Override
-                                    public void onErrorResponse(VolleyError error) {
-
-                                    }
-                                }
-                                );
-                                myrequestQueue.add(addLeaveRequest);
                                     }
                                 });
                                 /* End Radio Button */

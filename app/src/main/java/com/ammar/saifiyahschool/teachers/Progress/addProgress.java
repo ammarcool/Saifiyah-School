@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -79,6 +80,8 @@ public class addProgress extends Fragment {
         subject_url = "http://"+ip+"/school_cms/Schedules/getClasses.json";
         student_name_URL = "http://"+ip+"/school_cms/students/getStudents.json";
         submit_progress_URL = "http://"+ip+"/school_cms/Progresses/addProgress.json";
+
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         chooseClass = v.findViewById(R.id.chooseClass);
         chooseStudent = v.findViewById(R.id.chooseStudent);

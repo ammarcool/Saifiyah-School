@@ -46,6 +46,9 @@ public class Syllabus extends AppCompatActivity {
         toolbar.setTitle("Your Syllabus");
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
 
         type = sharedPreferences.getString("type",null);
@@ -54,6 +57,12 @@ public class Syllabus extends AppCompatActivity {
         requestQueue = Volley.newRequestQueue(Syllabus.this);
         initViews();
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     private void initViews() {

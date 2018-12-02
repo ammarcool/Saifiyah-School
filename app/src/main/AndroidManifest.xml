@@ -27,11 +27,20 @@
         <activity android:name=".StudentProgress" />
         <activity android:name=".Results" />
         <activity android:name=".ipaddress" />
-        <activity android:name=".teachers.AddClassTest.TeacherClassTest" />
-        <activity android:name=".teachers.LeaveBalance.leaveBalance" />
-        <activity android:name=".teachers.Progress.progresses" />
-        <activity android:name=".teachers.Syllabus.AddSyllabus" />
+        <activity android:name=".teachers.AddClassTest.TeacherClassTest"
+            android:windowSoftInputMode="stateVisible|adjustPan"  />
+
+        <activity android:name=".teachers.LeaveBalance.leaveBalance"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
+
+        <activity android:name=".teachers.Progress.progresses"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
+
+        <activity android:name=".teachers.Syllabus.AddSyllabus"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
+
         <activity android:name=".NoticeBoard" />
+
         <activity android:name=".teachers.Notification.addNotification" />
 
         <service android:name=".MyFirebaseInstanceIDService">

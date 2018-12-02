@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
@@ -47,10 +48,19 @@ public class Fees extends AppCompatActivity {
     TextView totalFees,totalYearRupeesIcon,feesDue;
     Typeface totalfeesfont;
 
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_fees);
+
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Your Fee's");
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         totalFees =(TextView)findViewById(R.id.totalAmount);
         feesRecyclerview =(RecyclerView)findViewById(R.id.fees_recyclerView);
@@ -75,6 +85,13 @@ public class Fees extends AppCompatActivity {
 
         addFeesTransactionData();
     }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
+    }
+
 
     private void addFeesTransactionData() {
 

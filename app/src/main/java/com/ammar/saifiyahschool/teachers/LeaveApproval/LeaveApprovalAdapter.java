@@ -1,8 +1,10 @@
 package com.ammar.saifiyahschool.teachers.LeaveApproval;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -211,13 +213,25 @@ public class LeaveApprovalAdapter extends RecyclerView.Adapter<LeaveApprovalAdap
              leaveApproveBtn.setOnClickListener(new View.OnClickListener() {
                  @Override
                  public void onClick(View v) {
-                     leaveApprovalDataArrayList.get(getAdapterPosition()).setLeaveStatusAfterAction("0");
-//                     updateFromServer(Integer.parseInt(leaveApprovalDataArrayList.get(getAdapterPosition()).getLeaveStatusAfterAction()),0);
-                     leaveStatusAfterAction.setVisibility(View.VISIBLE);
-                     leaveStatusAfterAction.setText("Leave has been Approved");
-                     leaveApproveBtnGap.setVisibility(View.GONE);
-                     leaveApproveBtn.setVisibility(View.GONE);
-                     leaveRejectBtn.setVisibility(View.GONE);
+
+                     new AlertDialog.Builder(context)
+                             .setTitle("Leave Approval")
+                             .setMessage("Do you really want to Approve this Leave ?")
+                             .setIcon(android.R.drawable.ic_menu_info_details)
+                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                                 public void onClick(DialogInterface dialog, int whichButton) {
+
+                                     leaveApprovalDataArrayList.get(getAdapterPosition()).setLeaveStatusAfterAction("0");
+//                                   updateFromServer(Integer.parseInt(leaveApprovalDataArrayList.get(getAdapterPosition()).getLeaveStatusAfterAction()),0);
+                                     leaveStatusAfterAction.setVisibility(View.VISIBLE);
+                                     leaveStatusAfterAction.setText("Leave has been Approved");
+                                     leaveApproveBtnGap.setVisibility(View.GONE);
+                                     leaveApproveBtn.setVisibility(View.GONE);
+                                     leaveRejectBtn.setVisibility(View.GONE);
+
+                                 }})
+                             .setNegativeButton(android.R.string.no, null).show();
 
                  }
              });
@@ -225,13 +239,26 @@ public class LeaveApprovalAdapter extends RecyclerView.Adapter<LeaveApprovalAdap
              leaveRejectBtn.setOnClickListener(new View.OnClickListener() {
                  @Override
                  public void onClick(View v) {
-                     leaveApprovalDataArrayList.get(getAdapterPosition()).setLeaveStatusAfterAction("1");
-//                     updateFromServer(Integer.parseInt(leaveApprovalDataArrayList.get(getAdapterPosition()).getLeaveStatusAfterAction()),1);
-                     leaveStatusAfterAction.setVisibility(View.VISIBLE);
-                     leaveStatusAfterAction.setText("Leave has been Rejected");
-                     leaveApproveBtnGap.setVisibility(View.GONE);
-                     leaveApproveBtn.setVisibility(View.GONE);
-                     leaveRejectBtn.setVisibility(View.GONE);
+
+                     new AlertDialog.Builder(context)
+                             .setTitle("Leave Approval")
+                             .setMessage("Do you really want to Reject This Leave ?")
+                             .setIcon(android.R.drawable.ic_dialog_alert)
+                             .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                                 public void onClick(DialogInterface dialog, int whichButton) {
+
+                                     leaveApprovalDataArrayList.get(getAdapterPosition()).setLeaveStatusAfterAction("1");
+//                                   updateFromServer(Integer.parseInt(leaveApprovalDataArrayList.get(getAdapterPosition()).getLeaveStatusAfterAction()),1);
+                                     leaveStatusAfterAction.setVisibility(View.VISIBLE);
+                                     leaveStatusAfterAction.setText("Leave has been Rejected");
+                                     leaveApproveBtnGap.setVisibility(View.GONE);
+                                     leaveApproveBtn.setVisibility(View.GONE);
+                                     leaveRejectBtn.setVisibility(View.GONE);
+
+                                 }})
+                             .setNegativeButton(android.R.string.no, null).show();
+
                  }
              });
 

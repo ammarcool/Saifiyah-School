@@ -24,6 +24,9 @@ Context context;
         toolbar.setTitle("Add & View Class-Test");
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         TabLayout classTestTabs = findViewById(R.id.classTestTabs);
         TabItem addClassTest = findViewById(R.id.addClassTest);
         TabItem viewClassTest = findViewById(R.id.viewClassTest);
@@ -34,6 +37,12 @@ Context context;
         classTestTabs.setupWithViewPager(myviewPager);
 
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
 

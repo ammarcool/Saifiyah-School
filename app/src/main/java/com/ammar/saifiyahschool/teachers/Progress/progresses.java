@@ -20,6 +20,9 @@ public class progresses extends AppCompatActivity {
         toolbar.setTitle("Add & View Progresses");
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         TabLayout classTestTabs = findViewById(R.id.progressTabLayout);
         TabItem addClassTest = findViewById(R.id.addProgress);
         TabItem viewClassTest = findViewById(R.id.viewProgress);
@@ -30,5 +33,11 @@ public class progresses extends AppCompatActivity {
         classTestTabs.setupWithViewPager(myviewPager);
 
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

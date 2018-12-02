@@ -81,6 +81,7 @@ public class classTest extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("Toolbar Title");
+        setSupportActionBar(toolbar);
 
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsingToolbar);

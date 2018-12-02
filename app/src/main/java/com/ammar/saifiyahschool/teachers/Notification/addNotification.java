@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -44,10 +45,19 @@ public class addNotification extends AppCompatActivity {
     String submit_Notification_URL,subject_url;
     String staff_id,type,ip;
 
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_notification);
+
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Send Notification");
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         chooseClassForNotification = findViewById(R.id.chooseClassForNotification);
         notificationTitle = findViewById(R.id.notificationTitle);
@@ -177,5 +187,11 @@ public class addNotification extends AppCompatActivity {
 
 
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 }

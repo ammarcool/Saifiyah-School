@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.ProgressBar;
@@ -53,6 +54,8 @@ public class StudentProgress extends AppCompatActivity {
     private TextView tv;
     private SharedPreferences sharedPreferences;
 
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,8 +77,21 @@ public class StudentProgress extends AppCompatActivity {
         successPercentage = (TextView) findViewById(R.id.successPercentage);
         complainPercentage = (TextView) findViewById(R.id.complainPercentage);
 
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Progress");
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         runProgressBar();
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     private void runProgressBar() {

@@ -301,7 +301,6 @@ public class AddSyllabusAdapter extends RecyclerView.Adapter<AddSyllabusAdapter.
                     syllabusTopicName.setVisibility(syllabusTopicName.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
                     doneUndoUnit.setVisibility(doneUndoUnit.getVisibility() == View.GONE ? View.VISIBLE : View.VISIBLE);
 
-                    addSyllabusDataArrayList.notifyAll();
                 }
             });
 

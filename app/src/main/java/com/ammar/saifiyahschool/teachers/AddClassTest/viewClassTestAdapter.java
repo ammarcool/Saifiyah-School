@@ -2,9 +2,11 @@ package com.ammar.saifiyahschool.teachers.AddClassTest;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
@@ -14,6 +16,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.ammar.saifiyahschool.MainActivity;
 import com.ammar.saifiyahschool.R;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -171,10 +174,24 @@ public class viewClassTestAdapter  extends RecyclerView.Adapter<viewClassTestAda
 
                 @Override
                 public void onClick(View v) {
-                    deleteFromServer(Integer.parseInt(ctDataArrayList.get(getAdapterPosition()).getDeletePosition()));
-                    ctDataArrayList.remove(getAdapterPosition()).getDeletePosition();
-                    notifyItemRemoved(getAdapterPosition());
-                Toast.makeText(context,"Your Test has been deleted",Toast.LENGTH_LONG).show();
+
+                    new AlertDialog.Builder(context)
+                            .setTitle("Alert")
+                            .setMessage("Do you really want to Delete your Class Test")
+                            .setIcon(android.R.drawable.ic_delete)
+                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                                public void onClick(DialogInterface dialog, int whichButton) {
+
+                                    deleteFromServer(Integer.parseInt(ctDataArrayList.get(getAdapterPosition()).getDeletePosition()));
+                                    ctDataArrayList.remove(getAdapterPosition()).getDeletePosition();
+                                    notifyItemRemoved(getAdapterPosition());
+                                    Toast.makeText(context,"Your Test has been deleted",Toast.LENGTH_LONG).show();
+
+                                }})
+                            .setNegativeButton(android.R.string.no, null).show();
+
+
                 }
             });
         }

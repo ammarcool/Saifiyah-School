@@ -8,14 +8,17 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.InputType;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -32,6 +35,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.basgeekball.awesomevalidation.AwesomeValidation;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -44,6 +48,7 @@ import java.util.List;
 import java.util.Map;
 
 import static com.android.volley.VolleyLog.TAG;
+import static com.basgeekball.awesomevalidation.ValidationStyle.COLORATION;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -103,6 +108,8 @@ public class addClassTestMarks extends Fragment {
         stateSpinner = v.findViewById(R.id.classSpinner);
         citiesSpinner = v.findViewById(R.id.subjectSpinner);
         requestQueue = Volley.newRequestQueue(getActivity());
+
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
 
         submitCTest = v.findViewById(R.id.submitCTest);
         enterStudentMarks = v.findViewById(R.id.enterStudentMarks);
@@ -319,87 +326,97 @@ public class addClassTestMarks extends Fragment {
                                             Log.i("My classID--->", String.valueOf(subPosition));
 
                                             /* -----------------------------------Start submit the class test---------------------------*/
+
+//                                            final AwesomeValidation awesomeValidation = new AwesomeValidation(COLORATION);
+//
+//                                            awesomeValidation.addValidation(totalMarks,totalMarks,"Please Enter Total Marks");
+//                                            awesomeValidation.addValidation(myTestDate,myTestDate,"Please Add ClassTest Date");
+
                                             submitCTest.setOnClickListener(new View.OnClickListener() {
                                                 @Override
                                                 public void onClick(View v) {
 
+                                                    if (!TextUtils.isEmpty(totalMarks.getText().toString()) && !TextUtils.isEmpty(myTestDate.getText().toString()) ) {
+                                                        Map<String, String> params = new HashMap();
+                                                        params.put("student_class_section_id", String.valueOf(subPosition));
+                                                        params.put("subject_id", showMe.get(position));
+                                                        params.put("total_marks", totalMarks.getText().toString());
+                                                        params.put("created_on", myTestDate.getText().toString());
+                                                        params.put("created_by", staff_id);
 
-                                                    Map<String, String> params = new HashMap();
-                                                    params.put("student_class_section_id", String.valueOf(subPosition));
-                                                    params.put("subject_id",showMe.get(position));
-                                                    params.put("total_marks",totalMarks.getText().toString());
-                                                    params.put("created_on",myTestDate.getText().toString());
-                                                    params.put("created_by", staff_id);
+                                                        JSONArray ourArray = new JSONArray();
+                                                        JSONObject ourjsonObject = new JSONObject();
+                                                        JSONObject mJsonObject = null;
 
-                                                    JSONArray ourArray = new JSONArray();
-                                                    JSONObject ourjsonObject = new JSONObject();
-                                                    JSONObject mJsonObject = null;
+                                                        for (int i = 0; i < addCTMarksDataArrayList.size(); i++) {
 
-                                                    for(int i= 0; i<addCTMarksDataArrayList.size();i++){
+                                                            submitCTMarksnew.add(myaddCTMarksAdapter.addCTMarksDataArrayList.get(i).getEnterCT().toString());
 
-                                                        submitCTMarksnew.add(myaddCTMarksAdapter.addCTMarksDataArrayList.get(i).getEnterCT().toString());
+                                                            try {
+                                                                mJsonObject = new JSONObject();
+
+                                                                mJsonObject.put("student_id", StRollNo.get(i));
+                                                                mJsonObject.put("marks", submitCTMarksnew.get(i));
+
+                                                            } catch (JSONException e) {
+                                                                e.printStackTrace();
+                                                            }
+
+                                                            ourArray.put(mJsonObject);
+                                                        }
+
+                                                        //params.put("class_test_rows", ourArray.toString());
+                                                        Log.i("class_test_rows", ourArray.toString());
+                                                        submitCTMarksnew.clear();
+                                                        StRollNo.clear();
+
+                                                        JSONObject parameters = new JSONObject(params);
 
                                                         try {
-                                                            mJsonObject  = new JSONObject();
-
-                                                            mJsonObject.put("student_id",StRollNo.get(i));
-                                                            mJsonObject.put("marks",submitCTMarksnew.get(i));
+                                                            parameters.put("class_test_rows", ourArray);
                                                         } catch (JSONException e) {
                                                             e.printStackTrace();
                                                         }
 
-                                                        ourArray.put(mJsonObject);
-                                                    }
+                                                        JsonObjectRequest submitMarks = new JsonObjectRequest(
+                                                                Request.Method.POST, submitclassTest_url, parameters, new Response.Listener<JSONObject>() {
+                                                            @Override
+                                                            public void onResponse(JSONObject response) {
 
-                                                    //params.put("class_test_rows", ourArray.toString());
-                                                    Log.i("class_test_rows",ourArray.toString());
-                                                    submitCTMarksnew.clear();
-                                                    StRollNo.clear();
+                                                                String CTjsonArray = null;
+                                                                try {
+                                                                    JSONObject jsonObject = new JSONObject(response.toString());
+                                                                    String success = jsonObject.getString("success");
+                                                                    if (success.equals("true")) {
+                                                                        CTjsonArray = jsonObject.getString("message");
 
-                                                    JSONObject parameters = new JSONObject(params);
+                                                                        Toast.makeText(getContext(), CTjsonArray.toString(), Toast.LENGTH_LONG).show();
 
-                                                    try {
-                                                        parameters.put("class_test_rows",ourArray);
-                                                    } catch (JSONException e) {
-                                                        e.printStackTrace();
-                                                    }
+                                                                        Log.i("Response Me ----->", String.valueOf(CTjsonArray));
 
-                                                    JsonObjectRequest submitMarks = new JsonObjectRequest(
-                                                            Request.Method.POST, submitclassTest_url, parameters, new Response.Listener<JSONObject>() {
-                                                        @Override
-                                                        public void onResponse(JSONObject response) {
-
-                                                            String CTjsonArray = null;
-                                                            try {
-                                                                JSONObject jsonObject = new JSONObject(response.toString());
-                                                                String success = jsonObject.getString("success");
-                                                                if (success.equals("true")) {
-                                                                    CTjsonArray = jsonObject.getString("message");
-
-                                                                    Toast.makeText(getContext(),CTjsonArray.toString(),Toast.LENGTH_LONG).show();
-
-                                                                    Log.i("Response Me ----->", String.valueOf(CTjsonArray));
-
-                                                                }else {
-                                                                    String msg = jsonObject.getString("message");
-                                                                    Toast.makeText(getActivity(),msg,Toast.LENGTH_LONG).show();
+                                                                    } else {
+                                                                        String msg = jsonObject.getString("message");
+                                                                        Toast.makeText(getActivity(), msg, Toast.LENGTH_LONG).show();
+                                                                    }
+                                                                } catch (JSONException e) {
+                                                                    e.printStackTrace();
+                                                                    Toast.makeText(getContext(), String.valueOf(e), Toast.LENGTH_LONG).show();
                                                                 }
-                                                            } catch (JSONException e) {
-                                                                e.printStackTrace();
-                                                                Toast.makeText(getContext(),String.valueOf(e),Toast.LENGTH_LONG).show();
+
                                                             }
+                                                        }, new Response.ErrorListener() {
+                                                            @Override
+                                                            public void onErrorResponse(VolleyError error) {
 
+                                                            }
                                                         }
-                                                    }, new Response.ErrorListener() {
-                                                        @Override
-                                                        public void onErrorResponse(VolleyError error) {
 
-                                                        }
+                                                        );
+                                                        requestQueue.add(submitMarks);
+
+                                                    }else {
+                                                        Toast.makeText(getContext(),"Please Fill Submit Date or Total Marks Box",Toast.LENGTH_LONG).show();
                                                     }
-
-                                                    );
-                                                    requestQueue.add(submitMarks);
-
                                                 }
                                             });
 

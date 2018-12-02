@@ -4,7 +4,9 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.ClipData;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +22,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -85,7 +88,7 @@ public class AddSyllabus extends AppCompatActivity implements  RecyclerItemTouch
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_syllabus);
-
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_HIDDEN);
         sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
 
         type = sharedPreferences.getString("type",null);
@@ -111,11 +114,20 @@ public class AddSyllabus extends AppCompatActivity implements  RecyclerItemTouch
         toolbar.setTitle("Change Syllabus");
         setSupportActionBar(toolbar);
 
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
         ItemTouchHelper.SimpleCallback itemTouchHelperCallback = new RecyclerItemTouchHelper(0, ItemTouchHelper.LEFT, this);
         new ItemTouchHelper(itemTouchHelperCallback).attachToRecyclerView(viewProgressRecycler);
 
         loadClassSubject();
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     @Override
@@ -185,90 +197,96 @@ public class AddSyllabus extends AppCompatActivity implements  RecyclerItemTouch
                     @Override
                     public void onClick(View v) {
 
-                        subject_id = sharedPreferences.getString("subject_id",null);
-                        class_id = sharedPreferences.getString("class_id",null);
-                        Toast.makeText(getApplicationContext(),String.valueOf(addTopicsDataArrayList.size()),Toast.LENGTH_LONG).show();
+                        if (!TextUtils.isEmpty(numberOfTopic.getText().toString())) {
+
+                            subject_id = sharedPreferences.getString("subject_id", null);
+                            class_id = sharedPreferences.getString("class_id", null);
+                            Toast.makeText(getApplicationContext(), String.valueOf(addTopicsDataArrayList.size()), Toast.LENGTH_LONG).show();
 //
-                        Map<String, String> params = new HashMap();
-                        params.put("student_class_id", class_id);
-                        params.put("subject_id",subject_id);
-                        params.put("created_by",staff_id);
+                            Map<String, String> params = new HashMap();
+                            params.put("student_class_id", class_id);
+                            params.put("subject_id", subject_id);
+                            params.put("created_by", staff_id);
 
-                        JSONArray ourArray = new JSONArray();
-                        JSONObject mJsonObject = null;
+                            JSONArray ourArray = new JSONArray();
+                            JSONObject mJsonObject = null;
 
-                        for(int i= 0; i<addTopicsDataArrayList.size();i++){
+                            for (int i = 0; i < addTopicsDataArrayList.size(); i++) {
 
-                            Log.i("Show me -->", String.valueOf(addTopicsDataArrayList.get(i)));
+                                Log.i("Show me -->", String.valueOf(addTopicsDataArrayList.get(i)));
 
-                            submitAddSyllabus.add(myAddTopicAdapter.addTopicsDataArrayList.get(i).getSyllabusChapterName().toString());
+                                submitAddSyllabus.add(myAddTopicAdapter.addTopicsDataArrayList.get(i).getSyllabusChapterName().toString());
+
+                                try {
+                                    mJsonObject = new JSONObject();
+
+                                    mJsonObject.put("topic", submitAddSyllabus.get(i));
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+
+                                ourArray.put(mJsonObject);
+                            }
+
+//                        params.put("syllabus_rows", String.valueOf(ourArray));
+                            submitAddSyllabus.clear();
+
+                            JSONObject parameters = new JSONObject(params);
 
                             try {
-                                mJsonObject  = new JSONObject();
 
-                                mJsonObject.put("topic",submitAddSyllabus.get(i));
+                                parameters.put("syllabus_rows", ourArray);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
 
-                            ourArray.put(mJsonObject);
-                        }
+                            JsonObjectRequest submitMarks = new JsonObjectRequest(
+                                    Request.Method.POST, addSyllabus_URL, parameters, new Response.Listener<JSONObject>() {
+                                @Override
+                                public void onResponse(JSONObject response) {
 
-//                        params.put("syllabus_rows", String.valueOf(ourArray));
-                        submitAddSyllabus.clear();
+                                    String CTjsonArray = null;
+                                    try {
+                                        JSONObject jsonObject = new JSONObject(response.toString());
+                                        String success = jsonObject.getString("success");
+                                        if (success.equals("true")) {
+                                            CTjsonArray = jsonObject.getString("message");
+                                            myAddSyllabusAdapter.notifyDataSetChanged();
+                                            customDialog.dismiss();
 
-                        JSONObject parameters = new JSONObject(params);
+                                            myAddSyllabusAdapter.notifyDataSetChanged();
 
-                        try {
-
-                            parameters.put("syllabus_rows",ourArray);
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-
-                        JsonObjectRequest submitMarks = new JsonObjectRequest(
-                                Request.Method.POST, addSyllabus_URL, parameters, new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-
-                                String CTjsonArray = null;
-                                try {
-                                    JSONObject jsonObject = new JSONObject(response.toString());
-                                    String success = jsonObject.getString("success");
-                                    if (success.equals("true")) {
-                                        CTjsonArray = jsonObject.getString("message");
-                                        customDialog.dismiss();
-
-                                    myAddSyllabusAdapter.notifyDataSetChanged();
 //                                    addTopicsDataArrayList.notify();
 //                                    myAddTopicAdapter.notifyDataSetChanged();
 
-                                        Toast.makeText(getApplicationContext(),CTjsonArray.toString(),Toast.LENGTH_LONG).show();
+                                            Toast.makeText(getApplicationContext(), CTjsonArray.toString(), Toast.LENGTH_LONG).show();
 
-                                        Log.i("Response Me ----->", String.valueOf(CTjsonArray));
+                                            Log.i("Response Me ----->", String.valueOf(CTjsonArray));
 
-                                    }else {
-                                        String msg = jsonObject.getString("message");
-                                        Toast.makeText(getApplicationContext(),msg,Toast.LENGTH_LONG).show();
+                                        } else {
+                                            String msg = jsonObject.getString("message");
+                                            Toast.makeText(getApplicationContext(), msg, Toast.LENGTH_LONG).show();
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                        Toast.makeText(getContext(), String.valueOf(e), Toast.LENGTH_LONG).show();
                                     }
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                    Toast.makeText(getContext(),String.valueOf(e),Toast.LENGTH_LONG).show();
+
                                 }
+                            }, new Response.ErrorListener() {
+                                @Override
+                                public void onErrorResponse(VolleyError error) {
 
+                                }
                             }
-                        }, new Response.ErrorListener() {
-                            @Override
-                            public void onErrorResponse(VolleyError error) {
 
-                            }
+                            );
+                            requestQueue.add(submitMarks);
+
+
+                        }else {
+                            Toast.makeText(AddSyllabus.this,"Please put number for Chapter Text Box",Toast.LENGTH_LONG).show();
                         }
-
-                        );
-                        requestQueue.add(submitMarks);
-
-
-
                     }
                 });
 
@@ -507,9 +525,18 @@ public class AddSyllabus extends AppCompatActivity implements  RecyclerItemTouch
     }
 
     @Override
-    public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction, int position) {
+    public void onSwiped(final RecyclerView.ViewHolder viewHolder, int direction, final int position) {
 
-        AddSyllabusData addSyllabusData = null;
+
+        new AlertDialog.Builder(this)
+                .setTitle("Delete")
+                .setMessage("Do you really want to Delete this Chapter ?")
+                .setIcon(android.R.drawable.ic_delete)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+
+
 
         if (viewHolder instanceof AddSyllabusAdapter.AddSyllabusViewHolder) {
 
@@ -519,6 +546,10 @@ public class AddSyllabus extends AppCompatActivity implements  RecyclerItemTouch
 //            myAddSyllabusAdapter.notifyItemRemoved(position);
 
         }
+
+                    }})
+                .setNegativeButton(android.R.string.no, null).show();
+                myAddSyllabusAdapter.notifyDataSetChanged();
 
     }
 }

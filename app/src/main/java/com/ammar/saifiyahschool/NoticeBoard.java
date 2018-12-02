@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -42,10 +43,19 @@ public class NoticeBoard extends AppCompatActivity {
     private TextView tv;
     private SharedPreferences sharedPreferences;
 
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_notice_board);
+
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Notifications");
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         notificationMessage=(RecyclerView)findViewById(R.id.notificationMessage);
 
@@ -62,6 +72,12 @@ public class NoticeBoard extends AppCompatActivity {
         noticeBoardData = new NoticeBoardData("Ammar Miyaji","10/12/2018","hello bro!thank you soo much,for being with me yhou are really amazing i love yhour company");
         noticeBoardDataArrayList.add(noticeBoardData);
 
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     private void addNotice() {

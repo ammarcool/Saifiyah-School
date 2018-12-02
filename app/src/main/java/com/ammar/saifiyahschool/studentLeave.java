@@ -2,11 +2,13 @@ package com.ammar.saifiyahschool;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
@@ -43,6 +45,9 @@ public class studentLeave extends AppCompatActivity {
     private String type,id,ip,URL,class_id;
     private TextView tv;
     private SharedPreferences sharedPreferences;
+    Toolbar toolbar;
+
+    ActionBar actionBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +56,15 @@ public class studentLeave extends AppCompatActivity {
 
         recyclerView=(RecyclerView)findViewById(R.id.studentLeave_recyclerview);
 
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Student Total Leaves");
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+
+
+
         studentLeaveAdapter = new StudentLeaveAdapter(this,studentLeaveDataList);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
@@ -58,6 +72,12 @@ public class studentLeave extends AppCompatActivity {
         recyclerView.setAdapter(studentLeaveAdapter);
 
         addStudentLeave();
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     private void addStudentLeave() {

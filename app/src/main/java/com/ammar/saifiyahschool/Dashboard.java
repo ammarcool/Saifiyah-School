@@ -3,6 +3,7 @@ package com.ammar.saifiyahschool;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
@@ -10,6 +11,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
@@ -282,8 +284,16 @@ public class Dashboard extends AppCompatActivity {
                             return true;
 
                         case R.id.logout:
-                            item.setChecked(true);
 
+
+                            new AlertDialog.Builder(Dashboard.this)
+                                    .setTitle("Logout")
+                                    .setMessage("Do you really want to Logout ?")
+                                    .setIcon(android.R.drawable.ic_dialog_alert)
+                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+                                            item.setChecked(true);
 //                            intent = new Intent(Dashboard.this, AddSyllabus.class);
 //                            intent.putExtra("addSyllabus","AddMeSyllabus");
 //                            startActivity(intent);
@@ -345,9 +355,9 @@ public class Dashboard extends AppCompatActivity {
                             Intent it = new Intent(Dashboard.this, MainActivity.class);
                             startActivity(it);
                             finish();
-                            break;
 
-
+                            }})
+                            .setNegativeButton(android.R.string.no, null).show();
 
                     }
 //
@@ -577,6 +587,16 @@ public class Dashboard extends AppCompatActivity {
                             return true;
 
                         case R.id.logout:
+
+                            new AlertDialog.Builder(Dashboard.this)
+                                    .setTitle("Title")
+                                    .setMessage("Do you really want to whatever?")
+                                    .setIcon(android.R.drawable.ic_dialog_alert)
+                                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                                        public void onClick(DialogInterface dialog, int whichButton) {
+
+
                             item.setChecked(true);
 
                             /****** Start Token and Login ID ********************/
@@ -636,7 +656,9 @@ public class Dashboard extends AppCompatActivity {
                             Intent it = new Intent(Dashboard.this, MainActivity.class);
                             startActivity(it);
                             finish();
-                            break;
+
+                            }})
+                            .setNegativeButton(android.R.string.no, null).show();
 
                     }
 //

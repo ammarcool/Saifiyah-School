@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,10 +45,19 @@ public class LeaveApproval extends AppCompatActivity {
     private TextView tv;
     private SharedPreferences sharedPreferences;
 
+    Toolbar toolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_leave_approval);
+
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Approve Staff Leaves");
+        setSupportActionBar(toolbar);
+
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         leave_approval_recyclerview=(RecyclerView)findViewById(R.id.leave_approval_recyclerview);
 
@@ -67,6 +77,12 @@ public class LeaveApproval extends AppCompatActivity {
 
 //        leaveApprovalList();
         
+    }
+
+    @Override
+    public boolean onSupportNavigateUp() {
+        onBackPressed();
+        return true;
     }
 
     private void leaveApprovalList() {
