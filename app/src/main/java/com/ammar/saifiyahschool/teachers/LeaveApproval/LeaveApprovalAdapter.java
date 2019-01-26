@@ -77,31 +77,33 @@ public class LeaveApprovalAdapter extends RecyclerView.Adapter<LeaveApprovalAdap
         holder.leaveApproveFromDate.setText(leaveApprovalDataArrayList.get(position).getLeaveApproveFromDate());
         holder.leaveApproveToDate.setText(leaveApprovalDataArrayList.get(position).getLeaveApproveToDate());
         holder.leaveApproveReason.setText(leaveApprovalDataArrayList.get(position).getLeaveApproveReason());
+        holder.leaveApproveHalfDay.setText(leaveApprovalDataArrayList.get(position).getLeaveApproveHalfDay());
         holder.leaveApproveDropDownIcon.setImageResource(R.drawable.drop_down);
 
 
-        if (leaveApprovalDataArrayList.get(position).getLeaveStatusAfterAction() == "0"){
-            holder.leaveStatusAfterAction.setVisibility(View.VISIBLE);
-            holder.leaveApproveBtn.setVisibility(View.GONE);
-            holder.leaveApproveBtnGap.setVisibility(View.GONE);
-            holder.leaveRejectBtn.setVisibility(View.GONE);
-            holder.leaveStatusAfterAction.setText("You already Accept this Leave");
-
-        }else if (leaveApprovalDataArrayList.get(position).getLeaveStatusAfterAction() == "1"){
-            holder.leaveStatusAfterAction.setVisibility(View.VISIBLE);
-            holder.leaveApproveBtn.setVisibility(View.GONE);
-            holder.leaveApproveBtnGap.setVisibility(View.GONE);
-            holder.leaveRejectBtn.setVisibility(View.GONE);
-            holder.leaveStatusAfterAction.setText("You already Reject this Leave");
-        }
-        else {
-            holder.leaveStatusAfterAction.setVisibility(View.GONE);
-            holder.leaveApproveBtn.setVisibility(View.VISIBLE);
-            holder.leaveApproveBtnGap.setVisibility(View.VISIBLE);
-            holder.leaveRejectBtn.setVisibility(View.VISIBLE);
-        }
+//        if (leaveApprovalDataArrayList.get(position).getLeaveStatusAfterAction() == "0"){
+//            holder.leaveStatusAfterAction.setVisibility(View.VISIBLE);
+//            holder.leaveApproveBtn.setVisibility(View.GONE);
+//            holder.leaveApproveBtnGap.setVisibility(View.GONE);
+//            holder.leaveRejectBtn.setVisibility(View.GONE);
+//            holder.leaveStatusAfterAction.setText("You already Accept this Leave");
+//
+//        }else if (leaveApprovalDataArrayList.get(position).getLeaveStatusAfterAction() == "1"){
+//            holder.leaveStatusAfterAction.setVisibility(View.VISIBLE);
+//            holder.leaveApproveBtn.setVisibility(View.GONE);
+//            holder.leaveApproveBtnGap.setVisibility(View.GONE);
+//            holder.leaveRejectBtn.setVisibility(View.GONE);
+//            holder.leaveStatusAfterAction.setText("You already Reject this Leave");
+//        }
+//        else {
+//            holder.leaveStatusAfterAction.setVisibility(View.GONE);
+//            holder.leaveApproveBtn.setVisibility(View.VISIBLE);
+//            holder.leaveApproveBtnGap.setVisibility(View.VISIBLE);
+//            holder.leaveRejectBtn.setVisibility(View.VISIBLE);
+//        }
 
         final boolean isExpanded = position==mExpandedPosition;
+        holder.leaveApproveHalfDayLayout.setVisibility(isExpanded?View.VISIBLE:View.GONE);
         holder.leaveApproveDateLayout.setVisibility(isExpanded?View.VISIBLE:View.GONE);
         holder.leaveApproveReasonLayout.setVisibility(isExpanded?View.VISIBLE:View.GONE);
         holder.leaveApproveHorizontalLine.setVisibility(isExpanded?View.VISIBLE:View.GONE);
@@ -125,7 +127,10 @@ public class LeaveApprovalAdapter extends RecyclerView.Adapter<LeaveApprovalAdap
 
     public void updateFromServer(int id,int status) {
 
-        deleteCT_URL = "";
+//        SharedPreferences sharedPreferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
+//        ip = sharedPreferences.getString("ip",null);
+
+        deleteCT_URL = "http://"+ip+"/school_cms/Leaves/leaveApprove.json";
 
         Map<String, String> params = new HashMap();
         params.put("id", String.valueOf(id));
@@ -175,6 +180,7 @@ public class LeaveApprovalAdapter extends RecyclerView.Adapter<LeaveApprovalAdap
         TextView leaveApproveFromDate;
         TextView leaveApproveToDate;
         TextView leaveApproveReason;
+        TextView leaveApproveHalfDay;
 
         TextView leaveStatusAfterAction;
         Button leaveApproveBtn;
@@ -186,6 +192,7 @@ public class LeaveApprovalAdapter extends RecyclerView.Adapter<LeaveApprovalAdap
         LinearLayout leaveApproveReasonLayout;
         RelativeLayout leaveApproveHorizontalLine;
         LinearLayout leaveApproveButtonLayout;
+        LinearLayout leaveApproveHalfDayLayout;
 
          public LeaveApprovalViewHolder(@NonNull View itemView) {
              super(itemView);
@@ -197,6 +204,7 @@ public class LeaveApprovalAdapter extends RecyclerView.Adapter<LeaveApprovalAdap
              leaveApproveFromDate = itemView.findViewById(R.id.leaveApproveFromDate);
              leaveApproveToDate = itemView.findViewById(R.id.leaveApproveToDate);
              leaveApproveReason = itemView.findViewById(R.id.leaveApproveReason);
+             leaveApproveHalfDay = itemView.findViewById(R.id.leaveApproveHalfDay);
 
              leaveStatusAfterAction = itemView.findViewById(R.id.leaveStatusAfterAction);
              leaveApproveBtn = itemView.findViewById(R.id.leaveApproveBtn);
@@ -208,6 +216,7 @@ public class LeaveApprovalAdapter extends RecyclerView.Adapter<LeaveApprovalAdap
              leaveApproveReasonLayout = itemView.findViewById(R.id.leaveApproveReasonLayout);
              leaveApproveHorizontalLine = itemView.findViewById(R.id.leaveApproveHorizontalLine);
              leaveApproveButtonLayout = itemView.findViewById(R.id.leaveApproveButtonLayout);
+             leaveApproveHalfDayLayout = itemView.findViewById(R.id.leaveApproveHalfDayLayout);
 
 
              leaveApproveBtn.setOnClickListener(new View.OnClickListener() {
@@ -222,8 +231,8 @@ public class LeaveApprovalAdapter extends RecyclerView.Adapter<LeaveApprovalAdap
 
                                  public void onClick(DialogInterface dialog, int whichButton) {
 
-                                     leaveApprovalDataArrayList.get(getAdapterPosition()).setLeaveStatusAfterAction("0");
-//                                   updateFromServer(Integer.parseInt(leaveApprovalDataArrayList.get(getAdapterPosition()).getLeaveStatusAfterAction()),0);
+//                                     leaveApprovalDataArrayList.get(getAdapterPosition()).setLeaveStatusAfterAction("0");
+                                   updateFromServer(Integer.parseInt(leaveApprovalDataArrayList.get(getAdapterPosition()).getLeaveApprovalID()),1);
                                      leaveStatusAfterAction.setVisibility(View.VISIBLE);
                                      leaveStatusAfterAction.setText("Leave has been Approved");
                                      leaveApproveBtnGap.setVisibility(View.GONE);
@@ -248,8 +257,8 @@ public class LeaveApprovalAdapter extends RecyclerView.Adapter<LeaveApprovalAdap
 
                                  public void onClick(DialogInterface dialog, int whichButton) {
 
-                                     leaveApprovalDataArrayList.get(getAdapterPosition()).setLeaveStatusAfterAction("1");
-//                                   updateFromServer(Integer.parseInt(leaveApprovalDataArrayList.get(getAdapterPosition()).getLeaveStatusAfterAction()),1);
+//                                     leaveApprovalDataArrayList.get(getAdapterPosition()).setLeaveStatusAfterAction("1");
+                                   updateFromServer(Integer.parseInt(leaveApprovalDataArrayList.get(getAdapterPosition()).getLeaveApprovalID()),2);
                                      leaveStatusAfterAction.setVisibility(View.VISIBLE);
                                      leaveStatusAfterAction.setText("Leave has been Rejected");
                                      leaveApproveBtnGap.setVisibility(View.GONE);

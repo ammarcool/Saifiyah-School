@@ -1,58 +1,98 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="190dp">
 
-    <ImageView
-        android:id="@+id/progressCard"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        app:srcCompat="@drawable/greencard"
-        android:layout_marginTop="10dp"/>
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginTop="10dp"
+    app:cardBackgroundColor="@android:color/transparent"
+    app:cardCornerRadius="10dp"
+    app:cardElevation="10dp"
+    android:layout_margin="10dp">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:weightSum="4"
-        android:layout_marginTop="13dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginBottom="30dp">
+        android:id="@+id/progressCard"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:weightSum="4"
+    android:background="@drawable/redcard2"
+        android:padding="10dp">
+    <!--android:layout_marginTop="13dp"-->
+    <!--android:layout_marginLeft="15dp"-->
+    <!--android:layout_marginRight="15dp"-->
+    <!--android:layout_marginBottom="30dp">-->
 
-        <TextView
-            android:id="@+id/progress_date"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:text="12-jan-2018"
-            android:textSize="12sp"
-            android:layout_gravity="right"
-            android:gravity="center_vertical"
-            android:paddingRight="10dp"
-            android:textColor="@android:color/white"
-            />
-
-        <TextView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="2"/>
+            android:layout_weight="1"
+            android:orientation="horizontal"
+            android:weightSum="5">
 
-        <TextView
-            android:id="@+id/progressDesc"
-            android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/suggestionText"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3.1"
+                android:textSize="18sp"
+                android:textColor="#ffffff"
+                android:text="please Improve your self"/>
+
+            <ImageView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="0.4"
+                android:background="@drawable/date"/>
+
+            <TextView
+                android:id="@+id/progress_date"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.5"
+                android:text="12-jan-2018"
+                android:textSize="12sp"
+                android:layout_gravity="right"
+                android:gravity="right"
+                android:textColor="@android:color/white"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:layout_weight="1.1"
-            android:text="TextView"
-            android:textSize="16sp"
-            android:padding="5dp"
-            android:textColor="@android:color/black"
-            android:layout_marginLeft="5dp"/>
+            android:layout_weight="2"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/cardMainText"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Congratulation"
+                android:textSize="22sp"
+                android:gravity="center_vertical"
+                android:textStyle="bold"
+                android:fontFamily="monospace"
+                android:textColor="#ffffff"
+                android:paddingTop="20dp"
+                />
+
+        </LinearLayout>
+
+
+
+    <TextView
+    android:id="@+id/progressDesc"
+    android:layout_width="wrap_content"
+    android:layout_height="0dp"
+    android:layout_weight="1.1"
+    android:text="hello bro!thank you soo much,for being with me yhou are really amazing i love yhour company "
+    android:textSize="14sp"
+    android:paddingLeft="5dp"
+    android:paddingTop="5dp"
+    android:textColor="@android:color/black" />
 
     </LinearLayout>
 
-</RelativeLayout>
+</android.support.v7.widget.CardView>

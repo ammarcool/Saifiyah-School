@@ -27,9 +27,11 @@ import android.widget.Toast;
 
 import com.ammar.saifiyahschool.R;
 import com.ammar.saifiyahschool.teachers.AddClassTest.classNameAdapter;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -155,7 +157,6 @@ public class addLeaveBalance extends Fragment {
 
         /*                   End To Date                 */
 
-
         submitleaves();
         return v;
 
@@ -250,6 +251,12 @@ public class addLeaveBalance extends Fragment {
                                                         if (success.equals("true")) {
                                                             CTjsonArray = jsonObject.getString("message");
 
+                                                            leaveBalanceReason.setText("");
+                                                            fromDate.setInputType(InputType.TYPE_NULL);
+                                                            ToDate.setInputType(InputType.TYPE_NULL);
+                                                            YesHalfDay.setChecked(false);
+                                                            NoHalfDay.setChecked(false);
+
                                                             Toast.makeText(getContext(), CTjsonArray.toString(), Toast.LENGTH_LONG).show();
 
                                                             Log.i("Response Me ----->", String.valueOf(CTjsonArray));
@@ -304,6 +311,27 @@ public class addLeaveBalance extends Fragment {
             }
         }
         );
+
+        int socketTimeout = 30000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        jsonObjectRequest.setRetryPolicy(policy);
+
+        jsonObjectRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 50000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 50000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+                Toast.makeText(getActivity(),"Please reopen this Page",Toast.LENGTH_LONG).show();
+            }
+        });
         myrequestQueue.add(jsonObjectRequest);
     }
 

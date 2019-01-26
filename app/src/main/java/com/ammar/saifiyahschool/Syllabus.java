@@ -2,8 +2,10 @@ package com.ammar.saifiyahschool;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.support.design.widget.TabItem;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,14 +14,18 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,6 +42,7 @@ public class Syllabus extends AppCompatActivity {
     RequestQueue requestQueue;
     private SharedPreferences sharedPreferences;
     private String type,id,ip,URL,student_class_id;
+    ArrayList<String> subjectArrayList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,6 +62,15 @@ public class Syllabus extends AppCompatActivity {
         id = sharedPreferences.getString("id",null);
 
         requestQueue = Volley.newRequestQueue(Syllabus.this);
+        subjectArrayList = new ArrayList<>();
+//        Bundle bundle = new Bundle();
+//        bundle.putString("my_key", "My String");
+//        EnglishFreg myFrag = new EnglishFreg();
+//        myFrag.setArguments(bundle);
+//        getFragmentManager().beginTransaction()
+//                .add(R.id.fragment_container, myFrag, "myFrag")
+//                .commit();
+
         initViews();
 
     }
@@ -64,6 +80,8 @@ public class Syllabus extends AppCompatActivity {
         onBackPressed();
         return true;
     }
+
+
 
     private void initViews() {
 
@@ -113,10 +131,31 @@ public class Syllabus extends AppCompatActivity {
                         jsonArray = jsonObject.getJSONArray("response");
                         JSONObject res = null;
 
+                        int j = 0;
+
                         for(int i = 0; i < jsonArray.length(); i++)
                         {
+
                             res = (JSONObject) jsonArray.get(i);
-                            mTabLayout.addTab(mTabLayout.newTab().setText(res.getString("subject")));
+
+                            if (res.getString("subject").equals(sharedPreferences.getString("subject",null))){
+                                    continue;
+
+                            }else {
+
+                                mTabLayout.addTab(mTabLayout.newTab().setText(res.getString("subject")));
+
+                                subjectArrayList.add(res.getString("subject"));
+
+                                saveArrayList(subjectArrayList,"Ammar");
+//
+                                SharedPreferences.Editor edit = sharedPreferences.edit();
+                                edit.putString("subject",res.getString("subject"));
+//                                Log.i("Subject-->",res.getString("subject"));
+                                edit.apply();
+                            }
+
+
                         }
                         DynamicFragmentAdapter mDynamicFragmentAdapter = new DynamicFragmentAdapter(getSupportFragmentManager(), mTabLayout.getTabCount(),getApplicationContext());
                         myviewPager.setAdapter(mDynamicFragmentAdapter);
@@ -138,8 +177,38 @@ public class Syllabus extends AppCompatActivity {
             }
         }
         );
+
+        int socketTimeout = 30000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        studentSyllabusTab.setRetryPolicy(policy);
+
+        studentSyllabusTab.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 50000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 50000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+                Toast.makeText(getApplicationContext(),"Please reopen this Page",Toast.LENGTH_LONG).show();
+            }
+        });
+
         requestQueue.add(studentSyllabusTab);
 
+    }
+    public void saveArrayList(ArrayList<String> list, String key){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        SharedPreferences.Editor editor = prefs.edit();
+        Gson gson = new Gson();
+        String json = gson.toJson(list);
+        editor.putString(key, json);
+        editor.apply();     // This line is IMPORTANT !!!
     }
 
 }

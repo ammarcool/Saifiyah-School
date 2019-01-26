@@ -14,33 +14,60 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        android:layout_weight="1"
+        android:layout_weight="0.7"
         android:weightSum="2"
         >
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:text="Add Syllabus TextBox"
+            android:text="Add Exams Name"
             android:layout_weight="0.5"
             android:textColor="#ffffff"
-            android:textSize="20dp"/>
+            android:textSize="16sp"/>
 
         <EditText
-            android:id="@+id/numberOfTopic"
+            android:id="@+id/enterExamsNames"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:background="@drawable/my_edittext_bg3"
             android:layout_weight="1"
-            android:hint="Enter number our here"
+            android:hint="Enter Examination Name"
             android:gravity="center"/>
 
     </LinearLayout>
 
     <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:orientation="vertical"
+    android:layout_weight="0.7"
+    android:weightSum="2"
+    >
+
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3.5"
+        android:text="Add Syllabus TextBox"
+        android:layout_weight="0.5"
+        android:textColor="#ffffff"
+        android:textSize="16sp"/>
+
+    <EditText
+        android:id="@+id/numberOfTopic"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/my_edittext_bg3"
+        android:layout_weight="1"
+        android:hint="Enter number our here"
+        android:gravity="center"/>
+
+</LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3.23"
         android:background="@drawable/my_edittext_bg"
         android:orientation="vertical"
         android:weightSum="5"
@@ -90,7 +117,7 @@
         android:layout_width="190dp"
         android:layout_height="0dp"
         android:layout_gravity="center"
-        android:layout_weight="0.45"
+        android:layout_weight="0.35"
         android:background="@drawable/mybutton"
         android:fontFamily="@font/book"
         android:includeFontPadding="false"

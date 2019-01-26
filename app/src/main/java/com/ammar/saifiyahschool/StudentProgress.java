@@ -22,6 +22,7 @@ import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
@@ -51,8 +52,9 @@ public class StudentProgress extends AppCompatActivity {
     private RecyclerView studentProgressRecyclerView;
     private StudentprogressAdapter studentprogressAdapter;
     private String type,id,ip,URL,class_id;
-    private TextView tv;
+    private TextView tv,suggestionText,cardMainText;
     private SharedPreferences sharedPreferences;
+
 
     Toolbar toolbar;
 
@@ -60,6 +62,9 @@ public class StudentProgress extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_student_progress);
+
+//        suggestionText = findViewById(R.id.suggestionText);
+//        cardMainText = findViewById(R.id.cardMainText);
 
         //Student Progress Recyclerview
         studentProgressRecyclerView = findViewById(R.id.studentProgress_recyclerview);
@@ -195,10 +200,16 @@ public class StudentProgress extends AppCompatActivity {
 
                                         if(res.getString("is_reward").equals("true")){
                                             card = greenCard;
+
+//                                            suggestionText.setText("You had Done Really Amazing Job");
+//                                            cardMainText.setText("Congratulation");
                                             GreenProgressNumber+=5;
                                         }
                                         else {
                                             card = redCard;
+//                                            suggestionText.setText("You should improve Your Self");
+//                                            cardMainText.setText("Follow Up");
+//                                            cardMainText.setTextSize(30);
                                             redProgressNumber+=5;
                                         }
                                         studentProgressData= new StudentProgressData(card,res.getString("date"),res.getString("title"));
@@ -265,10 +276,32 @@ public class StudentProgress extends AppCompatActivity {
                         }
                     }
             );
-            objectRequest.setRetryPolicy(new DefaultRetryPolicy(
-                    1000,
-                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+//            objectRequest.setRetryPolicy(new DefaultRetryPolicy(
+//                    1000,
+//                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+//                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
+            int socketTimeout = 30000;//30 seconds - change to what you want
+            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+            objectRequest.setRetryPolicy(policy);
+
+            objectRequest.setRetryPolicy(new RetryPolicy() {
+                @Override
+                public int getCurrentTimeout() {
+                    return 50000;
+                }
+
+                @Override
+                public int getCurrentRetryCount() {
+                    return 50000;
+                }
+
+                @Override
+                public void retry(VolleyError error) throws VolleyError {
+                    Toast.makeText(getApplicationContext(),"Please reopen this Page",Toast.LENGTH_LONG).show();
+                }
+            });
+
             requestQueue.add(objectRequest);
 
         }

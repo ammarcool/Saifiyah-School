@@ -24,18 +24,18 @@
         xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1.8"
+        android:layout_weight="1.7"
         card_view:cardElevation="10dp"
         app:cardCornerRadius="20dp"
         app:cardBackgroundColor="@android:color/transparent"
-
+        android:layout_marginTop="5dp"
         >
 
         <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/progress_card"
-        android:layout_margin="10dp">
+        android:padding="10dp">
 
     <!--<ImageView-->
         <!--android:layout_width="match_parent"-->
@@ -105,7 +105,7 @@
                         android:id="@+id/complainPercentage"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="100"
+                        android:text="100%"
                         android:layout_centerHorizontal="true"
                         android:layout_centerVertical="true"/>
 
@@ -213,7 +213,7 @@
         android:id="@+id/studentProgress_recyclerview"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3.2"
+        android:layout_weight="3.0"
         android:scrollbars="vertical" />
 
 </LinearLayout>

@@ -44,6 +44,7 @@ import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
@@ -123,7 +124,7 @@ public class Dashboard extends AppCompatActivity {
 
 //        navigationView.getMenu().findItem(R.id.notes).setVisible(false);
 
-        if (type.equals("student")){
+        if (type.equals("Student")){
 
             /***** Start Navigation Drawer*****/
 
@@ -418,7 +419,7 @@ public class Dashboard extends AppCompatActivity {
 
             /*******End 4 Buttons *********/
 
-        }else if (type.equals("Teacher Sr. Sec.")){
+        }else if (type.equals("Teacher")){
 
 
             navigationView.getMenu().findItem(R.id.progress).setTitle("Add Gallery Album");
@@ -748,8 +749,9 @@ public class Dashboard extends AppCompatActivity {
                 Toast.makeText(this, "this is invalid", Toast.LENGTH_LONG).show();
             }
             else {
-                if (type.equals("student")) {
-                    URL = "http://" + ip + "/school_cms/Students/viewApi.json";
+                if (type.equals("Student")) {
+                    URL = "http://" + ip + "/school_cms/students/viewApi.json";
+                    Toast.makeText(this, "Welcome to Saifiyah School", Toast.LENGTH_SHORT).show();
                 }
                 else {
                     Log.i("Staff-->", "This is staff bro!!!");
@@ -781,12 +783,12 @@ public class Dashboard extends AppCompatActivity {
                                         JSONObject student_class = null ;
 //                                        JSONObject SC = res.getJSONObject("student_class");
 //
-                                        if (type.equals("student")){
+                                        if (type.equals("Student")){
                                             student_class = res.getJSONObject("student_class");
                                             SharedPreferences.Editor edit = sharedPreferences.edit();
                                             edit.putString("student_class_id",res.getString("student_class_id"));
                                             edit.putString("student_class_section_id",res.getString("student_class_section_id"));
-                                            edit.putString("total_fees",res.getString("total fees"));
+//                                            edit.putString("total_fees",res.getString("total fees"));
                                             edit.apply();
                                         }else {
                                             student_class = res.getJSONObject("designation");
@@ -824,10 +826,26 @@ public class Dashboard extends AppCompatActivity {
                             }
                         }
                 );
-                objectRequest.setRetryPolicy(new DefaultRetryPolicy(
-                        10000,
-                        DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                        DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+                int socketTimeout = 30000;//30 seconds - change to what you want
+                RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+                objectRequest.setRetryPolicy(policy);
+
+                objectRequest.setRetryPolicy(new RetryPolicy() {
+                    @Override
+                    public int getCurrentTimeout() {
+                        return 50000;
+                    }
+
+                    @Override
+                    public int getCurrentRetryCount() {
+                        return 50000;
+                    }
+
+                    @Override
+                    public void retry(VolleyError error) throws VolleyError {
+                        Toast.makeText(getApplicationContext(),"Please reopen this Page",Toast.LENGTH_LONG).show();
+                    }
+                });
                 requestQueue.add(objectRequest);
             }
         }

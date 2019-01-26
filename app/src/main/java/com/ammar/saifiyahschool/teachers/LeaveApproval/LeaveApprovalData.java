@@ -9,9 +9,11 @@ public class LeaveApprovalData {
     String leaveApproveFromDate;
     String leaveApproveToDate;
     String leaveApproveReason;
-    String leaveStatusAfterAction;
+    String leaveApproveHalfDay;
+    String leaveApproveDuration;
+    String leaveApprovalID;
 
-    public LeaveApprovalData(String leaveApproveDate, String leaveApproveMonth, String leaveApproveTeacherName, String leaveApproveTypeOfLeave, String leaveApproveFromDate, String leaveApproveToDate, String leaveApproveReason, String leaveStatusAfterAction) {
+    public LeaveApprovalData(String leaveApproveDate, String leaveApproveMonth, String leaveApproveTeacherName, String leaveApproveTypeOfLeave, String leaveApproveFromDate, String leaveApproveToDate, String leaveApproveReason, String leaveApproveHalfDay, String leaveApproveDuration, String leaveApprovalID) {
         this.leaveApproveDate = leaveApproveDate;
         this.leaveApproveMonth = leaveApproveMonth;
         this.leaveApproveTeacherName = leaveApproveTeacherName;
@@ -19,7 +21,9 @@ public class LeaveApprovalData {
         this.leaveApproveFromDate = leaveApproveFromDate;
         this.leaveApproveToDate = leaveApproveToDate;
         this.leaveApproveReason = leaveApproveReason;
-        this.leaveStatusAfterAction = leaveStatusAfterAction;
+        this.leaveApproveHalfDay = leaveApproveHalfDay;
+        this.leaveApproveDuration = leaveApproveDuration;
+        this.leaveApprovalID = leaveApprovalID;
     }
 
     public String getLeaveApproveDate() {
@@ -78,11 +82,27 @@ public class LeaveApprovalData {
         this.leaveApproveReason = leaveApproveReason;
     }
 
-    public String getLeaveStatusAfterAction() {
-        return leaveStatusAfterAction;
+    public String getLeaveApproveHalfDay() {
+        return leaveApproveHalfDay;
     }
 
-    public void setLeaveStatusAfterAction(String leaveStatusAfterAction) {
-        this.leaveStatusAfterAction = leaveStatusAfterAction;
+    public void setLeaveApproveHalfDay(String leaveApproveHalfDay) {
+        this.leaveApproveHalfDay = leaveApproveHalfDay;
+    }
+
+    public String getLeaveApproveDuration() {
+        return leaveApproveDuration;
+    }
+
+    public void setLeaveApproveDuration(String leaveApproveDuration) {
+        this.leaveApproveDuration = leaveApproveDuration;
+    }
+
+    public String getLeaveApprovalID() {
+        return leaveApprovalID;
+    }
+
+    public void setLeaveApprovalID(String leaveApprovalID) {
+        this.leaveApprovalID = leaveApprovalID;
     }
 }

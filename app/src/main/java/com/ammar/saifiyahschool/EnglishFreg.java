@@ -4,6 +4,7 @@ package com.ammar.saifiyahschool;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -16,17 +17,22 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -75,7 +81,17 @@ public class EnglishFreg extends Fragment {
         recyclerView.setAdapter(syllabusAdapter);
         initView();
 
+
+
         return v;
+    }
+
+    public ArrayList<String> getArrayList(String key){
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        Gson gson = new Gson();
+        String json = prefs.getString(key, null);
+        Type type = new TypeToken<ArrayList<String>>() {}.getType();
+        return gson.fromJson(json, type);
     }
 
     @Override
@@ -88,6 +104,7 @@ public class EnglishFreg extends Fragment {
         Log.i("my Position --->",String.valueOf(getArguments().getInt("position")));
     }
 
+
     private void initView() {
         //Toast.makeText(getActivity(),"Results--->"+getArguments().getInt("position"),Toast.LENGTH_LONG).show();
 
@@ -96,7 +113,7 @@ public class EnglishFreg extends Fragment {
         type = sharedPreferences.getString("type",null);
         id = sharedPreferences.getString("id",null);
         ip = sharedPreferences.getString("ip",null);
-        student_class_id = sharedPreferences.getString("student_class_id",null);
+        student_class_id = sharedPreferences.getString("student_class_section_id",null);
 
         /***********Start Jsonvolley ***********/
 
@@ -114,6 +131,10 @@ public class EnglishFreg extends Fragment {
                 JSONArray nestedJsonArray = null;
                 String storeId ,topicId;
                 int position = getArguments().getInt("position");
+                Log.i("SubNames===>", getArrayList("Ammar").get(position));
+                Bundle bundle = getArguments();
+                String subj = bundle.getString("sub");
+                Log.i("Subj-->", String.valueOf(subj));
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
 
@@ -121,19 +142,38 @@ public class EnglishFreg extends Fragment {
                     if (success.equals("true")) {
                         jsonArray = jsonObject.getJSONArray("response");
                         JSONObject menuPosition = jsonArray.getJSONObject(position);
-                        nestedJsonArray = menuPosition.getJSONArray("syllabus_rows");
+//                        nestedJsonArray = menuPosition.getJSONArray("syllabus_rows");
 
                         SyllabusData syllabusData = null;
+                        SyllabusData ExamsData = null;
+                        Log.i("Position===>", String.valueOf(menuPosition.length()));
+                        Log.i("DATA--->",String.valueOf(sharedPreferences.getString("subject",null)));
+                        for(int i = 0; i < jsonArray.length(); i++) {
 
-                            for (int j =0;j<nestedJsonArray.length();j++){
+                            JSONObject examinationName = (JSONObject) jsonArray.get(i);
+                            nestedJsonArray = examinationName.getJSONArray("syllabus_rows");
 
-                                JSONObject nestedJson = (JSONObject) nestedJsonArray.get(j);
+                            if (examinationName.getString("subject").equals(getArrayList("Ammar").get(position))) {
 
-                                syllabusData = new  SyllabusData(nestedJson.getString("edited_month"),nestedJson.getString("edited_day"),nestedJson.getString("id"),nestedJson.getString("topic"),"true");
-                                syllabusDataArrayList.add(syllabusData);
+                                String examName = examinationName.getString("exam_name");
+                                ExamsData = new SyllabusData(examName, SyllabusData.StudentItemType.ONE_ITEM);
+                                syllabusDataArrayList.add(ExamsData);
 
+                                for (int j = 0; j < nestedJsonArray.length(); j++) {
+
+                                    JSONObject nestedJson = (JSONObject) nestedJsonArray.get(j);
+
+                                    syllabusData = new SyllabusData(nestedJson.getString("edited_month"), nestedJson.getString("edited_day"), nestedJson.getString("id"), nestedJson.getString("topic"), nestedJson.getString("status"), SyllabusData.StudentItemType.TWO_ITEM);
+                                    syllabusDataArrayList.add(syllabusData);
+
+                                }
+                            }else {
+                                continue;
                             }
+
+
                             syllabusAdapter.notifyDataSetChanged();
+                        }
 
                     } else {
                         String msg = jsonObject.getString("message");
@@ -154,6 +194,27 @@ public class EnglishFreg extends Fragment {
             }
         }
         );
+        int socketTimeout = 30000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        myProgressRequest.setRetryPolicy(policy);
+
+        myProgressRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 50000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 50000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+                Toast.makeText(getActivity(),"Please reopen this Page",Toast.LENGTH_LONG).show();
+            }
+        });
+
         requestQueue.add(myProgressRequest);
 
 

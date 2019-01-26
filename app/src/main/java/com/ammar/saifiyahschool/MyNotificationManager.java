@@ -67,7 +67,7 @@ public class MyNotificationManager {
                 PendingIntent.getActivity(
                         mCtx,
                         ID_SMALL_NOTIFICATION,
-                        intent,
+                        new Intent(mCtx,NoticeBoard.class),
                         PendingIntent.FLAG_UPDATE_CURRENT
                 );
 

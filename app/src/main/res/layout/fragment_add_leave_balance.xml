@@ -132,6 +132,7 @@
                 android:layout_weight="1"
                 android:checked="true"
                 android:text="Yes"
+                android:textSize="20sp"
                 />
 
             <RadioButton
@@ -140,7 +141,8 @@
                 android:layout_height="wrap_content"
                 android:text="No"
                 android:layout_weight="1"
-                android:textColor="#C09863"/>
+                android:textColor="#000000"
+                android:textSize="20sp"/>
 
         </RadioGroup>
 

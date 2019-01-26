@@ -33,9 +33,11 @@ import android.widget.Toast;
 import com.ammar.saifiyahschool.R;
 import com.ammar.saifiyahschool.teachers.AddClassTest.classNameAdapter;
 import com.ammar.saifiyahschool.teachers.AddClassTest.classSubjectData;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -46,6 +48,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -81,7 +84,7 @@ public class AddSyllabus extends AppCompatActivity implements  RecyclerItemTouch
     ArrayList<addTopicsData> addTopicsDataArrayList = new ArrayList<>();
     addTopicAdapter myAddTopicAdapter;
     Button submitTopicButton,toolBarButton;
-    EditText numberOfTopic,syllabusChapterName;
+    EditText numberOfTopic,syllabusChapterName, enterExamsNames;
 
     @SuppressLint("RestrictedApi")
     @Override
@@ -153,6 +156,7 @@ public class AddSyllabus extends AppCompatActivity implements  RecyclerItemTouch
 
                 syllabusChapterName = customDialog.findViewById(R.id.syllabusChapterName);
                 submitTopicButton = customDialog.findViewById(R.id.submitTopicButton);
+                enterExamsNames = customDialog.findViewById(R.id.enterExamsNames);
                 numberOfTopic =customDialog.findViewById(R.id.numberOfTopic);
                 myAddTopicAdapter = new addTopicAdapter(addTopicsDataArrayList,getApplicationContext());
                 addTopicRecyclerview = customDialog.findViewById(R.id.addTopicRecyclerview);
@@ -204,7 +208,8 @@ public class AddSyllabus extends AppCompatActivity implements  RecyclerItemTouch
                             Toast.makeText(getApplicationContext(), String.valueOf(addTopicsDataArrayList.size()), Toast.LENGTH_LONG).show();
 //
                             Map<String, String> params = new HashMap();
-                            params.put("student_class_id", class_id);
+                            params.put("student_class_section_id", class_id);
+                            params.put("exam_name",enterExamsNames.getText().toString());
                             params.put("subject_id", subject_id);
                             params.put("created_by", staff_id);
 
@@ -312,20 +317,22 @@ public class AddSyllabus extends AppCompatActivity implements  RecyclerItemTouch
             @Override
             public void onResponse(JSONObject response) {
 
-                JSONArray jsonArray = null;
+                JSONObject oneJsonObj = null;
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
                     final String success = jsonObject.getString("success");
                     if (success.equals("true")) {
-                        jsonArray = jsonObject.getJSONArray("response");
+                        oneJsonObj = jsonObject.getJSONObject("response");
                         JSONObject res = null;
                         String className = null;
                         Integer classId = null;
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            res = (JSONObject) jsonArray.get(i);
+                        Iterator<String> iterator = oneJsonObj.keys();
 
-                            className = res.getString("name");
-                            classId= res.getInt("id");
+                        while (iterator.hasNext()) {
+//                            res = (JSONObject) oneJsonObj.getString(i);
+
+                            classId= Integer.valueOf(iterator.next());
+                            className = oneJsonObj.optString(String.valueOf(classId));
 
 //                                classNameList.add(String.valueOf(className));
 //                                classNameList.add(String.valueOf(classId));
@@ -352,21 +359,22 @@ public class AddSyllabus extends AppCompatActivity implements  RecyclerItemTouch
                                         @Override
                                         public void onResponse(JSONObject response) {
 
-                                            JSONArray myjsonArray = null;
+                                            JSONObject mySecondJsonObj = null;
                                             try {
                                                 JSONObject jsonObject = new JSONObject(response.toString());
                                                 String success = jsonObject.getString("success");
                                                 JSONObject mysubName = null;
                                                 String sub_id = null;
                                                 if (success.equals("true")) {
-                                                    myjsonArray = jsonObject.getJSONArray("response");
+                                                    mySecondJsonObj = jsonObject.getJSONObject("response");
                                                     mySubName.clear();
                                                     showMe.clear();
-                                                    for (int s=0;s<myjsonArray.length();s++) {
-                                                        mysubName = (JSONObject) myjsonArray.get(s);
+                                                    Iterator<String> myIterator = mySecondJsonObj.keys();
+                                                    while (myIterator.hasNext()) {
+//                                                        mysubName = (JSONObject) myjsonArray.get(s);
 
-                                                        String subName = mysubName.getString("name");
-                                                        sub_id = mysubName.getString("id");
+                                                        sub_id = myIterator.next();
+                                                        String subName = mySecondJsonObj.optString(sub_id);
 
                                                         final classSubjectData mysubjectName = new classSubjectData(subName, sub_id);
 //                                                        classSubjectDataList1.add(mysubjectName);
@@ -417,7 +425,7 @@ public class AddSyllabus extends AppCompatActivity implements  RecyclerItemTouch
 
                                             Map<String, String> params = new HashMap();
                                             params.put("id", staff_id);
-                                            params.put("class_id",String.valueOf(subPosition));
+                                            params.put("student_class_section_id",String.valueOf(subPosition));
                                             params.put("subject_id",showMe.get(position));
 
                                             final JSONObject parameters = new JSONObject(params);
@@ -436,28 +444,36 @@ public class AddSyllabus extends AppCompatActivity implements  RecyclerItemTouch
                                                             jsonArray = jsonObject.getJSONArray("response");
 
                                                             AddSyllabusData myaddSyllabusData = null;
+                                                            AddSyllabusData ExamsData = null;
                                                             addTopicsData myAddTopicsData = null;
-
+                                                            addSyllabusDataArrayList.clear();
+//                                                            addSyllabusDataArrayList =new ArrayList<>();
                                                             for(int i = 0; i < jsonArray.length(); i++)
                                                             {
                                                                 JSONObject res = (JSONObject) jsonArray.get(i);
 
                                                                 nestedJsonArray = res.getJSONArray("syllabus_rows");
 
+                                                                String examinationName = res.getString("exam_name");
+
+                                                                ExamsData = new AddSyllabusData(examinationName,AddSyllabusData.ItemType.ONE_ITEM);
+
+                                                                addSyllabusDataArrayList.add(ExamsData);
                                                                 for (int j =0;j<nestedJsonArray.length();j++){
 
                                                                     JSONObject nestedJson = (JSONObject) nestedJsonArray.get(j);
 
-                                                                    myaddSyllabusData = new AddSyllabusData(nestedJson.getString("edited_day"),nestedJson.getString("edited_month"),nestedJson.getString("topic"),nestedJson.getString("id"),nestedJson.getString("status"));
+                                                                    myaddSyllabusData = new AddSyllabusData(nestedJson.getString("edited_day"),nestedJson.getString("edited_month"),nestedJson.getString("topic"),nestedJson.getString("id"),nestedJson.getString("status"),AddSyllabusData.ItemType.TWO_ITEM);
                                                                     addSyllabusDataArrayList.add(myaddSyllabusData);
 
-//                                                                    myAddTopicsData = new addTopicsData(nestedJson.getString("id"),nestedJson.getString("topic"));
-//                                                                    addTopicsDataArrayList.add(myAddTopicsData);
-
                                                                 }
+
+
                                                                 myAddSyllabusAdapter.notifyDataSetChanged();
-//                                                                myAddTopicAdapter.notifyDataSetChanged();
+
                                                             }
+
+//                                                            myAddSyllabusAdapter.notifyDataSetChanged();
 
                                                         } else {
                                                             String msg = jsonObject.getString("message");
@@ -473,11 +489,33 @@ public class AddSyllabus extends AppCompatActivity implements  RecyclerItemTouch
                                             }, new Response.ErrorListener() {
                                                 @Override
                                                 public void onErrorResponse(VolleyError error) {
-                                                    Toast.makeText(getContext(),error.toString(),Toast.LENGTH_LONG).show();
+                                                    Toast.makeText(AddSyllabus.this,error.toString(),Toast.LENGTH_LONG).show();
 
                                                 }
                                             }
                                             );
+
+                                            int socketTimeout = 30000;//30 seconds - change to what you want
+                                            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+                                            myProgressRequest.setRetryPolicy(policy);
+
+                                            myProgressRequest.setRetryPolicy(new RetryPolicy() {
+                                                @Override
+                                                public int getCurrentTimeout() {
+                                                    return 50000;
+                                                }
+
+                                                @Override
+                                                public int getCurrentRetryCount() {
+                                                    return 50000;
+                                                }
+
+                                                @Override
+                                                public void retry(VolleyError error) throws VolleyError {
+                                                    Toast.makeText(getApplicationContext(),"Please reopen this Page",Toast.LENGTH_LONG).show();
+                                                }
+                                            });
+
                                             requestQueue.add(myProgressRequest);
 
 
@@ -491,6 +529,27 @@ public class AddSyllabus extends AppCompatActivity implements  RecyclerItemTouch
                                     });
 
 //                                  /*End sub Id */
+
+                                    int socketTimeout = 30000;//30 seconds - change to what you want
+                                    RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+                                    jsonObjectRequest1.setRetryPolicy(policy);
+
+                                    jsonObjectRequest1.setRetryPolicy(new RetryPolicy() {
+                                        @Override
+                                        public int getCurrentTimeout() {
+                                            return 50000;
+                                        }
+
+                                        @Override
+                                        public int getCurrentRetryCount() {
+                                            return 50000;
+                                        }
+
+                                        @Override
+                                        public void retry(VolleyError error) throws VolleyError {
+                                            Toast.makeText(getApplicationContext(),"Please reopen this Page",Toast.LENGTH_LONG).show();
+                                        }
+                                    });
 
                                     requestQueue.add(jsonObjectRequest1);
 
@@ -520,6 +579,28 @@ public class AddSyllabus extends AppCompatActivity implements  RecyclerItemTouch
             }
         }
         );
+
+        int socketTimeout = 30000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        jsonObjectRequest.setRetryPolicy(policy);
+
+        jsonObjectRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 50000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 50000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+                Toast.makeText(getApplicationContext(),"Please reopen this Page",Toast.LENGTH_LONG).show();
+            }
+        });
+
         requestQueue.add(jsonObjectRequest);
 
     }

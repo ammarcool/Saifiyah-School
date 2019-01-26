@@ -17,9 +17,11 @@ import android.widget.Toast;
 import com.ammar.saifiyahschool.R;
 import com.ammar.saifiyahschool.teachers.AddClassTest.classNameAdapter;
 import com.ammar.saifiyahschool.teachers.AddClassTest.classSubjectData;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -30,6 +32,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -71,7 +74,7 @@ public class addNotification extends AppCompatActivity {
         requestQueue = Volley.newRequestQueue(addNotification.this);
 
         subject_url = "http://"+ip+"/school_cms/Schedules/getClasses.json";
-        submit_Notification_URL = "";
+        submit_Notification_URL = "http://"+ip+"/school_cms/Notifications/classNotification.json";
 
         final String staff_id = sharedPreferences.getString("id",null);
 
@@ -88,21 +91,23 @@ public class addNotification extends AppCompatActivity {
 
                         Log.i("my Response",response.toString());
 
-                        JSONArray jsonArray = null;
+                        JSONObject oneJsonObj = null;
                         try {
                             JSONObject jsonObject = new JSONObject(response.toString());
                             final String success = jsonObject.getString("success");
                             if (success.equals("true")) {
-                                jsonArray = jsonObject.getJSONArray("response");
+                                oneJsonObj = jsonObject.getJSONObject("response");
                                 JSONObject res = null;
                                 String className = null;
                                 Integer classId = null;
 
-                                for (int i = 0; i < jsonArray.length(); i++) {
-                                    res = (JSONObject) jsonArray.get(i);
+                                Iterator<String> iterator = oneJsonObj.keys();
 
-                                    className = res.getString("name");
-                                    classId= res.getInt("id");
+                                while (iterator.hasNext()) {
+//                            res = (JSONObject) oneJsonObj.getString(i);
+
+                                    classId= Integer.valueOf(iterator.next());
+                                    className = oneJsonObj.optString(String.valueOf(classId));
 
                                     Log.i("className-->",className + classId);
 
@@ -122,10 +127,14 @@ public class addNotification extends AppCompatActivity {
                                                 public void onClick(View v) {
 
                                             Map<String, String> params = new HashMap();
-                                            params.put("id", String.valueOf(classPosition));
-                                            params.put("",notificationTitle.getText().toString());
-                                            params.put("",enterNotificationMessage.getText().toString());
+                                            params.put("staff_id", staff_id);
+                                            params.put("student_class_section_id", String.valueOf(classPosition));
+                                            params.put("title",notificationTitle.getText().toString());
+                                            params.put("message",enterNotificationMessage.getText().toString());
+                                            params.put("type","Class");
                                             final JSONObject parameters = new JSONObject(params);
+
+                                            Toast.makeText(addNotification.this,"Submitted" + params,Toast.LENGTH_LONG).show();
 
                                             JsonObjectRequest jsonObjectRequest1 = new JsonObjectRequest(
                                                     Request.Method.POST, submit_Notification_URL, parameters, new Response.Listener<JSONObject>() {
@@ -157,6 +166,27 @@ public class addNotification extends AppCompatActivity {
                                                 }
                                             }
                                             );
+
+                                                    int socketTimeout = 30000;//30 seconds - change to what you want
+                                                    RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+                                                    jsonObjectRequest1.setRetryPolicy(policy);
+
+                                                    jsonObjectRequest1.setRetryPolicy(new RetryPolicy() {
+                                                        @Override
+                                                        public int getCurrentTimeout() {
+                                                            return 50000;
+                                                        }
+
+                                                        @Override
+                                                        public int getCurrentRetryCount() {
+                                                            return 50000;
+                                                        }
+
+                                                        @Override
+                                                        public void retry(VolleyError error) throws VolleyError {
+                                                            Toast.makeText(getApplicationContext(),"Please reopen this Page",Toast.LENGTH_LONG).show();
+                                                        }
+                                                    });
                                             requestQueue.add(jsonObjectRequest1);
                                         }
                                     });

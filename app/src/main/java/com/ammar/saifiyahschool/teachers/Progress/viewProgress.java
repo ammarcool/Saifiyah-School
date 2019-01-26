@@ -20,9 +20,11 @@ import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.ammar.saifiyahschool.R;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -128,6 +130,27 @@ public class viewProgress extends Fragment {
             }
         }
         );
+
+        int socketTimeout = 30000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        myProgressRequest.setRetryPolicy(policy);
+
+        myProgressRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 50000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 50000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+                Toast.makeText(getActivity(),"Please reopen this Page",Toast.LENGTH_LONG).show();
+            }
+        });
         progressRequest.add(myProgressRequest);
     }
 

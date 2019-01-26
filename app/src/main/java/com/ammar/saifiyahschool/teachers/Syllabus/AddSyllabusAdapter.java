@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class AddSyllabusAdapter extends RecyclerView.Adapter<AddSyllabusAdapter.AddSyllabusViewHolder> {
+public class AddSyllabusAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     ArrayList<AddSyllabusData> addSyllabusDataArrayList;
     Context context;
@@ -42,6 +42,9 @@ public class AddSyllabusAdapter extends RecyclerView.Adapter<AddSyllabusAdapter.
     String staff_id,type,ip;
     String deleteCT_URL ;
     String change_syllabus_Name;
+
+    private static final int TYPE_ONE = 1;
+    private static final int TYPE_TWO = 2;
 
     RequestQueue requestQueue;
 
@@ -52,23 +55,61 @@ public class AddSyllabusAdapter extends RecyclerView.Adapter<AddSyllabusAdapter.
 
     @NonNull
     @Override
-    public AddSyllabusViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public RecyclerView.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.change_syllabus_recyclerview, parent, false);
 
-        requestQueue = Volley.newRequestQueue(context);
 
-        sharedPreferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
+        if (viewType == TYPE_ONE) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.exam_header_recyclerview, parent, false);
 
-        type = sharedPreferences.getString("type",null);
-        staff_id = sharedPreferences.getString("id",null);
-        ip = sharedPreferences.getString("ip",null);
+            requestQueue = Volley.newRequestQueue(context);
 
-        return new AddSyllabusViewHolder(view);
+            sharedPreferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
+
+            type = sharedPreferences.getString("type",null);
+            staff_id = sharedPreferences.getString("id",null);
+            ip = sharedPreferences.getString("ip",null);
+
+            return new AddSyllabusViewHolderSecond(view);
+
+        } else if (viewType == TYPE_TWO) {
+
+
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.change_syllabus_recyclerview, parent, false);
+
+            requestQueue = Volley.newRequestQueue(context);
+
+            sharedPreferences = context.getSharedPreferences("user", Context.MODE_PRIVATE);
+
+            type = sharedPreferences.getString("type",null);
+            staff_id = sharedPreferences.getString("id",null);
+            ip = sharedPreferences.getString("ip",null);
+
+            return new AddSyllabusViewHolder(view);
+        } else {
+            throw new RuntimeException("The type has to be ONE or TWO");
+        }
+
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AddSyllabusViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
+
+        switch (holder.getItemViewType()) {
+            case TYPE_ONE:
+                initLayoutTwo((AddSyllabusViewHolderSecond) holder, position);
+                break;
+            case TYPE_TWO:
+                initLayoutOne((AddSyllabusViewHolder) holder, position);
+                break;
+            default:
+                break;
+        }
+
+    }
+
+    private void initLayoutOne(AddSyllabusViewHolder holder, int position) {
+
         holder.addSyllabusDay.setText(addSyllabusDataArrayList.get(position).getAddSyllabusDay());
         holder.addSyllabusMonth.setText(addSyllabusDataArrayList.get(position).getAddSyllabusMonth());
         holder.syllabusTopicName.setText(addSyllabusDataArrayList.get(position).getSyllabusTopicName());
@@ -80,14 +121,29 @@ public class AddSyllabusAdapter extends RecyclerView.Adapter<AddSyllabusAdapter.
         } else {
             holder.doneUndoUnit.setChecked(false);
         }
+    }
 
+    private void initLayoutTwo(AddSyllabusViewHolderSecond holder, int pos) {
+        holder.examinationName.setText(addSyllabusDataArrayList.get(pos).getExaminationName());
+//        holder.tvRight.setText(itemList.get(pos).getName());
     }
 
     @Override
     public int getItemCount() {
-        return addSyllabusDataArrayList.size();
+        return addSyllabusDataArrayList== null ? 0 : addSyllabusDataArrayList.size();
     }
 
+    @Override
+    public int getItemViewType(int position) {
+        AddSyllabusData addSyllabusData = addSyllabusDataArrayList.get(position);
+        if (addSyllabusData.getType() == AddSyllabusData.ItemType.ONE_ITEM) {
+            return TYPE_ONE;
+        } else if (addSyllabusData.getType() == AddSyllabusData.ItemType.TWO_ITEM) {
+            return TYPE_TWO;
+        } else {
+            return -1;
+        }
+    }
 
     public void removeItem(final String position) {
 
@@ -230,7 +286,7 @@ public class AddSyllabusAdapter extends RecyclerView.Adapter<AddSyllabusAdapter.
         requestQueue.add(deleteJSON);
     }
 
-    class AddSyllabusViewHolder extends RecyclerView.ViewHolder {
+   class AddSyllabusViewHolder extends RecyclerView.ViewHolder {
 
         TextView addSyllabusDay;
         TextView addSyllabusMonth;
@@ -323,6 +379,16 @@ public class AddSyllabusAdapter extends RecyclerView.Adapter<AddSyllabusAdapter.
                 }
             });
 
+        }
+    }
+
+   class AddSyllabusViewHolderSecond extends  RecyclerView.ViewHolder{
+
+        TextView examinationName;
+
+        public AddSyllabusViewHolderSecond(@NonNull View itemView) {
+            super(itemView);
+            examinationName = itemView.findViewById(R.id.examinationName);
         }
     }
 }

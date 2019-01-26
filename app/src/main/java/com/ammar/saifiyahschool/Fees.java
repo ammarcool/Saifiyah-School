@@ -21,6 +21,7 @@ import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
@@ -32,9 +33,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 import org.w3c.dom.Text;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.TimeZone;
 
 public class Fees extends AppCompatActivity {
 
@@ -103,11 +109,11 @@ public class Fees extends AppCompatActivity {
 
         if(!TextUtils.isEmpty(class_id) && !TextUtils.isEmpty(id) && !TextUtils.isEmpty(ip))
         {
-            URL = "http://" + ip + "/school_cms/fees/feesApi.json";
+            URL = "http://" + ip + "/school_cms/Students/getFees.json";
 
             Map<String, String> params = new HashMap();
-            params.put("student_id", id);
-            params.put("student_class_id", class_id);
+            params.put("id", id);
+//            params.put("student_class_id", class_id);
             JSONObject parameters = new JSONObject(params);
 
             RequestQueue requestQueue = Volley.newRequestQueue(Fees.this);
@@ -127,8 +133,8 @@ public class Fees extends AppCompatActivity {
                                 if (success.equals("true")) {
                                     jsonArray = jsonObject.getJSONObject("response");
                                     JSONObject res = null;
-                                    feesDue.setText(jsonArray.getString("due"));
-                                    feeTransaction = jsonArray.getJSONArray("fee_rows");
+                                    feesDue.setText("nothing");
+                                    feeTransaction = jsonArray.getJSONArray("fee_terms");
                                     FeesTransactionData feesTransactionData;
 
                                     if (feeTransaction == null){
@@ -138,8 +144,25 @@ public class Fees extends AppCompatActivity {
                                         for (int i = 0; i<feeTransaction.length();i++){
                                             res = (JSONObject) feeTransaction.get(i);
 
-                                        feesTransactionData = new FeesTransactionData("1st Tearm Fees",res.getString("date"),Integer.parseInt(res.getString("credit")),Integer.parseInt(res.getString("credit")));
-                                        feesTransactionDataArrayList.add(feesTransactionData);
+                                            DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:ssZ");
+                                            Date start_date,end_date;
+                                            try {
+                                                start_date = df.parse(res.getString("start_date"));
+                                                end_date = df.parse(res.getString("end_date"));
+                                                System.out.println("date:"+start_date); //prints date in current locale
+                                                SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+//                                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                                                sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
+                                                System.out.println(sdf.format(start_date));
+                                                Log.i("Date-->", sdf.format(start_date));//prints date in the format sdf
+
+                                                feesTransactionData = new FeesTransactionData(res.getString("name"),res.getString("start_date"),res.getString("end_date"),res.getString("term_amount"),res.getString("submit_on"));
+                                                feesTransactionDataArrayList.add(feesTransactionData);
+
+                                            } catch (ParseException e) {
+                                                e.printStackTrace();
+                                            }
+
                                         }
                                         feesTransactionAdapter.notifyDataSetChanged();
                                     }
@@ -178,10 +201,27 @@ public class Fees extends AppCompatActivity {
                         }
                     }
             );
-            objectRequest.setRetryPolicy(new DefaultRetryPolicy(
-                    1000,
-                    DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                    DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+            int socketTimeout = 30000;//30 seconds - change to what you want
+            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+            objectRequest.setRetryPolicy(policy);
+
+            objectRequest.setRetryPolicy(new RetryPolicy() {
+                @Override
+                public int getCurrentTimeout() {
+                    return 50000;
+                }
+
+                @Override
+                public int getCurrentRetryCount() {
+                    return 50000;
+                }
+
+                @Override
+                public void retry(VolleyError error) throws VolleyError {
+                    Toast.makeText(getApplicationContext(),"Please reopen this Page",Toast.LENGTH_LONG).show();
+                }
+            });
+
             requestQueue.add(objectRequest);
 
         }

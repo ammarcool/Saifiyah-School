@@ -29,9 +29,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.ammar.saifiyahschool.R;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -44,6 +46,7 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -174,26 +177,32 @@ public class addClassTestMarks extends Fragment {
             @Override
             public void onResponse(JSONObject response) {
 
-                JSONArray jsonArray = null;
+                JSONObject oneJsonObj = null;
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
                     final String success = jsonObject.getString("success");
                     if (success.equals("true")) {
-                        jsonArray = jsonObject.getJSONArray("response");
+                        oneJsonObj = jsonObject.getJSONObject("response");
                         JSONObject res = null;
                         String className = null;
                         Integer classId = null;
                         String my_sub_id = null;
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            res = (JSONObject) jsonArray.get(i);
 
-                            className = res.getString("name");
-                            classId= res.getInt("id");
+                        Iterator<String> iterator = oneJsonObj.keys();
+
+                        while (iterator.hasNext()) {
+//                            res = (JSONObject) oneJsonObj.getString(i);
+
+                            classId= Integer.valueOf(iterator.next());
+                            className = oneJsonObj.optString(String.valueOf(classId));
+
+
 
 //                                classNameList.add(String.valueOf(className));
 //                                classNameList.add(String.valueOf(classId));
 
                             classSubjectDataList.add(new classSubjectData(classId, className));
+
 
                             final classNameAdapter classNameAdapter = new classNameAdapter(getActivity(),R.layout.class_name,R.id.className,classSubjectDataList);
                             stateSpinner.setAdapter(classNameAdapter);
@@ -215,7 +224,7 @@ public class addClassTestMarks extends Fragment {
                                         @Override
                                         public void onResponse(JSONObject response) {
 
-                                            JSONArray myjsonArray = null;
+                                            JSONObject mySecondJsonObj = null;
                                             List<String> classNameList = new ArrayList<>();
                                             try {
                                                 JSONObject jsonObject = new JSONObject(response.toString());
@@ -223,14 +232,17 @@ public class addClassTestMarks extends Fragment {
                                                 JSONObject mysubName = null;
                                                 String sub_id = null;
                                                 if (success.equals("true")) {
-                                                    myjsonArray = jsonObject.getJSONArray("response");
+                                                    mySecondJsonObj = jsonObject.getJSONObject("response");
                                                     mySubName.clear();
                                                     showMe.clear();
-                                                    for (int s=0;s<myjsonArray.length();s++) {
-                                                        mysubName = (JSONObject) myjsonArray.get(s);
 
-                                                        String subName = mysubName.getString("name");
-                                                        sub_id = mysubName.getString("id");
+                                                    Iterator<String> myIterator = mySecondJsonObj.keys();
+                                                    while (myIterator.hasNext()) {
+//                                                        mysubName = (JSONObject) myjsonArray.get(s);
+
+                                                        sub_id = myIterator.next();
+                                                        String subName = mySecondJsonObj.optString(sub_id);
+                                                        Log.i("my Subject====>",sub_id+" "+subName);
 
                                                         final classSubjectData mysubjectName = new classSubjectData(subName, sub_id);
 //                                                        classSubjectDataList1.add(mysubjectName);
@@ -328,7 +340,7 @@ public class addClassTestMarks extends Fragment {
                                             /* -----------------------------------Start submit the class test---------------------------*/
 
 //                                            final AwesomeValidation awesomeValidation = new AwesomeValidation(COLORATION);
-//
+
 //                                            awesomeValidation.addValidation(totalMarks,totalMarks,"Please Enter Total Marks");
 //                                            awesomeValidation.addValidation(myTestDate,myTestDate,"Please Add ClassTest Date");
 
@@ -412,6 +424,28 @@ public class addClassTestMarks extends Fragment {
                                                         }
 
                                                         );
+
+                                                        int socketTimeout = 30000;//30 seconds - change to what you want
+                                                        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+                                                        submitMarks.setRetryPolicy(policy);
+
+                                                        submitMarks.setRetryPolicy(new RetryPolicy() {
+                                                            @Override
+                                                            public int getCurrentTimeout() {
+                                                                return 50000;
+                                                            }
+
+                                                            @Override
+                                                            public int getCurrentRetryCount() {
+                                                                return 50000;
+                                                            }
+
+                                                            @Override
+                                                            public void retry(VolleyError error) throws VolleyError {
+                                                                Toast.makeText(getActivity(),"Please reopen this Page",Toast.LENGTH_LONG).show();
+                                                            }
+                                                        });
+
                                                         requestQueue.add(submitMarks);
 
                                                     }else {
@@ -432,7 +466,49 @@ public class addClassTestMarks extends Fragment {
 
 //                                  /*End sub Id */
 
+                                    int socketTimeout = 30000;//30 seconds - change to what you want
+                                    RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+                                    jsonObjectRequest1.setRetryPolicy(policy);
+
+                                    jsonObjectRequest1.setRetryPolicy(new RetryPolicy() {
+                                        @Override
+                                        public int getCurrentTimeout() {
+                                            return 50000;
+                                        }
+
+                                        @Override
+                                        public int getCurrentRetryCount() {
+                                            return 50000;
+                                        }
+
+                                        @Override
+                                        public void retry(VolleyError error) throws VolleyError {
+                                            Toast.makeText(getActivity(),"Please reopen this Page",Toast.LENGTH_LONG).show();
+                                        }
+                                    });
+
                                     requestQueue.add(jsonObjectRequest1);
+
+                                    socketTimeout = 30000;//30 seconds - change to what you want
+                                     policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+                                    studentNameRequest.setRetryPolicy(policy);
+
+                                    studentNameRequest.setRetryPolicy(new RetryPolicy() {
+                                        @Override
+                                        public int getCurrentTimeout() {
+                                            return 50000;
+                                        }
+
+                                        @Override
+                                        public int getCurrentRetryCount() {
+                                            return 50000;
+                                        }
+
+                                        @Override
+                                        public void retry(VolleyError error) throws VolleyError {
+                                            Toast.makeText(getActivity(),"Please reopen this Page",Toast.LENGTH_LONG).show();
+                                        }
+                                    });
                                     requestQueue.add(studentNameRequest);
 
                                 }

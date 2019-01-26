@@ -22,6 +22,7 @@ import com.android.volley.ParseError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.ServerError;
 import com.android.volley.TimeoutError;
 import com.android.volley.VolleyError;
@@ -66,16 +67,16 @@ public class LeaveApproval extends AppCompatActivity {
         leave_approval_recyclerview.setLayoutManager(mLayoutManager);
         leave_approval_recyclerview.setAdapter(leaveApprovalAdapter);
 
-     LeaveApprovalData  leaveApprovalData = new LeaveApprovalData("20","feb","Ammar Miyaji","casual leave","14-12-2018","20-20-2018","i'm suffering from Fever","0");
-        leaveApprovalDataArrayList.add(leaveApprovalData);
+//     LeaveApprovalData  leaveApprovalData = new LeaveApprovalData("20","feb","Ammar Miyaji","casual leave","14-12-2018","20-20-2018","i'm suffering from Fever","0");
+//        leaveApprovalDataArrayList.add(leaveApprovalData);
+//
+//        leaveApprovalData = new LeaveApprovalData("10","feb","Ammar Miyaji","casual leave","14-12-2018","20-20-2018","i'm suffering from Fever","1");
+//        leaveApprovalDataArrayList.add(leaveApprovalData);
+//
+//        leaveApprovalData = new LeaveApprovalData("10","feb","Ammar Nuruddin Miyaji","casual leave","14-12-2018","20-20-2018","i'm suffering from Fever so i can't attend the class please try to understand and resolve this problem.thankyou soo much","2");
+//        leaveApprovalDataArrayList.add(leaveApprovalData);
 
-        leaveApprovalData = new LeaveApprovalData("10","feb","Ammar Miyaji","casual leave","14-12-2018","20-20-2018","i'm suffering from Fever","1");
-        leaveApprovalDataArrayList.add(leaveApprovalData);
-
-        leaveApprovalData = new LeaveApprovalData("10","feb","Ammar Nuruddin Miyaji","casual leave","14-12-2018","20-20-2018","i'm suffering from Fever so i can't attend the class please try to understand and resolve this problem.thankyou soo much","2");
-        leaveApprovalDataArrayList.add(leaveApprovalData);
-
-//        leaveApprovalList();
+        leaveApprovalList();
         
     }
 
@@ -94,20 +95,19 @@ public class LeaveApproval extends AppCompatActivity {
         ip = sharedPreferences.getString("ip",null);
 
 
-        URL = " ";
+        URL = "http://"+ip+"/school_cms/Leaves/adminView.json";
 
-        Map<String, String> params = new HashMap();
-        params.put("", "");
-        params.put("student_class_id", "");
-        JSONObject parameters = new JSONObject(params);
-        Log.e("param",parameters.toString());
+//        Map<String, String> params = new HashMap();
+//        params.put("", "");
+//        params.put("student_class_id", "");
+//        JSONObject parameters = new JSONObject(params);
+//        Log.e("param",parameters.toString());
 
         RequestQueue requestQueue = Volley.newRequestQueue(this);
 
         JsonObjectRequest objectRequest = new JsonObjectRequest(
-                Request.Method.POST,
+                Request.Method.GET,
                 URL,
-                parameters,
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
@@ -124,7 +124,7 @@ public class LeaveApproval extends AppCompatActivity {
                                     JSONObject res = (JSONObject) jsonArray.get(i);
                                     Log.e("data",res.toString());
 
-                                    leaveApprovalData = new LeaveApprovalData("20","feb","Ammar Miyaji","casual leave","14-12-2018","20-20-2018","i'm suffering from Fever","0");
+                                    leaveApprovalData = new LeaveApprovalData(res.getString("day"),res.getString("month"),res.getString("by"),res.getString("type"),res.getString("from"),res.getString("to"),res.getString("reason"),res.getString("half_day"),res.getString("duretion"),res.getString("id"));
                                     leaveApprovalDataArrayList.add(leaveApprovalData);
 
                                 }
@@ -132,7 +132,7 @@ public class LeaveApproval extends AppCompatActivity {
 
                             } else {
                                 String msg = jsonObject.getString("message");
-                                tv.setText(msg);
+                                Toast.makeText(LeaveApproval.this,"No Leave Found!",Toast.LENGTH_LONG).show();
                             }
                         } catch (JSONException e) {
                             e.printStackTrace();
@@ -154,10 +154,26 @@ public class LeaveApproval extends AppCompatActivity {
                     }
                 }
         );
-        objectRequest.setRetryPolicy(new DefaultRetryPolicy(
-                10000,
-                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
-                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        int socketTimeout = 30000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        objectRequest.setRetryPolicy(policy);
+
+        objectRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 50000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 50000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+                Toast.makeText(getApplicationContext(),"Please reopen this Page",Toast.LENGTH_LONG).show();
+            }
+        });
         requestQueue.add(objectRequest);
 
 

@@ -22,9 +22,11 @@ import com.ammar.saifiyahschool.R;
 import com.ammar.saifiyahschool.teachers.AddClassTest.addCTMarksData;
 import com.ammar.saifiyahschool.teachers.AddClassTest.classNameAdapter;
 import com.ammar.saifiyahschool.teachers.AddClassTest.classSubjectData;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -35,6 +37,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -111,22 +114,23 @@ public class addProgress extends Fragment {
             @Override
             public void onResponse(JSONObject response) {
 
-                JSONArray jsonArray = null;
+                JSONObject oneJsonObj = null;
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());
                     final String success = jsonObject.getString("success");
                     if (success.equals("true")) {
-                        jsonArray = jsonObject.getJSONArray("response");
+                        oneJsonObj = jsonObject.getJSONObject("response");
                         JSONObject res = null;
                         String className = null;
                         Integer classId = null;
 
-                        for (int i = 0; i < jsonArray.length(); i++) {
-                            res = (JSONObject) jsonArray.get(i);
+                        Iterator<String> iterator = oneJsonObj.keys();
 
-                            className = res.getString("name");
-                            classId= res.getInt("id");
+                        while (iterator.hasNext()) {
+//                            res = (JSONObject) oneJsonObj.getString(i);
 
+                            classId= Integer.valueOf(iterator.next());
+                            className = oneJsonObj.optString(String.valueOf(classId));
                             classSubjectDataList.add(new classSubjectData(classId, className));
 
                             final classNameAdapter classNameAdapter = new classNameAdapter(getActivity(),R.layout.class_name,R.id.className,classSubjectDataList);
@@ -228,7 +232,7 @@ public class addProgress extends Fragment {
                                                                     CTjsonArray = jsonObject.getString("message");
 
                                                                     Toast.makeText(getContext(),CTjsonArray.toString(),Toast.LENGTH_LONG).show();
-
+                                                                    progressReason.setText("");
                                                                     Log.i("Response Me ----->", String.valueOf(CTjsonArray));
 
                                                                 }else {
@@ -249,6 +253,28 @@ public class addProgress extends Fragment {
                                                     }
 
                                                     );
+
+//                                                    int socketTimeout = 30000;//30 seconds - change to what you want
+//                                                    RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+//                                                    submitMarks.setRetryPolicy(policy);
+//
+//                                                    submitMarks.setRetryPolicy(new RetryPolicy() {
+//                                                        @Override
+//                                                        public int getCurrentTimeout() {
+//                                                            return 50000;
+//                                                        }
+//
+//                                                        @Override
+//                                                        public int getCurrentRetryCount() {
+//                                                            return 50000;
+//                                                        }
+//
+//                                                        @Override
+//                                                        public void retry(VolleyError error) throws VolleyError {
+//                                                            Toast.makeText(getActivity(),"Please reopen this Page",Toast.LENGTH_LONG).show();
+//                                                        }
+//                                                    });
+
                                                     requestQueue.add(submitMarks);
 
                                                 }
@@ -265,6 +291,27 @@ public class addProgress extends Fragment {
                                     });
 
 //                                  /*End sub Id */
+
+                                    int socketTimeout = 30000;//30 seconds - change to what you want
+                                    RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+                                    jsonObjectRequest1.setRetryPolicy(policy);
+
+                                    jsonObjectRequest1.setRetryPolicy(new RetryPolicy() {
+                                        @Override
+                                        public int getCurrentTimeout() {
+                                            return 50000;
+                                        }
+
+                                        @Override
+                                        public int getCurrentRetryCount() {
+                                            return 50000;
+                                        }
+
+                                        @Override
+                                        public void retry(VolleyError error) throws VolleyError {
+                                            Toast.makeText(getActivity(),"Please reopen this Page",Toast.LENGTH_LONG).show();
+                                        }
+                                    });
 
                                     requestQueue.add(jsonObjectRequest1);
 //                                    requestQueue.add(studentNameRequest);
@@ -295,6 +342,28 @@ public class addProgress extends Fragment {
             }
         }
         );
+
+        int socketTimeout = 30000;//30 seconds - change to what you want
+        RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+        jsonObjectRequest.setRetryPolicy(policy);
+
+        jsonObjectRequest.setRetryPolicy(new RetryPolicy() {
+            @Override
+            public int getCurrentTimeout() {
+                return 50000;
+            }
+
+            @Override
+            public int getCurrentRetryCount() {
+                return 50000;
+            }
+
+            @Override
+            public void retry(VolleyError error) throws VolleyError {
+                Toast.makeText(getActivity(),"Please reopen this Page",Toast.LENGTH_LONG).show();
+            }
+        });
+
         requestQueue.add(jsonObjectRequest);
 
 

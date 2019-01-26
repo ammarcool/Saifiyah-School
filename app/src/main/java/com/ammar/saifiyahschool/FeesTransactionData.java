@@ -3,15 +3,17 @@ package com.ammar.saifiyahschool;
 public class FeesTransactionData {
 
     String transactionName;
-    String transactionDate;
-    Integer transactionAmount;
-    Integer feesDue;
+    String transactionStartDate;
+    String transactionEndDate;
+    String transactionAmount;
+    String transactionSubmitDate;
 
-    public FeesTransactionData(String transactionName, String transactionDate, int transactionAmount,int feesDue) {
+    public FeesTransactionData(String transactionName, String transactionStartDate, String transactionEndDate, String transactionAmount, String transactionSubmitDate) {
         this.transactionName = transactionName;
-        this.transactionDate = transactionDate;
+        this.transactionStartDate = transactionStartDate;
+        this.transactionEndDate = transactionEndDate;
         this.transactionAmount = transactionAmount;
-        this.feesDue = feesDue;
+        this.transactionSubmitDate = transactionSubmitDate;
     }
 
     public String getTransactionName() {
@@ -22,27 +24,35 @@ public class FeesTransactionData {
         this.transactionName = transactionName;
     }
 
-    public String getTransactionDate() {
-        return transactionDate;
+    public String getTransactionStartDate() {
+        return transactionStartDate;
     }
 
-    public void setTransactionDate(String transactionDate) {
-        this.transactionDate = transactionDate;
+    public void setTransactionStartDate(String transactionStartDate) {
+        this.transactionStartDate = transactionStartDate;
     }
 
-    public Integer getTransactionAmount() {
+    public String getTransactionEndDate() {
+        return transactionEndDate;
+    }
+
+    public void setTransactionEndDate(String transactionEndDate) {
+        this.transactionEndDate = transactionEndDate;
+    }
+
+    public String getTransactionAmount() {
         return transactionAmount;
     }
 
-    public void setTransactionAmount(Integer transactionAmount) {
+    public void setTransactionAmount(String transactionAmount) {
         this.transactionAmount = transactionAmount;
     }
 
-    public Integer getFeesDue() {
-        return feesDue;
+    public String getTransactionSubmitDate() {
+        return transactionSubmitDate;
     }
 
-    public void setFeesDue(Integer feesDue) {
-        this.feesDue = feesDue;
+    public void setTransactionSubmitDate(String transactionSubmitDate) {
+        this.transactionSubmitDate = transactionSubmitDate;
     }
 }

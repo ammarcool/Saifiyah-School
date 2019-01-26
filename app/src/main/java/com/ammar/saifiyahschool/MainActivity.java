@@ -14,9 +14,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
+import com.android.volley.RetryPolicy;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
@@ -135,6 +137,28 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
             );
+
+            int socketTimeout = 30000;//30 seconds - change to what you want
+            RetryPolicy policy = new DefaultRetryPolicy(socketTimeout, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
+            objectRequest.setRetryPolicy(policy);
+
+            objectRequest.setRetryPolicy(new RetryPolicy() {
+                @Override
+                public int getCurrentTimeout() {
+                    return 50000;
+                }
+
+                @Override
+                public int getCurrentRetryCount() {
+                    return 50000;
+                }
+
+                @Override
+                public void retry(VolleyError error) throws VolleyError {
+                    Toast.makeText(getApplicationContext(),"Please reopen this Page",Toast.LENGTH_LONG).show();
+                }
+            });
+
             requestQueue.add(objectRequest);
         }else {
             progressDialog.dismiss();
@@ -185,9 +209,9 @@ public class MainActivity extends AppCompatActivity {
                                                 String login_id = user.getString("id");
                                                 String id = null;
                                                 Log.i("Type==>",t);
-                                                if (t.equals("student"))
+                                                if (t.equals("Student"))
                                                     id = user.getString("student_id");
-                                                else if (t.equals("Teacher Sr. Sec."))
+                                                else if (t.equals("Teacher"))
                                                     id = user.getString("staff_id");
                                                 else
                                                     id = "0";
@@ -197,6 +221,7 @@ public class MainActivity extends AppCompatActivity {
                                                 edit.putString("username",username.getText().toString());
                                                 edit.putString("password",password.getText().toString());
                                                 edit.putString("login_id",login_id);
+
                                                 edit.putString("id",id);
                                                 edit.putString("type",t);
                                                 edit.apply();
@@ -241,6 +266,7 @@ public class MainActivity extends AppCompatActivity {
                                                             }
                                                         }
                                                 );
+
                                                 requestQueue.add(tokenObjectRequest);
 
 
@@ -267,6 +293,8 @@ public class MainActivity extends AppCompatActivity {
                                     }
                                 }
                         );
+
+
                         requestQueue.add(objectRequest);
 
 
