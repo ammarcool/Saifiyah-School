@@ -126,7 +126,7 @@ public class EnglishFreg extends Fragment {
         JsonObjectRequest myProgressRequest = new JsonObjectRequest(Request.Method.POST, ViewSyllabus_URL, parameters, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-
+                Log.i("Response-->", response.toString());
                 JSONArray jsonArray = null;
                 JSONArray nestedJsonArray = null;
                 String storeId ,topicId;

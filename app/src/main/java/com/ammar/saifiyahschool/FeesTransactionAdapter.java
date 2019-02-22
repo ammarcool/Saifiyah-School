@@ -1,6 +1,7 @@
 package com.ammar.saifiyahschool;
 
 import android.annotation.SuppressLint;
+import android.graphics.drawable.AnimationDrawable;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -18,9 +19,10 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.TimeZone;
 
-public class FeesTransactionAdapter extends RecyclerView.Adapter<FeesTransactionViewHolder> {
+public class FeesTransactionAdapter extends RecyclerView.Adapter<FeesTransactionAdapter.FeesTransactionViewHolder> {
 
     ArrayList<FeesTransactionData> feesTransactionDataArrayList;
+    AnimationDrawable anim;
 
     public FeesTransactionAdapter(ArrayList<FeesTransactionData> feesTransactionDataArrayList) {
         this.feesTransactionDataArrayList = feesTransactionDataArrayList;
@@ -30,7 +32,7 @@ public class FeesTransactionAdapter extends RecyclerView.Adapter<FeesTransaction
     @Override
     public FeesTransactionViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
 
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fees_transaction_recyclerview,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fees_transaction_recyclerview, parent, false);
         return new FeesTransactionViewHolder(view);
     }
 
@@ -59,7 +61,7 @@ public class FeesTransactionAdapter extends RecyclerView.Adapter<FeesTransaction
             start_date = df.parse(feesTransactionDataArrayList.get(position).getTransactionStartDate());
             Log.i("Start_date-->", feesTransactionDataArrayList.get(position).getTransactionStartDate());
             end_date = df.parse(feesTransactionDataArrayList.get(position).getTransactionEndDate());
-            System.out.println("date:"+end_date); //prints date in current locale
+            System.out.println("date:" + end_date); //prints date in current locale
             SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
 //                                        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             sdf.setTimeZone(TimeZone.getTimeZone("GMT"));
@@ -69,22 +71,29 @@ public class FeesTransactionAdapter extends RecyclerView.Adapter<FeesTransaction
             holder.end_date.setText(sdf.format(end_date));
             holder.transactionDate.setText(sdf.format(start_date));
 
-            if (feesTransactionDataArrayList.get(position).getTransactionSubmitDate().equals("null") && new Date().after(start_date) && new Date().before(end_date)){
+            if (feesTransactionDataArrayList.get(position).getTransactionSubmitDate().equals("null") && new Date().after(start_date) && new Date().before(end_date)) {
 
                 holder.submitted_fee_date.setText("Pay Now");
                 holder.fees_sticker.setImageResource(R.drawable.add_alert);
 
-            }else if (feesTransactionDataArrayList.get(position).getTransactionSubmitDate().equals("null") && new Date().after(end_date)){
+                holder.fees_status_layout.setBackgroundResource(R.drawable.animation_list);
+                anim = (AnimationDrawable) holder.fees_status_layout.getBackground();
+                anim.setEnterFadeDuration(2500);
+                anim.setExitFadeDuration(5000);
+                anim.start();
+
+            } else if (feesTransactionDataArrayList.get(position).getTransactionSubmitDate().equals("null") && new Date().after(end_date)) {
 
                 holder.submitted_fee_date.setText("");
                 holder.fees_sticker.setImageResource(R.drawable.pending_sticker);
 
-            }else if (feesTransactionDataArrayList.get(position).getTransactionSubmitDate().equals("null") ){
+
+
+
+            } else if (feesTransactionDataArrayList.get(position).getTransactionSubmitDate().equals("null")) {
                 holder.submitted_fee_date.setText("Still Getting Time");
                 holder.fees_sticker.setVisibility(View.INVISIBLE);
-            }
-
-            else {
+            } else {
                 submitted_date = df.parse(feesTransactionDataArrayList.get(position).getTransactionSubmitDate());
                 holder.submitted_fee_date.setText(sdf.format(submitted_date));
                 holder.fees_sticker.setImageResource(R.drawable.done_sticker);
@@ -95,40 +104,43 @@ public class FeesTransactionAdapter extends RecyclerView.Adapter<FeesTransaction
         }
 
 
-
     }
 
     @Override
     public int getItemCount() {
         return feesTransactionDataArrayList.size();
     }
-}
 
-class FeesTransactionViewHolder extends RecyclerView.ViewHolder{
 
-    TextView transactionName;
-    TextView transactionDate;
-    TextView rupeesIcons;
-    TextView transactionAmount;
-    TextView end_date;
-    TextView submitted_fee_date;
-    ImageView fees_sticker;
-    LinearLayout fees_status_layout;
-//    TextView amountDue;
-    ImageView dateIcon;
+    class FeesTransactionViewHolder extends RecyclerView.ViewHolder {
 
-    public FeesTransactionViewHolder(@NonNull View itemView) {
-        super(itemView);
+        TextView transactionName;
+        TextView transactionDate;
+        TextView rupeesIcons;
+        TextView transactionAmount;
+        TextView end_date;
+        TextView submitted_fee_date;
+        ImageView fees_sticker;
+        LinearLayout fees_status_layout;
+        //    TextView amountDue;
+        ImageView dateIcon;
 
-        transactionName = itemView.findViewById(R.id.transactionName);
-        transactionDate = itemView.findViewById(R.id.transactionDate);
-        end_date = itemView.findViewById(R.id.end_date);
-        rupeesIcons = itemView.findViewById(R.id.rupeesIcon);
-        transactionAmount = itemView.findViewById(R.id.transactionAmount);
-        dateIcon = itemView.findViewById(R.id.dateIcon);
-        submitted_fee_date = itemView.findViewById(R.id.submitted_fee_date);
-        fees_sticker = itemView.findViewById(R.id.fees_sticker);
-        fees_status_layout = itemView.findViewById(R.id.fees_status_layout);
+
+        public FeesTransactionViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            transactionName = itemView.findViewById(R.id.transactionName);
+            transactionDate = itemView.findViewById(R.id.transactionDate);
+            end_date = itemView.findViewById(R.id.end_date);
+            rupeesIcons = itemView.findViewById(R.id.rupeesIcon);
+            transactionAmount = itemView.findViewById(R.id.transactionAmount);
+            dateIcon = itemView.findViewById(R.id.dateIcon);
+            submitted_fee_date = itemView.findViewById(R.id.submitted_fee_date);
+            fees_sticker = itemView.findViewById(R.id.fees_sticker);
+            fees_status_layout = itemView.findViewById(R.id.fees_status_layout);
 //        amountDue =itemView.findViewById(R.id.dueAmount);
+
+//            anim.start();
+        }
     }
 }

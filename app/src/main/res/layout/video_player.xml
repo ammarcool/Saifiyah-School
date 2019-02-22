@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".SlideshowDialogFragment">
+
+    <com.google.android.exoplayer2.ui.SimpleExoPlayerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/exo_player_view">
+
+    </com.google.android.exoplayer2.ui.SimpleExoPlayerView>
+
+</android.support.constraint.ConstraintLayout>
+<!--<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--android:layout_width="fill_parent"-->
+    <!--android:layout_height="fill_parent" >-->
+
+    <!--<VideoView-->
+        <!--android:id="@+id/video_view"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_centerInParent="true" >-->
+    <!--</VideoView>-->
+
+    <!--&lt;!&ndash;<FrameLayout&ndash;&gt;-->
+        <!--&lt;!&ndash;android:id="@+id/videoViewWrapper"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_width="match_parent"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+        <!--&lt;!&ndash;android:layout_alignParentBottom="true" >&ndash;&gt;-->
+    <!--&lt;!&ndash;</FrameLayout>&ndash;&gt;-->
+
+<!--</RelativeLayout>-->
