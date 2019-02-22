@@ -3,14 +3,16 @@
     package="com.ammar.saifiyahschool">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:hardwareAccelerated="true"
         android:theme="@style/AppTheme">
         <activity android:name=".MainActivity">
             <intent-filter>
@@ -27,20 +29,19 @@
         <activity android:name=".StudentProgress" />
         <activity android:name=".Results" />
         <activity android:name=".ipaddress" />
-        <activity android:name=".teachers.AddClassTest.TeacherClassTest"
-            android:windowSoftInputMode="stateVisible|adjustPan"  />
-
-        <activity android:name=".teachers.LeaveBalance.leaveBalance"
+        <activity
+            android:name=".teachers.AddClassTest.TeacherClassTest"
             android:windowSoftInputMode="stateVisible|adjustPan" />
-
-        <activity android:name=".teachers.Progress.progresses"
+        <activity
+            android:name=".teachers.LeaveBalance.leaveBalance"
             android:windowSoftInputMode="stateVisible|adjustPan" />
-
-        <activity android:name=".teachers.Syllabus.AddSyllabus"
+        <activity
+            android:name=".teachers.Progress.progresses"
             android:windowSoftInputMode="stateVisible|adjustPan" />
-
+        <activity
+            android:name=".teachers.Syllabus.AddSyllabus"
+            android:windowSoftInputMode="stateVisible|adjustPan" />
         <activity android:name=".NoticeBoard" />
-
         <activity android:name=".teachers.Notification.addNotification" />
 
         <service android:name=".MyFirebaseInstanceIDService">
@@ -54,7 +55,10 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".teachers.LeaveApproval.LeaveApproval"></activity>
+        <activity android:name=".teachers.LeaveApproval.LeaveApproval" />
+        <activity android:name=".Gallery.AddGallery"></activity>
+        <activity android:name=".Gallery.ViewGallery"></activity>
+        <activity android:name=".Gallery.AlbumNames"></activity>
     </application>
 
 </manifest>

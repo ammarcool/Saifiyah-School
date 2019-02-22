@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Gallery.AddGallery"
+    android:orientation="vertical"
+    android:background="@drawable/blur_bg">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+        <include
+            layout="@layout/toolbar_layout"
+            />
+    </LinearLayout>
+
+    <LinearLayout
+        android:gravity="center_horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:weightSum="5"
+        android:padding="10dp">
+
+        <EditText
+            android:id="@+id/editTextName"
+            android:hint="Name of Album"
+            android:layout_weight="0.5"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:drawableLeft="@drawable/gallery_icon"
+            android:background="@drawable/mybox"
+            android:padding="10dp"
+            />
+
+        <Button
+            android:id="@+id/buttonChoose"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.7"
+            android:text="Choose Videos and Images"
+            android:background="@drawable/dashboard_bg"
+            android:layout_margin="15dp"
+            android:elevation="10dp"
+            tools:targetApi="lollipop"
+            android:drawableLeft="@drawable/add_gallery"
+
+            android:paddingLeft="15dp"
+            android:textColor="@color/zhihu_check_original_radio_disable"
+            android:textStyle="bold"
+            android:textSize="18sp"
+            android:fontFamily="sans-serif"
+            />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="3.3"
+            android:orientation="vertical"
+            android:weightSum="5">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="1"
+                android:text="Total videos and Photos "
+                android:textSize="24sp"
+                android:textStyle="italic"
+                android:paddingLeft="20dp"
+                android:gravity="center_vertical"
+                tools:ignore="NestedWeights"
+                android:textColor="#424242"
+                />
+
+            <TextView
+                android:id="@+id/numberOfItems"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_weight="3.9"
+                android:textSize="200sp"
+                android:text="05"
+                android:textStyle="italic"
+                android:gravity="center_horizontal"
+                />
+
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/buttonUpload"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.5"
+            android:text="Upload Now"
+            android:background="@drawable/my_edittext_bg"
+            />
+
+    </LinearLayout>
+
+    <!--<ImageView-->
+        <!--android:id="@+id/imageView"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent" />-->
+
+</LinearLayout>
+<!--<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"-->
+    <!--xmlns:app="http://schemas.android.com/apk/res-auto"-->
+    <!--xmlns:tools="http://schemas.android.com/tools"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--tools:context=".Gallery.AddGallery">-->
+
+<!--</android.support.constraint.ConstraintLayout>-->

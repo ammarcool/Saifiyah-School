@@ -123,6 +123,7 @@ public class Syllabus extends AppCompatActivity {
         JsonObjectRequest studentSyllabusTab = new JsonObjectRequest(Request.Method.POST, student_syllabus_URL, parameters, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                Log.i("Response-->", response.toString());
                 JSONArray jsonArray = null;
                 try {
                     JSONObject jsonObject = new JSONObject(response.toString());

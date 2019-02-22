@@ -30,6 +30,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
+import com.ammar.saifiyahschool.Gallery.AddGallery;
+import com.ammar.saifiyahschool.Gallery.AlbumNames;
 import com.ammar.saifiyahschool.teachers.AddClassTest.TeacherClassTest;
 import com.ammar.saifiyahschool.teachers.LeaveApproval.LeaveApproval;
 import com.ammar.saifiyahschool.teachers.LeaveBalance.leaveBalance;
@@ -142,7 +144,9 @@ public class Dashboard extends AppCompatActivity {
 //                            Intent intent = new Intent(Dashboard.this,TeacherClassTest.class);
 //                            intent.putExtra("Leaves","no.of leaves");
 //                            startActivity(intent);
-                            Toast.makeText(Dashboard.this,"Gallery is Coming Soon",Toast.LENGTH_LONG).show();
+                            intent = new Intent(Dashboard.this, AlbumNames.class);
+                            intent.putExtra("Albums","albums");
+                            startActivity(intent);
                             drawerLayout.closeDrawer(GravityCompat.START);
                             return true;
 
@@ -441,7 +445,9 @@ public class Dashboard extends AppCompatActivity {
                         case R.id.notes:
                             item.setChecked(true);
 //
-                            Toast.makeText(Dashboard.this,"Gallery is Coming Soon",Toast.LENGTH_LONG).show();
+                            intent = new Intent(Dashboard.this, AlbumNames.class);
+                            intent.putExtra("Leaves","no.of leaves");
+                            startActivity(intent);
                             drawerLayout.closeDrawer(GravityCompat.START);
                             return true;
 
@@ -469,8 +475,9 @@ public class Dashboard extends AppCompatActivity {
                         case R.id.progress:
                             item.setChecked(true);
 
-                            Toast.makeText(Dashboard.this,"Add Gallery is Coming Soon",Toast.LENGTH_LONG).show();
-
+                            intent = new Intent(Dashboard.this, AddGallery.class);
+                            intent.putExtra("Leaves","no.of leaves");
+                            startActivity(intent);
                             drawerLayout.closeDrawer(GravityCompat.START);
 
                             return true;
