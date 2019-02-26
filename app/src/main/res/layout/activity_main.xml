@@ -36,9 +36,10 @@
         android:weightSum="8">
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:textColor="#FFF"
-            android:textSize="25dp"
+            android:textSize="25sp"
             android:text=""/>
 
         <TextView
@@ -46,9 +47,11 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             android:textColor="#FF0000"
-            android:textSize="15dp"
+            android:textSize="15sp"
             android:text=""
-            android:id="@+id/error"/>
+            android:id="@+id/error"
+            android:layout_marginTop="20dp"
+            />
 
         <EditText
             android:layout_width="match_parent"
