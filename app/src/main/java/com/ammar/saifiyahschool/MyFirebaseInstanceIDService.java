@@ -18,7 +18,7 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
         String refreshedToken = FirebaseInstanceId.getInstance().getToken();
 
         //Displaying token on logcat
-        Log.d("hello bro", "Refreshed token:---->" + refreshedToken);
+        Log.d("hello==>",  refreshedToken);
 
         //calling the method store token and passing token
 //        sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
@@ -28,7 +28,6 @@ public class MyFirebaseInstanceIDService extends FirebaseInstanceIdService {
 
         storeToken(refreshedToken);
     }
-
     private void storeToken(String token) {
         //we will save the token in sharedpreferences later
         SharedPrefManager.getInstance(getApplicationContext()).saveDeviceToken(token);

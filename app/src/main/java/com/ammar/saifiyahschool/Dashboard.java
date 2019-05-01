@@ -729,10 +729,6 @@ public class Dashboard extends AppCompatActivity {
             Toast.makeText(this,"this is admin only",Toast.LENGTH_LONG).show();
         }
 
-
-
-
-
         sharedPreferences = getSharedPreferences("user", Context.MODE_PRIVATE);
 
         type = sharedPreferences.getString("type",null);
@@ -866,15 +862,12 @@ public class Dashboard extends AppCompatActivity {
 
     }
 
-
     private void displaymessage(String message){
         Toast.makeText(this,message,Toast.LENGTH_LONG).show();
         Log.d("message====>",message);
     }
 
-
-
-        @Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 //        MenuInflater inflater = getMenuInflater();
 //        inflater.inflate(R.menu.drawer_menu,menu);
@@ -954,4 +947,5 @@ public class Dashboard extends AppCompatActivity {
             backPressedTime = System.currentTimeMillis();
         }
     }
+
 }

@@ -40,6 +40,7 @@ public class ipaddress extends AppCompatActivity {
             public void onClick(View v) {
                 String t = ip.getText().toString();
                 if (!TextUtils.isEmpty(t)) {
+
                     SharedPreferences.Editor edit = sharedPreferences.edit();
                     edit.putString("ip",t);
                     edit.apply();

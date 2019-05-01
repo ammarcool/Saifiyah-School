@@ -58,9 +58,9 @@ public class MainActivity extends AppCompatActivity {
 
         if(TextUtils.isEmpty(ip))
         {
-            Intent intent = new Intent(MainActivity.this, ipaddress.class);
-            startActivity(intent);
-            finish();
+            SharedPreferences.Editor edit = sharedPreferences.edit();
+            edit.putString("ip","24ktgold.in");
+            edit.apply();
         }
 
 
@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity {
                                         JSONObject oldToken = (JSONObject) getToken.get(i);
                                         String myToken = oldToken.getString("token_no");
                                         Log.i("DB Token--->",myToken);
-                                        Log.i("Shared Token---->",SharedPrefManager.getInstance(getApplicationContext()).getDeviceToken());
+                                        Log.i("Shared_Token---->",String.valueOf(SharedPrefManager.getInstance(getApplicationContext()).getDeviceToken()));
                                         if (myToken.equals( SharedPrefManager.getInstance(getApplicationContext()).getDeviceToken())) {
 //                                            progressDialog.dismiss();
                                             Intent intent = new Intent(MainActivity.this, Dashboard.class);
